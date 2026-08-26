@@ -1,0 +1,7 @@
+numpy
+opencv-python
+mediapipe
+PyYAML
+pytest
+# Optional for dataset/model training scripts; install the build that matches your CUDA/CPU environment.
+torch

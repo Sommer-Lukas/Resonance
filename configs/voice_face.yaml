@@ -1,0 +1,25 @@
+# Minimal face-only research pipeline defaults.
+frontal_only: true
+max_clips: null
+clips_per_condition: null
+actors: []
+emotions: []
+intensities: []
+tracking:
+  output_blendshapes: true
+fitting:
+  smoothing: 0.0
+  expression_gain: 1.0
+rendering:
+  size: 480
+training:
+  model: b0
+  epochs: 1
+  lr: 0.001
+loss:
+  geometry: 0.0
+  mouth_region_geometry: 0.0
+  upper_face_geometry: 0.0
+  velocity: 0.0
+  acceleration: 0.0
+  residual_regularization: 0.0
