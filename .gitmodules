@@ -1,0 +1,6 @@
+[submodule "third_party/GNM"]
+	path = third_party/GNM
+	url = https://github.com/google/GNM.git
+[submodule "third_party/gnm-webcam-puppet"]
+	path = third_party/gnm-webcam-puppet
+	url = https://github.com/edualvarado/gnm-webcam-puppet.git
