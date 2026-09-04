@@ -602,6 +602,8 @@ Do not claim perceptual validity without human evaluation.
 
 12. Agent Workflow
 
+IF YOU COMMIT ANYTHING WITH GIT NEVER AND I SAY NEVER PUT OURSELF AS A CO-AUTHOR!!!
+
 For every non-trivial task, follow this sequence.
 
 Step 1: Inspect
