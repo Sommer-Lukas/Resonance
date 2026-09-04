@@ -7,38 +7,58 @@ an NVIDIA client, or an Audio2Face validation.
 
 ## Architecture
 
-```plantuml
-@startuml
-actor Trainee
-component "Unreal Engine / VR" as unreal
-component "Dialogue + TTS" as dialogue
-component "Audio chunks" as chunks
-component "Audio features / prosody" as features
-component ASR as asr
-component "Text emotion" as textemotion
-component "Audio emotion" as audioemotion
-component "Emotion fusion / client state" as state
-component Listening as listening
-component "Animation fusion\n(final facial authority)" as animation
-interface "NVIDIA Audio2Face\nexternal adapter" as a2f
-interface "Head movement\nface-only boundary" as head
+```mermaid
+flowchart TD
+    Conversation["GESPRÄCH"] --> ClientAudio["Client-Audio"]
+    Conversation --> TraineeAudio["Trainee-Audio"]
 
-Trainee --> unreal
-unreal --> dialogue : trainee utterance
-dialogue --> chunks : generated audio
-chunks --> features
-chunks --> asr
-asr --> textemotion
-features --> audioemotion
-textemotion --> state
-audioemotion --> state
-state --> listening
-features --> a2f
-state --> animation
-a2f --> animation
-head --> animation
-animation --> unreal : one final facial signal
-@enduml
+    subgraph ClientInput["CLIENT INPUT PROCESSING"]
+        ClientAudio --> ClientASR["ASR"]
+        ClientAudio --> ClientFeatures["Audio-Features / Prosodie"]
+        ClientASR --> ClientTextEmotion["Text Emotion Detection"]
+        ClientAudio --> ClientAudioEmotion["Audio Emotion Detection"]
+        ClientFeatures --> ClientAudioEmotion
+        ClientTextEmotion --> ClientFusion["Emotion Fusion Client"]
+        ClientAudioEmotion --> ClientFusion
+    end
+
+    subgraph TraineeInput["TRAINEE INPUT PROCESSING"]
+        TraineeAudio --> TraineeASR["ASR"]
+        TraineeAudio --> TraineeFeatures["Audio-Features / Prosodie"]
+        TraineeASR --> TraineeTextEmotion["Text Emotion Detection"]
+        TraineeAudio --> TraineeAudioEmotion["Audio Emotion Detection"]
+        TraineeFeatures --> TraineeAudioEmotion
+        TraineeTextEmotion --> TraineeFusion["Emotion Fusion Trainee"]
+        TraineeAudioEmotion --> TraineeFusion
+    end
+
+    subgraph State["CONVERSATION HISTORY / CLIENT STATE"]
+        History["Gesprächshistorie"]
+        ClientFusion --> History
+        TraineeFusion --> History
+        ClientASR --> History
+        TraineeASR --> History
+        History --> Estimator["CLIENT STATE ESTIMATOR"]
+        Estimator --> ClientState["Client State"]
+    end
+
+    ClientState --> Speaking["CLIENT SPRICHT"]
+    ClientState --> Listening["CLIENT HÖRT ZU"]
+
+    Speaking --> A2F["Audio2Face<br/>Client-Audio + Client-State"]
+    Speaking --> Head["Head Movement Model<br/>Audio / Prosodie + Client-State"]
+    ClientAudio --> A2F
+    ClientAudio --> Head
+    ClientFeatures --> Head
+
+    Listening --> ListeningModel["Listening Model<br/>Client-State + aktuelle Trainee-Aussage + Trainee Emotion"]
+    TraineeASR --> ListeningModel
+    TraineeFusion --> ListeningModel
+
+    A2F --> Animation["Animations-Fusion<br/>(final facial authority)"]
+    Head --> Animation
+    ListeningModel --> Animation
+    Animation --> Unreal["Unreal Engine / VR"]
 ```
 
 The implementation uses immutable dataclasses and small `Protocol` contracts.
