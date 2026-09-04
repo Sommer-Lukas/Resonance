@@ -22,6 +22,13 @@ def _timestamps(data):
     return data["timestamps"] if "timestamps" in data.files else data["timestamps_ms"].astype(np.float32) / 1000.0
 
 
+def _raw_vs_processed_stats(raw: np.ndarray, processed: np.ndarray, valid: np.ndarray) -> dict[str, float]:
+    delta = np.abs(processed[valid].astype(np.float32) - raw[valid].astype(np.float32))
+    if delta.size == 0:
+        return {"mean_abs_delta": 0.0, "p95_abs_delta": 0.0, "max_abs_delta": 0.0}
+    return {"mean_abs_delta": float(np.nanmean(delta)), "p95_abs_delta": float(np.nanpercentile(delta, 95)), "max_abs_delta": float(np.nanmax(delta))}
+
+
 def write_fit_report(fit_path: Path, report_path: Path) -> Path:
     data = np.load(fit_path, allow_pickle=False)
     valid = data["valid"].astype(bool)
@@ -29,6 +36,8 @@ def write_fit_report(fit_path: Path, report_path: Path) -> Path:
     expr = data["expression_smoothed"] if "expression_smoothed" in data.files else data["expression"]
     stats = trajectory_stats(np.nan_to_num(expr.astype(np.float32)), valid)
     valid_errors = errors[valid]
+    metadata = json.loads(str(data["metadata"]))
+    processing_mode = str(metadata.get("processing_mode") or metadata.get("config", {}).get("processing_mode", "legacy"))
     payload = {
         "fit_path": str(fit_path),
         "frames": int(len(valid)),
@@ -42,8 +51,11 @@ def write_fit_report(fit_path: Path, report_path: Path) -> Path:
         "failed_frames": [int(i) for i in np.flatnonzero(~valid)],
         "velocity_statistics": {"mean": stats.mean_abs_velocity, "p95": stats.p95_abs_velocity},
         "acceleration_jitter_statistics": {"mean": stats.mean_abs_acceleration, "p95": stats.p95_abs_acceleration},
-        "metadata": json.loads(str(data["metadata"])),
+        "processing_mode": processing_mode,
+        "metadata": metadata,
     }
+    if "expression_raw" in data.files and "expression_smoothed" in data.files:
+        payload["raw_vs_processed_statistics"] = _raw_vs_processed_stats(data["expression_raw"], data["expression_smoothed"], valid)
     write_json(report_path, payload)
     return report_path
 

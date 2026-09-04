@@ -38,7 +38,7 @@ def main() -> None:
         assert exponential_smooth(values, valid, 0.5).shape == values.shape
         assert trajectory_stats(values, valid).valid_frames == 2
 
-        mouth = ConstantMouthDriver(MouthFrame(0.1, 0.0, 0.2), seconds=0.2).predict(Path("dummy.wav"), 10)
+        mouth = ConstantMouthDriver(MouthFrame(0.1, 0.0, 0.2)).predict(Path("dummy.wav"), np.asarray([0.0, 0.1], dtype=np.float32))
         assert mouth.features.shape == (2, 3)
 
         fit = root / "fits" / "actor_0__front__happy__2__001.npz"
