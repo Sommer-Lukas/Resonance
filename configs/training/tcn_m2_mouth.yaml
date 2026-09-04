@@ -1,0 +1,21 @@
+model:
+  model: tcn
+  hidden_dim: 256
+  emotion_dim: 24
+  layers: 5
+  dropout: 0.15
+  causal: false
+training:
+  epochs: 40
+  lr: 0.0005
+  batch_size: 1
+  seed: 7
+  patience: 8
+  grad_clip: 1.0
+losses:
+  geometry: 0.8
+  mouth_region_geometry: 2.0
+  upper_face_geometry: 0.4
+  velocity: 0.12
+  acceleration: 0.04
+  residual_regularization: 0.0001
