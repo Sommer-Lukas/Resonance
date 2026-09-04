@@ -90,7 +90,8 @@ def load_tracking(path: Path) -> dict[str, Any]:
     data = np.load(path, allow_pickle=False)
     metadata = json.loads(str(data["metadata"]))
     timestamps = data["timestamps"] if "timestamps" in data.files else data["timestamps_ms"].astype(np.float32) / 1000.0
-    return {"timestamps": timestamps, "timestamps_ms": (timestamps * 1000).astype(np.int64), "landmarks": data["landmarks"], "blendshapes": data["blendshapes"], "pose": data["pose"] if "pose" in data.files else np.empty((len(timestamps), 0)), "tracking_confidence": data["tracking_confidence"] if "tracking_confidence" in data.files else np.full(len(timestamps), np.nan), "valid": data["valid"], "metadata": metadata}
+    blendshapes = data["blendshapes"] if "blendshapes" in data.files else np.empty((len(timestamps), 0), dtype=np.float32)
+    return {"timestamps": timestamps, "timestamps_ms": (timestamps * 1000).astype(np.int64), "landmarks": data["landmarks"], "blendshapes": blendshapes, "pose": data["pose"] if "pose" in data.files else np.empty((len(timestamps), 0), dtype=np.float32), "tracking_confidence": data["tracking_confidence"] if "tracking_confidence" in data.files else np.full(len(timestamps), np.nan), "valid": data["valid"], "metadata": metadata}
 
 
 def load_tracking_sequence(path: Path) -> TrackingSequence:

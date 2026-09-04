@@ -35,6 +35,26 @@ def exponential_smooth(values: np.ndarray, valid: np.ndarray, alpha: float) -> n
     return out
 
 
+def channel_exponential_smooth(values: np.ndarray, valid: np.ndarray, alphas: np.ndarray) -> np.ndarray:
+    alphas = np.asarray(alphas, dtype=np.float32)
+    if not np.isfinite(alphas).all() or np.any((alphas < 0.0) | (alphas >= 1.0)):
+        raise ValueError("alphas must be in [0, 1)")
+    out = np.asarray(values, dtype=np.float32).copy()
+    if out.ndim != 2 or alphas.shape != (out.shape[1],):
+        raise ValueError("alphas must match expression channel count")
+    valid = np.asarray(valid, dtype=bool)
+    previous = None
+    for index, ok in enumerate(valid):
+        if not ok:
+            continue
+        if previous is None:
+            previous = out[index].copy()
+        else:
+            previous = alphas * previous + (1.0 - alphas) * out[index]
+            out[index] = previous
+    return out
+
+
 def trajectory_stats(values: np.ndarray, valid: np.ndarray) -> TrajectoryStats:
     valid = np.asarray(valid, dtype=bool)
     present = np.asarray(values)[valid]
