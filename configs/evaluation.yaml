@@ -1,3 +1,0 @@
-records_dir: data/processed/training_sequences
-output_dir: outputs/evaluation
-split: test
