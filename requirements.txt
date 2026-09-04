@@ -1,10 +1,1 @@
-numpy
-opencv-python
-mediapipe
-PyYAML
-imageio-ffmpeg
 pytest
-# Optional for dataset/model training scripts; install the build that matches your CUDA/CPU environment.
-torch
-transformers
-accelerate

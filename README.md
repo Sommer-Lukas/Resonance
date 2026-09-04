@@ -1,88 +1,100 @@
-<p align="center">
-  <img src="./Assets/Resonance-Logo.png" alt="Resonance logo" width="420">
-</p>
+# Resonance
 
-<h1 align="center">Resonance</h1>
+Resonance is a face-only architecture reference for an Unreal Engine VR
+client. The Python package in `src/resonance_pipeline` is a deterministic,
+dependency-light contract and simulation harness; it is not an Unreal plugin,
+an NVIDIA client, or an Audio2Face validation.
 
-<p align="center">
-  A face-focused VR prototype for visualizing the emotional state of a virtual client during counseling training.
-</p>
+## Architecture
 
-<p align="center">
-  <strong>Unity · VR · Facial Animation · VoiCE</strong>
-</p>
+```plantuml
+@startuml
+actor Trainee
+component "Unreal Engine / VR" as unreal
+component "Dialogue + TTS" as dialogue
+component "Audio chunks" as chunks
+component "Audio features / prosody" as features
+component ASR as asr
+component "Text emotion" as textemotion
+component "Audio emotion" as audioemotion
+component "Emotion fusion / client state" as state
+component Listening as listening
+component "Animation fusion\n(final facial authority)" as animation
+interface "NVIDIA Audio2Face\nexternal adapter" as a2f
+interface "Head movement\nface-only boundary" as head
 
----
+Trainee --> unreal
+unreal --> dialogue : trainee utterance
+dialogue --> chunks : generated audio
+chunks --> features
+chunks --> asr
+asr --> textemotion
+features --> audioemotion
+textemotion --> state
+audioemotion --> state
+state --> listening
+features --> a2f
+state --> animation
+a2f --> animation
+head --> animation
+animation --> unreal : one final facial signal
+@enduml
+```
 
-## Overview
+The implementation uses immutable dataclasses and small `Protocol` contracts.
+`ResonanceOrchestrator` is the explicit application layer: it advances separate
+client and trainee audio sources, carries conversation history in client state,
+and invokes the stage contracts in order for each deterministic frame.
+The paired-source harness assumes client and trainee non-EOS chunks have equal
+timestamps; it rejects misalignment rather than buffering or resampling. An
+EOS client stream may still be paired with later trainee chunks, which advance
+the client state's timestamp.
+`FileAudioSource` reads uncompressed 16-bit PCM WAV files in fixed-size chunks,
+with sample-rate/channel/format validation, deterministic timestamps, an
+explicit end-of-stream marker, and repeatable reads after EOS. `RmsFeatures`,
+the local ASR, and local emotion providers are intentionally replaceable demo
+implementations. Emotion fusion uses a clamped weighted average of text and
+audio emotion; `AnimationFusion` is the sole final facial-output authority.
 
-**Resonance** explores how the emotional state of an AI-driven virtual client can be represented through facial behavior in VR.
+## Run
 
-The project is developed as an extension of [VoiCE](https://www.e-beratungsinstitut.de/projekte/voice/), a voice-based AI role-play partner for training psychosocial telephone and online counseling.
+Requires Python standard library and `pytest` only:
 
-The scope is intentionally limited to the **face**. The goal is not to build a complete virtual-human platform, but to investigate whether coherent facial expression can add useful visual information to an existing voice-based training conversation.
+```sh
+PYTHONPATH=src:. python demo.py
+PYTHONPATH=src:. pytest -q tests
+```
 
-## Project Goals
+The demo creates a temporary WAV and prints deterministic state and facial
+signal values. The Audio2Face and head-movement objects are placeholders at the
+boundary only. No NVIDIA network calls, Unreal files, ML models, body motion,
+gaze system, or provider registry are included.
 
-* Display controllable facial expressions and expression intensity.
-* Produce smooth transitions between emotional states.
-* Synchronize mouth movement with generated speech.
-* Combine speech articulation and emotional expression without visible conflicts.
-* Run the resulting facial animation in VR with sufficiently low latency.
-* Support repeatable training scenarios and later evaluation.
+## Status
+
+### Implemented
+
+- Python architecture contracts for audio, features, ASR, emotion, listening,
+  Audio2Face, head movement, and final animation fusion.
+- Deterministic WAV chunk simulation and local demo providers.
+- Focused tests for sequencing, partial chunks, EOS, validation, clamping,
+  sampling, deterministic fusion, and final-output authority.
+
+Unreal Engine integration, VR rendering, a real NVIDIA Audio2Face adapter,
+production providers, and human evaluation are not implemented here. The local
+Audio2Face object represents the external adapter boundary with deterministic
+placeholder output only; no real-time or perceptual validity is claimed.
+
+## Migration checkpoint
+
+The previous first-party implementation was checkpointed before this reset.
+Its old modeling/training path is intentionally not retained in this project;
+third-party directories remain unchanged and are not part of this reference.
 
 ## Scope
 
-### Included
-
-* Facial expressions and blendshape control
-* Emotion intensity and temporal smoothing
-* Speech-synchronized mouth animation
-* Limited blinking and eye behavior where required for naturalness
-* Integration with dialogue state, text-to-speech, or prosodic information
-* VR rendering and experiment logging
-
-### Not Included
-
-* Full-body animation or tracking
-* Hand gestures, posture, or locomotion
-* Complex interactive environments
-* Automatic diagnosis of trainee emotions
-* Automated therapy or clinical-effectiveness claims
-
-## Intended System Structure
-
-The project is designed around separate modules so that facial behavior can be developed and evaluated independently from the dialogue system.
-
-```text
-Dialogue / Role-Play Engine
-            │
-            ├── Emotional state and trajectory
-            └── Text-to-speech output
-                     │
-          ┌──────────┴──────────┐
-          │                     │
-   Speech articulation    Emotional expression
-   phonemes / visemes     blendshapes / controls
-          │                     │
-          └──────────┬──────────┘
-                     │
-             Fusion and smoothing
-                     │
-              Avatar face rig
-                     │
-                Unity VR runtime
-```
-
-This represents the intended architecture and may change as the prototype develops.
-
-## Evaluation Targets
-
-Future evaluation may cover three levels:
-
-* **Technical:** frame rate, latency, jitter, lip synchronization, and temporal stability
-* **Perceptual:** emotion recognition, congruence, naturalness, and uncanny response
-
-## Acknowledgements
-
-Resonance builds on the concept and research context of the [VoiCE project](https://www.e-beratungsinstitut.de/projekte/voice/).
+Only the virtual client's face is in scope: facial controls, mouth articulation,
+emotion trajectories, minimal head movement where needed for facial output, and
+interfaces that feed those signals. Body animation, hands, posture, locomotion,
+gaze/social attention, multiple avatars, trainee-emotion diagnosis, automated
+therapy, and clinical-effectiveness claims are out of scope.

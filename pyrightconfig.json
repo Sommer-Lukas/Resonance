@@ -1,16 +1,5 @@
 {
-  "include": ["src/voice_face", "scripts", "tests"],
-  "extraPaths": [
-    "src",
-    "third_party/gnm-webcam-puppet",
-    "third_party/GNM/gnm/shape"
-  ],
-  "executionEnvironments": [
-    {"root": "src", "extraPaths": [".", "../third_party/gnm-webcam-puppet", "../third_party/GNM/gnm/shape"]},
-    {"root": "scripts", "extraPaths": ["../src", "../third_party/gnm-webcam-puppet", "../third_party/GNM/gnm/shape"]},
-    {"root": "tests", "extraPaths": ["../src"]}
-  ],
-  "exclude": ["third_party", "Library", "Temp", "Logs"],
-  "reportMissingImports": "warning",
-  "reportImplicitRelativeImport": "warning"
+  "include": ["src", "demo.py", "tests"],
+  "executionEnvironments": [{"root": ".", "extraPaths": ["src"]}],
+  "typeCheckingMode": "strict"
 }
