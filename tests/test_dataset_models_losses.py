@@ -47,7 +47,9 @@ def test_actor_split_is_persisted_and_actor_independent(tmp_path):
     assert records[0] == FitRecord(tmp_path / "video_0__front__happy__level_1__001.npz", "video_0", "happy", 0.7)
     split_path = tmp_path / "splits.json"
     splits = write_actor_splits(records, split_path)
-    assert splits == json.loads(split_path.read_text())
+    payload = json.loads(split_path.read_text())
+    assert splits == payload["by_actor"]
+    assert set(payload) == {"by_actor", "train_actors", "validation_actors", "test_actors"}
     assert_actor_independent(splits)
 
 

@@ -65,14 +65,23 @@ def _video_meta(path: Path) -> tuple[float, int, float]:
     return fps, frames, frames / fps if fps > 0 else 0.0
 
 
+def _audio_actor(actor: str) -> str:
+    return f"audio_{actor.removeprefix('video_')}" if actor.startswith("video_") else actor
+
+
 def _maybe_audio(video_path: Path, root: Path, actor: str, emotion: str, level: str, clip: str) -> Path | None:
-    for candidate in (
-        video_path.with_suffix(".wav"),
-        root / actor / "audio" / emotion / level / f"{clip}.wav",
-        root / actor / "audio" / "front" / emotion / level / f"{clip}.wav",
-    ):
-        if candidate.exists():
-            return candidate.resolve()
+    audio_actor = _audio_actor(actor)
+    stems = (
+        video_path.with_suffix(""),
+        root / audio_actor / emotion / level / clip,
+        root / actor / "audio" / emotion / level / clip,
+        root / actor / "audio" / "front" / emotion / level / clip,
+    )
+    for stem in stems:
+        for suffix in (".wav", ".m4a", ".mp3", ".aac"):
+            candidate = stem.with_suffix(suffix)
+            if candidate.exists():
+                return candidate.resolve()
     return None
 
 
