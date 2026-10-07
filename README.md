@@ -2,7 +2,7 @@
 
 A face-focused VR extension of **VoiCE** for psychosocial counseling education. Resonance investigates how one virtual client can remain coherent and responsive while **listening, waiting for a response and speaking**.
 
-**Status — 6 October 2026:** a deterministic Python contract/simulation harness exists. Unreal, MetaHuman, real NVIDIA Audio2Face integration, headset execution and human evaluation are planned, not implemented.
+**Status — 7 October 2026:** a deterministic Python contract/simulation harness and an Unreal Engine 5.6 editor project with VR template and MetaHuman assets exist. Real NVIDIA Audio2Face integration, headset execution and human evaluation remain planned and unvalidated. See [Unreal collaboration setup](unreal/README.md).
 
 [Initial issues](https://github.com/Sommer-Lukas/Resonance/issues) · [Milestones](https://github.com/Sommer-Lukas/Resonance/milestones) · [Roadmap](docs/roadmap.md) · [Architecture](docs/architecture.md) · [Research](docs/research.md) · [Evaluation](docs/evaluation.md)
 

@@ -5,3 +5,34 @@ __pycache__/
 .omo/
 data/
 outputs/
+
+# Unreal: generated executables, caches, temporary builds, logs and autosaves.
+# Match nested projects and source plugins as well.
+unreal/**/Binaries/
+unreal/**/DerivedDataCache/
+unreal/**/Intermediate/
+unreal/**/Saved/
+
+# Unreal: local developer content and per-user editor settings.
+unreal/**/Content/Developers/
+unreal/**/Config/DefaultEditorPerProjectUserSettings.ini
+
+# Unreal: generated IDE projects and local IDE state.
+unreal/**/.vs/
+unreal/**/.vscode/
+unreal/**/.idea/
+unreal/**/*.sln
+unreal/**/*.suo
+unreal/**/*.user
+unreal/**/*.userosscache
+unreal/**/*.sln.docstates
+unreal/**/*.vcxproj
+unreal/**/*.vcxproj.filters
+unreal/**/*.vcxproj.user
+unreal/**/*.VC.db
+unreal/**/*.VC.opendb
+unreal/**/*.code-workspace
+unreal/**/.DS_Store
+unreal/**/Thumbs.db
+
+# Keep .uproject, Config, Content, Source, Plugins and Build resources tracked.
