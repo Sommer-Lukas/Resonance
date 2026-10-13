@@ -36,3 +36,6 @@ unreal/**/.DS_Store
 unreal/**/Thumbs.db
 
 # Keep .uproject, Config, Content, Source, Plugins and Build resources tracked.
+
+# Local upstream MCP checkout; the installed source plugin is shared separately.
+/unreal/unreal-mcp/
