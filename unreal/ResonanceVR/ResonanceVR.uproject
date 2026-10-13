@@ -24,16 +24,6 @@
 			]
 		},
 		{
-			"Name": "OpenXRHandTracking",
-			"Enabled": true,
-			"SupportedTargetPlatforms": [
-				"Win64",
-				"Linux",
-				"Android",
-				"VisionOS"
-			]
-		},
-		{
 			"Name": "MetaHumanCharacter",
 			"Enabled": true
 		},
@@ -44,6 +34,20 @@
 				"Win64",
 				"Linux"
 			]
+		},
+		{
+			"Name": "OpenXRHandTracking",
+			"Enabled": true,
+			"SupportedTargetPlatforms": [
+				"Win64",
+				"Linux",
+				"LinuxArm64",
+				"Android"
+			]
+		},
+		{
+			"Name": "OnlineServicesEOS",
+			"Enabled": true
 		}
 	],
 	"TargetPlatforms": [
