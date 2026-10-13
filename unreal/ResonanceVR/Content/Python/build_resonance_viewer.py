@@ -27,7 +27,7 @@ def build():
             0, 0, 0, 0, 0, 0, 'TrackingOrigin'))
     checked(H.set_component_property(bp, 'Camera', 'bLockToHmd', 'true'))
     checked(H.set_component_property(bp, 'Camera', 'bUsePawnControlRotation', 'false'))
-    checked(H.set_component_property(bp, 'Camera', 'FieldOfView', '40'))
+    checked(H.set_component_property(bp, 'Camera', 'FieldOfView', '45'))
     checked(H.compile_blueprint(bp))
 
     g = Graph(bp)

@@ -38,9 +38,10 @@ Exposure is fixed in `Resonance_FixedExposure` so the dark scene does not bright
 Adjust these actors in the `Resonance/Portrait` Outliner folder.
 
 The original sky, sunlight, fog and floor are retained with visibility disabled
-in `Resonance/DisabledEnvironment`. The level uses
+in `Resonance/DisabledEnvironment`.
 `BP_ResonancePortraitGameMode` spawns the stationary `BP_ResonanceViewer` at
-the PlayerStart, aligned with the portrait camera. In VR Preview, the viewer
+the PlayerStart, aligned with the portrait camera, about 1.1 metres in front
+of the character (previously 1.5 metres). In VR Preview, the viewer
 waits for a valid headset pose and removes its initial position and yaw from
 the tracking origin once. Physical eye height is therefore not added on top
 of the authored eye height, while later head movements remain tracked. Wear
@@ -49,8 +50,7 @@ same viewpoint without calibration. `Resonance_FaceCamera` remains an editor
 framing reference; it does not activate as the player's camera. Rebuild this
 setup with `Content/Python/build_resonance_viewer.py` in the editor. Headset
 alignment still needs verification on the device; other maps retain their
-game modes. The new character shows gray skin and misplaced
-hair in scene-capture previews and needs a separate rendering check.
+game modes.
 
 ## Share changes
 
