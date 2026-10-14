@@ -23,7 +23,7 @@ The source-based `Plugins/UnrealMCPython` editor plugin is included under its
 own Apache-2.0 license. A fresh clone may require compiling it with a supported
 Unreal Engine 5.6 C++ toolchain. The separate local `unreal/unreal-mcp` upstream
 checkout is not required to open the project and is not committed.
-The separate [PitFallUebung exercise](PITFALL.md) has a walkable pit descent and
+The separate [PitFallUebung exercise](PITFALL.md) has a deep open shaft and
 instructions for playing through PCVR VR Preview.
 Allow the first launch to regenerate caches and compile shaders.
 Opening the project requires actual LFS assets, not a ZIP containing pointer files.

@@ -137,6 +137,16 @@ def build_player():
         g.wire('below', 'ReturnValue', 'fall', 'Condition')
         g.wire('fall', 'then', 'reset_position', 'execute')
         unreal.EditorAssetLibrary.set_metadata_tag(bp, 'PitFallVRVersion', '1')
+    # The existing pawn may have been authored for a shallower shaft. Refresh
+    # its fall threshold on every rebuild without replacing template logic.
+    info = json.loads(H.get_blueprint_graph_info(bp, 'EventGraph'))
+    below = next(n for n in info['nodes'] if any(
+        p.get('pin_name') == 'A' and any(
+            link.get('pin_name') == 'Z' for link in p.get('linked_to', []))
+        for p in n['pins']) and any(
+            p.get('pin_name') == 'B' for p in n['pins']))
+    checked(H.set_blueprint_node_pin_default(
+        bp, 'EventGraph', below['node_name'], 'B', str(-DEPTH-300)))
     if unreal.EditorAssetLibrary.get_metadata_tag(bp, 'PitFallSnapHeight') != '1':
         # The template's floor-root math must preserve the Character capsule's
         # altitude instead of subtracting the VROrigin's -88 cm offset twice.
