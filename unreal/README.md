@@ -2,8 +2,14 @@
 
 The current editor project is `ResonanceVR/ResonanceVR.uproject`, associated
 with **Unreal Engine 5.6**. It contains VR template and MetaHuman assets.
-It is an editor starting point; Audio2Face integration, headset performance
-and facial behavior have not been validated.
+It includes a local Audio2Face portrait demo with a repeating full face
+showcase (blinks, brows, eyelids, cheeks, nose and animated skin detail).
+Select left-controller **X** for that showcase or **Y** for model-driven facial
+output with varied procedural blinks; keyboard X/Y also work. James v3.0 diffusion is the default
+model, using the supplied `voice_test.wav`. The portrait character is
+`New_realistic_character`, with LODSync Forced LOD 2. See
+[setup, playback, and verification](AUDIO2FACE.md). Headset performance and
+perceptual facial behavior have not been validated.
 
 ## Open a clone
 

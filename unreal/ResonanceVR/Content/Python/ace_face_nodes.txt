@@ -1,0 +1,30 @@
+Begin Object Class=/Script/AnimGraph.AnimGraphNode_CopyPoseFromMesh Name="ResonanceCopyBodyPose"
+   Node=(bUseAttachedParent=True)
+   NodePosX=-900
+   NodePosY=0
+   NodeGuid=01648529440549388F07169786BA76AA
+End Object
+Begin Object Class=/Script/ACEGraphNode.AnimGraphNode_ApplyACEAnimation Name="ResonanceApplyACE"
+   Node=(bBlendOutToZero=True,BlendOutRate=10.000000,bInterpolate=True)
+   NodePosX=-600
+   NodePosY=0
+   NodeGuid=2A648529440549388F07169786BA76AA
+End Object
+Begin Object Class=/Script/AnimGraph.AnimGraphNode_PoseBlendNode Name="ResonanceARKitMapping"
+   Node=(PoseAsset="/Script/Engine.PoseAsset'/NV_ACE_Reference/mh_arkit_mapping_pose_A2F.mh_arkit_mapping_pose_A2F'")
+   NodePosX=-300
+   NodePosY=0
+   NodeGuid=3A648529440549388F07169786BA76AA
+End Object
+Begin Object Class=/Script/AnimGraph.AnimGraphNode_ModifyCurve Name="ResonanceBlinkInput"
+   Node=(CurveValues=(1.0,1.0,0.0,0.0,0.0,0.0),CurveNames=("EyeBlinkLeft","EyeBlinkRight","EyeWideLeft","EyeWideRight","EyeSquintLeft","EyeSquintRight"),Alpha=0.0,ApplyMode=Blend)
+   NodePosX=-200
+   NodePosY=200
+   NodeGuid=61648529440549388F07169786BA76AA
+End Object
+Begin Object Class=/Script/AnimGraph.AnimGraphNode_ModifyCurve Name="ResonanceAnimationFusion"
+   Node=(CurveValues=(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0),CurveNames=("EyeBlinkLeft","EyeBlinkRight","EyeWideLeft","EyeWideRight","EyeSquintLeft","EyeSquintRight","BrowInnerUp","BrowOuterUpLeft","BrowOuterUpRight","BrowDownLeft","BrowDownRight","CheekSquintLeft","CheekSquintRight","NoseSneerLeft","NoseSneerRight"),Alpha=1.0,ApplyMode=Blend)
+   NodePosX=350
+   NodePosY=450
+   NodeGuid=51648529440549388F07169786BA76AA
+End Object

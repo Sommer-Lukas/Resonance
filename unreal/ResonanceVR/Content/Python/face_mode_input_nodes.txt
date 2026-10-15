@@ -1,0 +1,12 @@
+Begin Object Class=/Script/InputBlueprintNodes.K2Node_EnhancedInputAction Name="ResonanceAuthoredInput"
+   InputAction="/Script/EnhancedInput.InputAction'/Game/Resonance/Input/IA_FaceAuthored.IA_FaceAuthored'"
+   NodePosX=0
+   NodePosY=1800
+   NodeGuid=61648529440549388F07169786BA76AA
+End Object
+Begin Object Class=/Script/InputBlueprintNodes.K2Node_EnhancedInputAction Name="ResonanceModelInput"
+   InputAction="/Script/EnhancedInput.InputAction'/Game/Resonance/Input/IA_FaceModel.IA_FaceModel'"
+   NodePosX=0
+   NodePosY=2200
+   NodeGuid=71648529440549388F07169786BA76AA
+End Object

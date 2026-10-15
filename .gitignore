@@ -39,3 +39,8 @@ unreal/**/Thumbs.db
 
 # Local upstream MCP checkout; the installed source plugin is shared separately.
 /unreal/unreal-mcp/
+
+# Locally installed NVIDIA binaries/model weights retain their vendor licenses.
+/unreal/ResonanceVR/Models/
+/unreal/ResonanceVR/Plugins/NV_ACE_Reference/
+/unreal/ResonanceVR/Plugins/NvAudio2Face*/

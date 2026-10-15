@@ -1,0 +1,126 @@
+name: emodb
+description: Berlin Database of Emotional Speech. A German database of emotional utterances
+  spoken by actors recorded as a part of the DFG funded research project SE462/3-1
+  in 1997 and 1999. Recordings took place in the anechoic chamber of the Technical
+  University Berlin, department of Technical Acoustics. It contains about 800 utterances
+  from ten different actors expressing basic six emotions and neutral.
+source: http://emodb.bilderbar.info/download/download.zip
+usage: unrestricted
+languages: [deu]
+author: Felix Burkhardt, Astrid Paeschke, Miriam Rolfes, Walter Sendlmeier, Benjamin
+  Weiss
+organization: audEERING
+license: CC0-1.0
+license_url: https://creativecommons.org/publicdomain/zero/1.0/
+attachments:
+  bibtex: {description: Bibtex citation entry for INTERSPEECH conference paper, path: docs/burkhardt2005emodb.bib}
+media:
+  microphone: {type: other, format: wav, channels: 1, sampling_rate: 16000}
+raters:
+  gold: {type: human}
+schemes:
+  age: {description: Age of speaker, dtype: int, minimum: 0}
+  confidence: {description: Confidence of emotion ratings., dtype: float, minimum: 0,
+    maximum: 1}
+  duration: {dtype: time}
+  emotion:
+    description: Six basic emotions and neutral.
+    dtype: str
+    labels: [anger, boredom, disgust, fear, happiness, sadness, neutral]
+  gender:
+    description: Gender of speaker
+    dtype: str
+    labels: [female, male]
+  language: {description: Language of speaker, dtype: str}
+  naturalness: {description: Naturalness of the emotional expression., dtype: float,
+    minimum: 0, maximum: 1}
+  speaker: {description: The actors could produce each sentence as often as they liked
+      and were asked to remember a real situation from their past when they had felt
+      this emotion., dtype: int, labels: speaker}
+  transcription:
+    description: Sentence produced by actor.
+    dtype: str
+    labels: {a01: Der Lappen liegt auf dem Eisschrank., a02: Das will sie am Mittwoch
+        abgeben., a04: Heute abend könnte ich es ihm sagen., a05: Das schwarze Stück
+        Papier befindet sich da oben neben dem Holzstück., a07: In sieben Stunden
+        wird es soweit sein., b01: 'Was sind denn das für Tüten, die da unter dem
+        Tisch stehen.', b02: Sie haben es gerade hochgetragen und jetzt gehen sie
+        wieder runter., b03: An den Wochenenden bin ich jetzt immer nach Hause gefahren
+        und habe Agnes besucht., b09: Ich will das eben wegbringen und dann mit Karl
+        was trinken gehen., b10: 'Die wird auf dem Platz sein, wo wir sie immer hinlegen.'}
+splits:
+  test: {description: Unofficial speaker-independent test split, type: test}
+  train: {description: Unofficial speaker-independent train split, type: train}
+tables:
+  emotion:
+    type: filewise
+    columns:
+      emotion: {scheme_id: emotion}
+      emotion.confidence: {scheme_id: confidence}
+      emotion.naturalness: {scheme_id: naturalness}
+  emotion.categories.ambiguous:
+    type: filewise
+    columns:
+      emotion: {scheme_id: emotion}
+      emotion.confidence: {scheme_id: confidence}
+      emotion.naturalness: {scheme_id: naturalness}
+  emotion.categories.test.gold_standard:
+    type: filewise
+    split_id: test
+    columns:
+      emotion: {scheme_id: emotion, rater_id: gold}
+      emotion.confidence: {scheme_id: confidence, rater_id: gold}
+      emotion.naturalness: {scheme_id: naturalness, rater_id: gold}
+  emotion.categories.train.gold_standard:
+    type: filewise
+    split_id: train
+    columns:
+      emotion: {scheme_id: emotion, rater_id: gold}
+      emotion.confidence: {scheme_id: confidence, rater_id: gold}
+      emotion.naturalness: {scheme_id: naturalness, rater_id: gold}
+  files:
+    type: filewise
+    columns:
+      duration: {scheme_id: duration}
+      transcription: {scheme_id: transcription}
+      speaker: {scheme_id: speaker}
+  laryngo.emotion:
+    type: filewise
+    columns:
+      emotion: {scheme_id: emotion}
+      emotion.confidence: {scheme_id: confidence}
+      emotion.naturalness: {scheme_id: naturalness}
+  laryngo.emotion.categories.ambiguous:
+    type: filewise
+    columns:
+      emotion: {scheme_id: emotion, rater_id: gold}
+      emotion.confidence: {scheme_id: confidence, rater_id: gold}
+      emotion.naturalness: {scheme_id: naturalness, rater_id: gold}
+  laryngo.emotion.categories.test.gold_standard:
+    type: filewise
+    split_id: test
+    columns:
+      emotion: {scheme_id: emotion, rater_id: gold}
+      emotion.confidence: {scheme_id: confidence, rater_id: gold}
+      emotion.naturalness: {scheme_id: naturalness, rater_id: gold}
+  laryngo.emotion.categories.train.gold_standard:
+    type: filewise
+    split_id: train
+    columns:
+      emotion: {scheme_id: emotion, rater_id: gold}
+      emotion.confidence: {scheme_id: confidence, rater_id: gold}
+      emotion.naturalness: {scheme_id: naturalness, rater_id: gold}
+  laryngo.files:
+    type: filewise
+    columns:
+      duration: {scheme_id: duration}
+      transcription: {scheme_id: transcription}
+      speaker: {scheme_id: speaker}
+misc_tables:
+  speaker:
+    levels: {speaker: int}
+    columns:
+      age: {scheme_id: age}
+      gender: {scheme_id: gender}
+      language: {scheme_id: language}
+pdf: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.130.8506&rep=rep1&type=pdf

@@ -1,0 +1,8 @@
+Begin Object Class=/Script/BlueprintGraph.K2Node_AsyncAction Name="ResonanceAnimateSpeech"
+   ProxyFactoryFunctionName="AnimateCharacterFromWavFileAsync"
+   ProxyFactoryClass="/Script/CoreUObject.Class'/Script/ACERuntime.AsyncActionAnimateCharacter'"
+   ProxyClass="/Script/CoreUObject.Class'/Script/ACERuntime.AsyncActionAnimateCharacter'"
+   NodePosX=1300
+   NodePosY=-400
+   NodeGuid=4A648529440549388F07169786BA76AA
+End Object

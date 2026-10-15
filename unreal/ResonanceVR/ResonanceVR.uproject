@@ -5,6 +5,36 @@
 	"Description": "",
 	"Plugins": [
 		{
+			"Name": "NV_ACE_Reference",
+			"Enabled": true,
+			"SupportedTargetPlatforms": ["Win64"]
+		},
+		{
+			"Name": "NvAudio2FaceClaireRegressive",
+			"Enabled": true,
+			"SupportedTargetPlatforms": ["Win64"]
+		},
+		{
+			"Name": "NvAudio2FaceMarkRegressive",
+			"Enabled": true,
+			"SupportedTargetPlatforms": ["Win64"]
+		},
+		{
+			"Name": "NvAudio2FaceJamesRegressive",
+			"Enabled": true,
+			"SupportedTargetPlatforms": ["Win64"]
+		},
+		{
+			"Name": "NvAudio2FaceMark",
+			"Enabled": true,
+			"SupportedTargetPlatforms": ["Win64"]
+		},
+		{
+			"Name": "NvAudio2FaceJames",
+			"Enabled": true,
+			"SupportedTargetPlatforms": ["Win64"]
+		},
+		{
 			"Name": "OpenXR",
 			"Enabled": true,
 			"SupportedTargetPlatforms": [
