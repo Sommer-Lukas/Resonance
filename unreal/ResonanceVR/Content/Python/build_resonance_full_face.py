@@ -104,7 +104,8 @@ def build_animation():
     g = Graph(bp, clear=False, graph_name='AnimGraph')
     g.nodes['fusion'] = fusion['node_name']
     g.node('enabled', 'VariableGet', variable_name='DemoAlpha')
-    g.wire('enabled', 'DemoAlpha', 'fusion', 'Alpha')
+    native = fusion['node_class'] == 'AnimGraphNode_ResonanceFusion'
+    g.wire('enabled', 'DemoAlpha', 'fusion', 'ShowcaseAlpha' if native else 'Alpha')
     blink.connect_pose(g)
     g.node('clock', 'VariableGet', variable_name='DemoTime')
     g.call('cycle', 'KismetMathLibrary', 'Percent_FloatFloat', B=DURATION)
@@ -116,7 +117,7 @@ def build_animation():
         g.node(key, target='CurveFloat', function_name='GetFloatValue', pin_defaults={
             'self': CURVES + '/CF_' + channel + '.CF_' + channel})
         g.wire('cycle', 'ReturnValue', key, 'InTime')
-        pin = next(p['pin_name'] for p in fusion['pins'] if p.get('friendly_name') == channel)
+        pin = channel if native else next(p['pin_name'] for p in fusion['pins'] if p.get('friendly_name') == channel)
         g.wire(key, 'ReturnValue', 'fusion', pin)
     unreal.EditorAssetLibrary.set_metadata_tag(bp, 'ResonanceFaceCurveNodes', json.dumps(
         [name for key, name in g.nodes.items() if key not in ('fusion', 'blink_input')]))

@@ -1,0 +1,12 @@
+{
+  "FileVersion": 3,
+  "Version": 1,
+  "VersionName": "1.0",
+  "FriendlyName": "Resonance facial fusion",
+  "CanContainContent": false,
+  "Plugins": [{"Name": "NV_ACE_Reference", "Enabled": true}],
+  "Modules": [
+    {"Name": "ResonanceFace", "Type": "Runtime", "LoadingPhase": "PreDefault", "PlatformAllowList": ["Win64"]},
+    {"Name": "ResonanceFaceEditor", "Type": "UncookedOnly", "LoadingPhase": "PreDefault", "PlatformAllowList": ["Win64"]}
+  ]
+}

@@ -11,6 +11,14 @@ model, using the supplied `voice_test.wav`. The portrait character is
 [setup, playback, and verification](AUDIO2FACE.md). Headset performance and
 perceptual facial behavior have not been validated.
 
+The Y/default face also uses automatic local ACE emotion output to drive
+eleven upper-face profiles, restrained idle variations and small eye movements.
+The last emotion persists after speech. See [emotion fusion, native build and
+capture](EMOTION_IDLE.md); source builds require the small local ACE adapter patch.
+The original speech plays once on startup. Keyboard **1–5** starts five different
+three-mix EmoDB playlists for reviewing longer emotion changes; see
+[audio playlist controls](AUDIO_PLAYLISTS.md).
+
 ## Open a clone
 
 Install Git, Git LFS and Unreal Engine 5.6. Set up LFS before cloning:
@@ -57,6 +65,14 @@ framing reference; it does not activate as the player's camera. Rebuild this
 setup with `Content/Python/build_resonance_viewer.py` in the editor. Headset
 alignment still needs verification on the device; other maps retain their
 game modes.
+
+## Cinematic trailer
+
+For the separate cinematic portrait, open `/Game/ResonanceTrailer/L_Trailer`
+and `/Game/ResonanceTrailer/LS_ResonanceTrailer`. It uses the existing test
+speech, an authored anxious face, three moving cameras and a baked performance
+for offline rendering. See [trailer playback and 4K export](TRAILER.md).
+The trailer does not change the startup map or the interactive face modes.
 
 ## Share changes
 

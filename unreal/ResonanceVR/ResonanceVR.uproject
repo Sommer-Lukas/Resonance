@@ -5,6 +5,11 @@
 	"Description": "",
 	"Plugins": [
 		{
+			"Name": "ResonanceFace",
+			"Enabled": true,
+			"SupportedTargetPlatforms": ["Win64"]
+		},
+		{
 			"Name": "NV_ACE_Reference",
 			"Enabled": true,
 			"SupportedTargetPlatforms": ["Win64"]
