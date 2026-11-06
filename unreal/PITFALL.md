@@ -23,7 +23,9 @@ The exercise is separate from Resonance's facial animation experiment.
 | Left stick forward/back | Headset-facing walking at up to 1 m/s |
 | Right stick left/right | Turn 30 degrees; centre the stick before turning again |
 | Left controller X | Return to the entrance and stop movement |
+| Hold right trigger, then release | Aim the curved pointer; release over a cyan teleport pad to move |
 | W and S / Q and E / R | Desktop movement / turning / reset |
+| Hold T, then release | Desktop teleport preview, using a slightly downward camera direction |
 
 Stay inside your physical headset boundary; use the stick to approach the virtual
 overlook. The floor in the real room remains flat. Desktop Play mode provides a
@@ -55,7 +57,8 @@ keeps the authored tracked player. User actors with other tags are preserved.
 `build_pitfall_vr.py` authors the player and input context. Walking uses the
 template's `IA_Move` Enhanced Input event, turning uses `IA_Turn`, and reset
 uses its pressed `IA_Menu_Toggle_Left` event remapped to X. The original
-teleport execution is disconnected. Grip and hand animation events are retained.
+stick-driven teleport execution is replaced by trigger-driven pad teleportation.
+Grip and hand animation events are retained.
 The default input context in `Config/DefaultInput.ini` registers OpenXR bindings
 without activating PitFall controls in other maps. The player activates its
 context at BeginPlay and removes the conflicting template locomotion context.
@@ -69,7 +72,7 @@ Input subsystem moves the capsule, turns it by 30 degrees while preserving its
 height, and resets it to `(0, -820, 90)`. Both hand skeletal meshes exist and are
 visible in the runtime pawn. These checks do not establish headset display or
 physical controller tracking on the device.
-The existing Python contract checks and demo pass (8 tests). Headset execution,
+The existing Python checks and demo pass (13 tests). Headset execution,
 controller bindings on physical hardware, comfort, frame times, and standalone
 Quest packaging still require device checks. Use PCVR VR Preview for the first run.
 
@@ -86,3 +89,44 @@ movement logic cannot repair a disconnected display session.
 Controller-driven virtual hands are provided. This does not implement optical
 bare-hand tracking. The Live Coding Win64 SDK error is a separate C++ build
 environment issue; the saved Blueprint exercise runs without Live Coding.
+
+## Teleport pads and pointer
+
+Five cyan pads mark the entrance, overlook, west deck, east deck and north deck.
+Hold the right trigger to display the template's curved Niagara pointer. A
+destination ring appears when the arc hits the top of a pad. Release to teleport
+to the marked surface point. Other surfaces and the open shaft are rejected.
+Walking, snap turning and X reset remain available. Reset while aiming cancels
+the teleport; the trigger must be released and pressed again to aim again.
+
+Teleporting preserves yaw and the headset's horizontal tracking offset, accounts
+for capsule height, checks body clearance and support under the capsule, and
+stops movement. An obstructed destination can therefore reject a release even
+when a pad was selected. Physical tracking offsets that put the capsule off the
+plank also prevent teleporting there.
+
+`Content/Python/build_pitfall_teleport.py` authors the reusable
+`BP_PitFallTeleportPad` and patches only the exercise player. The full level
+builder includes this setup. To refresh teleportation alone with Play stopped
+and PitFallUebung open:
+
+```python
+import build_pitfall_vr, build_pitfall_teleport
+build_pitfall_vr.build_input()
+build_pitfall_teleport.main()
+```
+
+In desktop Play, run `import verify_pitfall_teleport; verify_pitfall_teleport.start()`.
+After about three seconds, results are written to
+`Saved/PitFall-teleport-validation.json`. Fourteen checks passed in UE 5.6:
+pad acceptance, ordinary-deck rejection, invalid release, room-scale offset,
+capsule height, stopped velocity, cleared state, blocked destination, Enhanced
+Input aim/target/release/cleanup, reset during aim and orphan-ring cleanup.
+These are editor checks; physical headset/controller operation remains unverified.
+
+## Cinematic trailer
+
+A separate [ten-second cinematic version](PITFALL_TRAILER.md) uses a darker
+shaft, red warning lights and three moving camera shots. Open
+`/Game/PitFallTrailer/L_PitFallTrailer` and its `LS_PitFallTrailer` sequence.
+The playable exercise described above is unchanged.
