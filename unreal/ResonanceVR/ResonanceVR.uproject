@@ -4,58 +4,54 @@
 	"Category": "",
 	"Description": "",
 	"Plugins": [
+		{"Name": "ResonanceWebXR", "Enabled": true},
 		{
 			"Name": "ResonanceFace",
 			"Enabled": true,
-			"SupportedTargetPlatforms": ["Win64"]
+			"SupportedTargetPlatforms": [
+				"Win64"
+			]
 		},
 		{
 			"Name": "NV_ACE_Reference",
 			"Enabled": true,
-			"SupportedTargetPlatforms": ["Win64"]
+			"SupportedTargetPlatforms": [
+				"Win64"
+			]
 		},
 		{
 			"Name": "NvAudio2FaceClaireRegressive",
 			"Enabled": true,
-			"SupportedTargetPlatforms": ["Win64"]
+			"SupportedTargetPlatforms": [
+				"Win64"
+			]
 		},
 		{
 			"Name": "NvAudio2FaceMarkRegressive",
 			"Enabled": true,
-			"SupportedTargetPlatforms": ["Win64"]
+			"SupportedTargetPlatforms": [
+				"Win64"
+			]
 		},
 		{
 			"Name": "NvAudio2FaceJamesRegressive",
 			"Enabled": true,
-			"SupportedTargetPlatforms": ["Win64"]
+			"SupportedTargetPlatforms": [
+				"Win64"
+			]
 		},
 		{
 			"Name": "NvAudio2FaceMark",
 			"Enabled": true,
-			"SupportedTargetPlatforms": ["Win64"]
+			"SupportedTargetPlatforms": [
+				"Win64"
+			]
 		},
 		{
 			"Name": "NvAudio2FaceJames",
 			"Enabled": true,
-			"SupportedTargetPlatforms": ["Win64"]
-		},
-		{
-			"Name": "OpenXR",
-			"Enabled": true,
 			"SupportedTargetPlatforms": [
-				"Win64",
-				"Linux",
-				"Android",
-				"VisionOS"
-			]
-		},
-		{
-			"Name": "OpenXREyeTracker",
-			"Enabled": true,
-			"SupportedTargetPlatforms": [
-				"Win64",
-				"Linux",
-				"Android"
+				"Win64"
 			]
 		},
 		{
@@ -71,18 +67,21 @@
 			]
 		},
 		{
-			"Name": "OpenXRHandTracking",
-			"Enabled": true,
-			"SupportedTargetPlatforms": [
-				"Win64",
-				"Linux",
-				"LinuxArm64",
-				"Android"
-			]
-		},
-		{
 			"Name": "OnlineServicesEOS",
 			"Enabled": true
+		},
+		{
+			"Name": "PixelStreaming2",
+			"Enabled": true
+		},
+		{
+			"Name": "OculusXR",
+			"Enabled": false,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/8313d8d7e7cf4e03a33e79eb757bccba",
+			"SupportedTargetPlatforms": [
+				"Win64",
+				"Android"
+			]
 		}
 	],
 	"TargetPlatforms": [

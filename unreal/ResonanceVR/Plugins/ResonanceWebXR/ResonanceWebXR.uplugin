@@ -1,0 +1,10 @@
+{
+  "FileVersion": 3,
+  "Version": 1,
+  "VersionName": "1.0",
+  "FriendlyName": "Resonance browser VR switch",
+  "Description": "Optional local Pixel Streaming desktop/WebXR session switching.",
+  "CanContainContent": false,
+  "Plugins": [{"Name": "PixelStreaming2", "Enabled": true}],
+  "Modules": [{"Name": "ResonanceWebXR", "Type": "Runtime", "LoadingPhase": "PostEngineInit", "PlatformAllowList": ["Win64"]}]
+}
