@@ -6,6 +6,11 @@ __pycache__/
 data/
 outputs/
 
+# Local Pixel Streaming dependencies/builds/logs and machine settings.
+/.pixelstream/
+/.playwright-cli/
+/scripts/pixelstream.local.json
+
 # Unreal: generated executables, caches, temporary builds, logs and autosaves.
 # Match nested projects and source plugins as well.
 unreal/**/Binaries/

@@ -1,0 +1,9 @@
+{
+  "ExecutablePath": ".pixelstream/Build/Windows/ResonanceVR.exe",
+  "ProjectPath": "unreal/ResonanceVR/ResonanceVR.uproject",
+  "EditorPath": "",
+  "HttpPort": 80,
+  "Development": false,
+  "Quality": "Low",
+  "VRClarity": "Clear"
+}
