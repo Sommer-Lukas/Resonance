@@ -32,7 +32,10 @@ git lfs pull
 
 For an existing clone, run `git lfs install`, `git pull` and `git lfs pull`.
 Open `unreal/ResonanceVR/ResonanceVR.uproject` in Unreal Engine 5.6.
-The enabled OpenXR and MetaHuman plugins are listed in the project descriptor.
+The current descriptor reflects the local Pixel Streaming 2 setup and MetaHuman
+plugins. See [Pixel Streaming / optional WebXR](../docs/PIXEL_STREAMING_SETUP.md)
+for the launcher, resource presets, native-VR recovery and verification limits.
+The tracked browser-VR bridge is `ResonanceVR/Plugins/ResonanceWebXR`.
 The source-based `Plugins/UnrealMCPython` editor plugin is included under its
 own Apache-2.0 license. A fresh clone may require compiling it with a supported
 Unreal Engine 5.6 C++ toolchain. The separate local `unreal/unreal-mcp` upstream

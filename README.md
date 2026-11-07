@@ -6,6 +6,12 @@ A face-focused VR extension of **VoiCE** for psychosocial counseling education. 
 
 [Initial issues](https://github.com/Sommer-Lukas/Resonance/issues) · [Milestones](https://github.com/Sommer-Lukas/Resonance/milestones) · [Roadmap](docs/roadmap.md) · [Architecture](docs/architecture.md) · [Research](docs/research.md) · [Evaluation](docs/evaluation.md)
 
+For local browser streaming and optional **Open in VR**, run
+`.\scripts\start-pixelstream.ps1 -Quality Low` from this repository. See
+[Pixel Streaming 2 / WebXR setup](docs/PIXEL_STREAMING_SETUP.md) for prerequisites,
+packaging, shutdown, resource presets and verification limits. Implementation
+sources are in `scripts/` and `unreal/ResonanceVR/Plugins/ResonanceWebXR/`.
+
 ## 1. Project idea and objectives
 
 [VoiCE — Voice-based client for Counselor Education](https://www.e-beratungsinstitut.de/projekte/voice/) is a voice-based AI role-play project for psychosocial telephone and online counseling education. Resonance adds a visible virtual client for a VR training prototype; it does not recreate VoiCE or claim clinical effectiveness.
