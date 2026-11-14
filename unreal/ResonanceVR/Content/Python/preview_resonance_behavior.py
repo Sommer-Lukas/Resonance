@@ -30,15 +30,13 @@ def preview(emotion='neutral', strength=.85, variant=-1, actor_label=None):
     if variant not in (-1, 0, 1, 2):
         raise ValueError('variant must be -1 (automatic) or 0, 1, 2')
     state = _state(actor_label)
-    if not state.preview_emotion(emotion, strength):
+    if not state.preview_emotion(emotion, strength, variant):
         raise ValueError(f'Unsupported emotion: {emotion}')
-    state.set_editor_property('preview_variant', variant)
     return snapshot(actor_label)
 
 
 def resume(actor_label=None):
     state = _state(actor_label)
-    state.set_editor_property('preview_variant', -1)
     state.resume_automatic_emotion()
 
 

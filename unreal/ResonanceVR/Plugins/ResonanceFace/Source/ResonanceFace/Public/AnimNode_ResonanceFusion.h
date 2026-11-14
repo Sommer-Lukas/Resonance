@@ -58,6 +58,8 @@ private:
     float IdleWeight = 0.f;
     TMap<FName,FName> CachedMapping;
     FName CachedHeadBone = NAME_None;
+    FName CachedNeckBone = NAME_None;
+    float CachedNeckShare = .25f;
     FQuat CachedHeadRotation = FQuat::Identity;
     float CachedBlink = 0.f;
     bool bEmotionBlink = false;

@@ -26,18 +26,20 @@ def finish(reason='complete'):
         unreal.unregister_slate_post_tick_callback(_handle)
         _handle = None
     if _state:
-        _state.set_editor_property('preview_variant', -1)
         _state.resume_automatic_emotion()
     groups = {i: [s for s in _samples if s['index'] == i] for i in range(33)}
     quats = [s['head_quaternion'] for s in _samples]
+    necks = [s['neck_quaternion'] for s in _samples if s.get('neck_motion_expected') and s.get('neck_quaternion')]
     checks = {
         'complete': reason == 'complete',
         'all_33_profiles_sampled': all(groups.values()),
         'final_head_moves': bool(quats) and any(
             max(q[a] for q in quats) - min(q[a] for q in quats) > .001 for a in range(4)),
+        'final_neck_moves': not necks or any(
+            max(q[a] for q in necks) - min(q[a] for q in necks) > .0001 for a in range(4)),
         'head_is_bounded': bool(_samples) and all(
             abs(v) <= limit + .001 for s in _samples
-            for v, limit in zip(s['head_degrees'], (5, 5, 3))),
+            for v, limit in zip(s['head_degrees'], s['head_limits'])),
         'final_expression_active': bool(_samples) and any(
             s['brow_down'] > .1 or s['cheek'] > .1 for s in _samples),
         'blink_reaches_closure': any(s['blink'] > .9 and min(s['eye_blinks']) > .9 for s in _samples),
@@ -67,20 +69,28 @@ def _tick(_dt):
         _state = live_state
         _index = -1
     candidates = [c for c in _state.get_owner().get_components_by_class(unreal.SkeletalMeshComponent)
-                  if c.get_anim_instance() and 'ResonanceFace' in c.get_anim_instance().get_class().get_name()]
+                  if c.get_name() == str(_state.get_editor_property('face_component_name')) and c.get_anim_instance()]
     if len(candidates) != 1:
         return
     _face = candidates[0]
     if index != _index:
         _index = index
-        _state.preview_emotion(NAMES[index // 3], .85)
-        _state.set_editor_property('preview_variant', index % 3)
+        _state.preview_emotion(NAMES[index // 3], .85, index % 3)
     head = _state.get_editor_property('head_degrees')
-    q = _face.get_socket_transform('head', unreal.RelativeTransformSpace.RTS_COMPONENT).rotation
+    calibration = _state.get_editor_property('calibration')
+    head_name = calibration.get_editor_property('head_bone') if calibration else 'head'
+    q = _face.get_socket_transform(head_name, unreal.RelativeTransformSpace.RTS_COMPONENT).rotation
+    limits = calibration.get_editor_property('head_limits') if calibration else unreal.Vector(5, 5, 3)
+    neck_name = calibration.get_editor_property('neck_bone') if calibration else 'neck_02'
+    neck = (_face.get_socket_transform(neck_name, unreal.RelativeTransformSpace.RTS_COMPONENT).rotation
+            if _face.get_bone_index(neck_name) >= 0 else None)
     anim = _face.get_anim_instance()
     _samples.append({'time': elapsed, 'index': index, 'emotion': NAMES[index // 3],
         'variant': index % 3, 'head_degrees': [head.x, head.y, head.z],
         'head_quaternion': [q.x, q.y, q.z, q.w],
+        'head_limits': [min(8, max(0, v)) for v in (limits.x, limits.y, limits.z)],
+        'neck_motion_expected': bool(neck) and (calibration.get_editor_property('neck_share') > 0 if calibration else True),
+        'neck_quaternion': [neck.x, neck.y, neck.z, neck.w] if neck else None,
         'blink': _state.get_editor_property('emotion_blink'),
         'eye_blinks': [anim.get_curve_value(n) for n in ('EyeBlinkLeft', 'EyeBlinkRight')],
         'brow_down': anim.get_curve_value('BrowDownLeft'),
@@ -97,7 +107,7 @@ def start(seconds_per_variant=3.0, actor_label=None):
     _actor_label = actor_label
     _world = unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem).get_game_world()
     candidates = [c for c in _state.get_owner().get_components_by_class(unreal.SkeletalMeshComponent)
-                  if c.get_anim_instance() and 'ResonanceFace' in c.get_anim_instance().get_class().get_name()]
+                  if c.get_name() == str(_state.get_editor_property('face_component_name')) and c.get_anim_instance()]
     if len(candidates) != 1:
         raise RuntimeError('Expected one Resonance face animation component')
     _face = candidates[0]

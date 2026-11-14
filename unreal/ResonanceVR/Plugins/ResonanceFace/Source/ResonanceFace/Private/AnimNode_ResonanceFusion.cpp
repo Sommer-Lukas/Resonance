@@ -27,6 +27,7 @@ void FAnimNode_ResonanceFusion::PreUpdate(const UAnimInstance* Instance)
     IdleWeight=0.f;
     CachedMapping.Reset();
     CachedHeadBone=NAME_None;
+    CachedNeckBone=NAME_None;
     CachedHeadRotation=FQuat::Identity;
     bEmotionBlink=false;
     if (AActor* Owner=Instance->GetOwningActor())
@@ -44,6 +45,8 @@ void FAnimNode_ResonanceFusion::PreUpdate(const UAnimInstance* Instance)
             const auto* Rig=State->Calibration.Get();
             if (Rig) CachedMapping=Rig->CurveMapping;
             CachedHeadBone=Rig ? Rig->HeadBone : FName(TEXT("head"));
+            CachedNeckBone=Rig ? Rig->NeckBone : FName(TEXT("neck_02"));
+            CachedNeckShare=Rig && FMath::IsFinite(Rig->NeckShare) ? FMath::Clamp(Rig->NeckShare,0.f,.4f) : .25f;
             const auto Rotation=[](FVector Axis,double Degrees)
             {
                 return Axis.ContainsNaN() || Axis.IsNearlyZero() ? FQuat::Identity :
@@ -87,7 +90,36 @@ void FAnimNode_ResonanceFusion::Evaluate_AnyThread(FPoseContext& Output)
             FTransform& Transform=Output.Pose[Bone.GetCompactPoseIndex(Bones)];
             const FQuat Delta=FQuat::Slerp(FQuat::Identity,CachedHeadRotation,
                 1.f-ResonanceFace::Unit(CachedShowcase));
-            Transform.SetRotation((Transform.GetRotation()*Delta).GetNormalized());
+            FBoneReference Neck;
+            Neck.BoneName=CachedNeckBone;
+            Neck.Initialize(Bones);
+            // Never apply a second rotation to the same bone. Optional neck
+            // support falls back to the full head rotation at reduced LODs.
+            const bool HasNeck=Neck.IsValidToEvaluate(Bones) &&
+                Neck.GetCompactPoseIndex(Bones)!=Bone.GetCompactPoseIndex(Bones);
+            const float Share=HasNeck ? CachedNeckShare : 0.f;
+            if (Share>0.f)
+            {
+                FTransform& NeckTransform=Output.Pose[Neck.GetCompactPoseIndex(Bones)];
+                // The shared calibration axes are in the head's local frame.
+                // Map that frame into the neck rather than assuming identical
+                // rest orientations on replacement facial skeletons.
+                FQuat HeadToNeck=FQuat::Identity;
+                FCompactPoseBoneIndex Ancestor=Bone.GetCompactPoseIndex(Bones);
+                while (Ancestor.GetInt()!=INDEX_NONE && Ancestor!=Neck.GetCompactPoseIndex(Bones))
+                {
+                    HeadToNeck=Output.Pose[Ancestor].GetRotation()*HeadToNeck;
+                    Ancestor=Bones.GetParentBoneIndex(Ancestor);
+                }
+                if (Ancestor==Neck.GetCompactPoseIndex(Bones))
+                {
+                    const FQuat NeckDelta=HeadToNeck*FQuat::Slerp(FQuat::Identity,Delta,Share)*HeadToNeck.Inverse();
+                    NeckTransform.SetRotation((NeckTransform.GetRotation()*NeckDelta).GetNormalized());
+                    Transform.SetRotation((Transform.GetRotation()*FQuat::Slerp(FQuat::Identity,Delta,1.f-Share)).GetNormalized());
+                }
+                else Transform.SetRotation((Transform.GetRotation()*Delta).GetNormalized());
+            }
+            else Transform.SetRotation((Transform.GetRotation()*Delta).GetNormalized());
         }
     }
 }
