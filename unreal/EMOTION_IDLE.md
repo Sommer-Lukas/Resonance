@@ -1,5 +1,11 @@
 # Emotion-conditioned upper face
 
+For the current stronger expressions, 33 variants, emotion-dependent blinking,
+procedural head motion and reusable face calibration, see
+[emotion behaviour](EMOTION_BEHAVIOR.md). The original implementation and its
+capture results are described below; the new native blink schedule supersedes
+the original Blueprint procedural input when the emotion state is present.
+
 The native `ResonanceFace` plugin combines Audio2Face articulation with eleven
 authored upper-face profiles (the ten ACE emotion controls plus neutral).
 Each profile has three restrained local variations, smooth transitions,
@@ -57,7 +63,9 @@ idle curves and emotion audio time for inspection. Its settings are:
 |---|---:|---|
 | SpeakingBlend | 0.65 | Upper-face interpolation toward authored idle during speech |
 | IdleBlend | 0.90 | Upper-face interpolation during silence |
-| TransitionSeconds | 0.8 | Emotion smoothing time constant |
+| TransitionSeconds | 0.3 | Emotion smoothing time constant |
+| EmotionDelaySeconds | 0.12 | Additional automatic expression onset delay |
+| VariantTransitionSeconds | 0.18 | Expression/variant smoothing time constant |
 
 These are tunable animation parameters, not perceptually validated values.
 The eye layer owns only eight directional eye curves, with small offsets; it

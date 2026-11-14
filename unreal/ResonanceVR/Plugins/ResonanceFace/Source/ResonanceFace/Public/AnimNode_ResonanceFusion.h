@@ -10,6 +10,9 @@ struct RESONANCEFACE_API FAnimNode_ResonanceFusion : public FAnimNode_Base
     GENERATED_BODY()
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Links)
     FPoseLink SourcePose;
+    /** Installer places this pose-only pass AFTER post-process RigLogic. */
+    UPROPERTY(EditAnywhere, Category=Fusion)
+    bool bHeadOnly = false;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Fusion, meta=(PinShownByDefault))
     float ShowcaseAlpha = 0.f;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Fusion, meta=(PinShownByDefault))
@@ -53,4 +56,10 @@ struct RESONANCEFACE_API FAnimNode_ResonanceFusion : public FAnimNode_Base
 private:
     TMap<FName,float> CachedIdle;
     float IdleWeight = 0.f;
+    TMap<FName,FName> CachedMapping;
+    FName CachedHeadBone = NAME_None;
+    FQuat CachedHeadRotation = FQuat::Identity;
+    float CachedBlink = 0.f;
+    bool bEmotionBlink = false;
+    float CachedShowcase = 0.f;
 };

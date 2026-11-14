@@ -107,7 +107,7 @@ def _tick(_dt):
         'smoothed': list(_state.get_editor_property('smoothed_emotion_scores')),
         'dominant': str(_state.get_editor_property('dominant_emotion')),
         'blend': _state.get_editor_property('current_blend'),
-        'natural_blink': _anim.get_editor_property('NaturalBlink'),
+        'natural_blink': _state.get_editor_property('emotion_blink'),
         'curves': {c: _anim.get_curve_value(c) for c in CURVES},
     })
     if elapsed > 100:

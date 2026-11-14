@@ -37,7 +37,7 @@ int main()
     for (int i=0;i<300;++i) State.Update(1.f/60.f);
     const float Before=State.Smoothed[9];
     Scores Joy{}; Joy[6]=1.f; State.SetScores(Joy); State.Update(1.f/60.f);
-    assert(State.Smoothed[9] > Before-.03f);
+    assert(State.Smoothed[9] > Before-.06f);
     for (int i=0;i<600;++i) State.Update(1.f/60.f);
     assert(State.Smoothed[6]>.999f);
     assert(State.Smoothed[9]<.001f);
@@ -61,5 +61,89 @@ int main()
     assert(Fuse(.8f,.4f,.65f,1.f,2,0.f,0.f)==0.f);
     assert(std::abs(Fuse(.8f,.4f,.65f,1.f,2,.37f,1.f)-.37f)<.00001f);
     assert(std::abs(Fuse(.8f,.4f,0.f,0.f,6,0.f,0.f)-.8f)<.00001f);
+    // Six-class input aliases map onto ten controllable dimensions; never
+    // invent grief/pain/etc. from a six-class observation.
+    assert(EmotionIndex("neutral")==10 && EmotionIndex("angry")==1);
+    assert(EmotionIndex("happy")==6 && EmotionIndex("sad")==9);
+    assert(EmotionIndex("fear")==4 && EmotionIndex("disgust")==3);
+    assert(EmotionIndex("shy")==-1 && EmotionIndex(nullptr)==-1);
+    for (int p=0;p<11;++p)
+    {
+        std::array<Curves,3> Faces;
+        std::array<std::array<float,3>,3> Heads;
+        for (int v=0;v<3;++v)
+        {
+            IdleState S; Scores Input{};
+            if (p<10) Input[p]=1.f;
+            S.SetScores(Input); S.ForcedVariant=v;
+            auto PreviousHead=S.Head;
+            int BlinkEvents=0; bool WasClosed=false;
+            for (int f=0;f<7200;++f)
+            {
+                S.Update(1.f/60.f);
+                for (int axis=0;axis<3;++axis)
+                {
+                    assert(std::isfinite(S.Head[axis]) && std::abs(S.Head[axis])<6.f);
+                    assert(std::abs(S.Head[axis]-PreviousHead[axis])<.15f);
+                }
+                PreviousHead=S.Head;
+                assert(S.Blink>=0 && S.Blink<=1);
+                if(S.Blink>.95f && !WasClosed) ++BlinkEvents;
+                WasClosed=S.Blink>.95f;
+                for(float Value:S.Output) assert(std::isfinite(Value) && Value>=0 && Value<=1);
+            }
+            assert(BlinkEvents>10 && BlinkEvents<60);
+            Faces[v]=S.Output; Heads[v]=S.Head;
+        }
+        for(int a=0;a<3;++a) for(int b=a+1;b<3;++b)
+        {
+            assert(Faces[a]!=Faces[b]);
+            assert(Heads[a]!=Heads[b]);
+        }
+    }
+    // Identical timelines replay head/eye/variant/blink schedules exactly.
+    IdleState D,E;
+    D.SetScores(Joy); E.SetScores(Joy);
+    std::array<bool,3> Seen{};
+    int Last=-1;
+    for(int f=0;f<18000;++f)
+    {
+        D.Update(1.f/60.f); E.Update(1.f/60.f);
+        Seen[D.VariantIndex]=true;
+        assert(D.Output==E.Output && D.Head==E.Head && D.Blink==E.Blink);
+        if(D.VariantIndex!=Last) Last=D.VariantIndex;
+    }
+    assert(Seen[0] && Seen[1] && Seen[2]);
+    const auto SavedHead=D.Head;
+    D.Update(std::numeric_limits<float>::quiet_NaN()); D.Update(-1.f);
+    assert(D.Head==SavedHead);
+    // Calibration may remove expression without removing head/blink scheduling.
+    E.ExpressionStrength=0;
+    for(int f=0;f<600;++f) E.Update(1.f/60.f);
+    for(int i=2;i<15;++i) assert(E.Output[i]<.0001f);
+    // Automatic changes must not anticipate the configured onset delay. Held
+    // identical samples cannot keep pushing that deadline into the future.
+    IdleState Timed;
+    for(int f=0;f<10;++f) { Timed.SetPlaybackScores(Joy,.12f); Timed.Update(.01f); }
+    assert(Timed.Target[6]==0.f && Timed.Smoothed[6]==0.f);
+    for(int f=0;f<4;++f) { Timed.SetPlaybackScores(Joy,.12f); Timed.Update(.01f); }
+    assert(Timed.Target[6]==1.f && Timed.Smoothed[6]>0.f);
+    // Manual selection cancels delayed automatic samples, including across
+    // stream replacement; stale emotions cannot overwrite a preview.
+    Timed.SetPlaybackScores(Sad,.4f); Timed.SetScores(Joy);
+    for(int f=0;f<60;++f) Timed.Update(.01f);
+    assert(Timed.Target==Joy);
+    Timed.SetPlaybackScores(Sad,.4f); Timed.ResetPlaybackTiming();
+    for(int f=0;f<60;++f) Timed.Update(.01f);
+    assert(Timed.Target==Joy);
+    // New defaults reach a readable expression faster than the old cascaded
+    // .8s/.4s filters, without snapping straight to full strength.
+    IdleState Faster,Slower;
+    Faster.SetScores(Sad); Slower.SetScores(Sad);
+    Faster.ForcedVariant=Slower.ForcedVariant=0;
+    Slower.VariantTransitionSeconds=.4f;
+    for(int f=0;f<80;++f) { Faster.Update(.01f); Slower.Update(.01f,.8f); }
+    assert(Faster.Output[6]>Slower.Output[6]*1.5f);
+    assert(Faster.Smoothed[9]>.9f && Faster.Smoothed[9]<1.f);
     std::cout << "Emotion idle: profiles, transitions, retention, determinism and fusion passed\n";
 }

@@ -12,7 +12,8 @@ model, using the supplied `voice_test.wav`. The portrait character is
 perceptual facial behavior have not been validated.
 
 The Y/default face also uses automatic local ACE emotion output to drive
-eleven upper-face profiles, restrained idle variations and small eye movements.
+eleven upper-face profiles, three variants per emotion, emotion-dependent head
+movement, eye offsets and blink timing. See [behaviour and face calibration](EMOTION_BEHAVIOR.md).
 The last emotion persists after speech. See [emotion fusion, native build and
 capture](EMOTION_IDLE.md); source builds require the small local ACE adapter patch.
 The original speech plays once on startup. Keyboard **1–5** starts five different
