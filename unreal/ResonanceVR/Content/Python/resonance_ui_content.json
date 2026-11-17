@@ -1,0 +1,64 @@
+{
+  "_comment": "Text source for the VR menu. build_resonance_ui.py bakes it into WBP_ResonanceMenu; rerun the script after editing. Clients are fictional.",
+  "palette": {
+    "ink": [0.063, 0.098, 0.133, 1.0],
+    "ink_muted": [0.306, 0.349, 0.392, 1.0],
+    "ink_faint": [0.498, 0.537, 0.584, 1.0],
+    "navy": [0.055, 0.227, 0.365, 1.0],
+    "blue": [0.122, 0.431, 0.612, 1.0],
+    "glow": [0.286, 0.690, 0.839, 1.0],
+    "on_navy": [0.949, 0.961, 0.973, 1.0],
+    "glass": [1.0, 1.0, 1.0, 0.38],
+    "glass_edge": [1.0, 1.0, 1.0, 0.70],
+    "glass_navy": [0.039, 0.157, 0.259, 0.70]
+  },
+  "landing": {
+    "headline": "Rehearse the first call before the real one.",
+    "body": "Resonance gives counseling trainees a virtual client who listens, hesitates and answers with a believable face.",
+    "start": "Start practicing",
+    "steps": [
+      ["Prepare", "Read the case. Check your mic."],
+      ["Practice", "Talk to the client in the headset."],
+      ["Reflect", "Replay the turns. Note what you'd change."]
+    ]
+  },
+  "clients": [
+    {
+      "id": "anna",
+      "name": "Anna M.",
+      "age": 34,
+      "difficulty": "Moderate",
+      "situation": "Laid off after eleven years; unsure if asking for help is weakness.",
+      "character": "/Game/MetaHumans/New_realistic_character/BP_New_realistic_character",
+      "available": true
+    },
+    {
+      "id": "jonas",
+      "name": "Jonas K.",
+      "age": 52,
+      "difficulty": "Gentle",
+      "situation": "Caring for his mother. Exhausted, won't say so.",
+      "character": "/Game/MetaHumans/I0_Metahuman_test/BP_I0_Metahuman_test",
+      "available": false
+    },
+    {
+      "id": "peter",
+      "name": "Peter W.",
+      "age": 67,
+      "difficulty": "Challenging",
+      "situation": "Lost his partner last spring. The house is too quiet.",
+      "character": "/Game/MetaHumans/4k_MetaHuman_Asian_Old/BP_4k_MetaHuman_Asian_Old",
+      "available": false
+    }
+  ],
+  "scenarios": [
+    {
+      "client": "anna",
+      "title": "First call",
+      "summary": "Opens hesitantly. Long pauses.",
+      "situation": "She hesitates before speaking and may say \"I probably shouldn't have called.\" She goes quiet when she feels judged.",
+      "goal": "To hear whether her feelings are normal. She isn't looking for advice yet.",
+      "focus": "Let pauses breathe. Reflect feelings before asking questions."
+    }
+  ]
+}

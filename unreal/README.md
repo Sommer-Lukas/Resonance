@@ -58,6 +58,13 @@ setup with `Content/Python/build_resonance_viewer.py` in the editor. Headset
 alignment still needs verification on the device; other maps retain their
 game modes.
 
+## VR menu
+
+A curved trainee menu (landing, Home, People, Sessions) with controller laser
+pointers is built by `Content/Python/build_resonance_ui.py`. See
+[VR menu](UI.md) for the build steps and what it creates. It has not yet been
+run on a headset.
+
 ## Share changes
 
 Use an issue branch and pull request. Pull the latest changes before opening

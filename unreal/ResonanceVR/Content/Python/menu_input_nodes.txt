@@ -1,0 +1,12 @@
+Begin Object Class=/Script/InputBlueprintNodes.K2Node_EnhancedInputAction Name="ResonanceSelectLeftInput"
+   InputAction="/Script/EnhancedInput.InputAction'/Game/Resonance/Input/IA_ResonanceSelectLeft.IA_ResonanceSelectLeft'"
+   NodePosX=0
+   NodePosY=2800
+   NodeGuid=8A3C1E5B2F4D4A6B9C0D1E2F3A4B5C61
+End Object
+Begin Object Class=/Script/InputBlueprintNodes.K2Node_EnhancedInputAction Name="ResonanceSelectRightInput"
+   InputAction="/Script/EnhancedInput.InputAction'/Game/Resonance/Input/IA_ResonanceSelectRight.IA_ResonanceSelectRight'"
+   NodePosX=0
+   NodePosY=3200
+   NodeGuid=9B4D2F6C3A5E4B7C8D1E2F3A4B5C6D72
+End Object
