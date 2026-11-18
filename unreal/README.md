@@ -76,13 +76,12 @@ setup with `Content/Python/build_resonance_viewer.py` in the editor. Headset
 alignment still needs verification on the device; other maps retain their
 game modes.
 
-## Cinematic trailer
+## VR menu
 
-For the separate cinematic portrait, open `/Game/ResonanceTrailer/L_Trailer`
-and `/Game/ResonanceTrailer/LS_ResonanceTrailer`. It uses the existing test
-speech, an authored anxious face, three moving cameras and a baked performance
-for offline rendering. See [trailer playback and 4K export](TRAILER.md).
-The trailer does not change the startup map or the interactive face modes.
+A curved trainee menu (landing, Home, People, Sessions) with controller laser
+pointers is built by `Content/Python/build_resonance_ui.py`. See
+[VR menu](UI.md) for the build steps and what it creates. It has not yet been
+run on a headset.
 
 ## Share changes
 
