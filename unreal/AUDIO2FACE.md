@@ -16,17 +16,34 @@ The original WAV now plays **once**, then waits. Keys **1–5** each start a
 different set of three longer mixed-emotion EmoDB recordings, played
 consecutively. See [audio review keys and sequence annotations](AUDIO_PLAYLISTS.md).
 
-The portrait now uses `BP_New_realistic_character` from
-`/Game/MetaHumans/New_realistic_character/`. Its LODSync **Forced LOD is 2**,
+The main portrait uses **Vivian**, through
+`/Game/Resonance/Blueprints/BP_ResonanceVivian`. Her imported appearance is
+under `/Game/MetaHumans/Vivian/`. The portrait Blueprint inherits speech,
+X/Y modes, emotion fusion and playlists from `BP_New_realistic_character`;
+the face AnimBlueprint still owns the final facial output. Builders use
+`RUNTIME_CHARACTER` for that behavior parent and `CHARACTER` for the selected
+portrait. Rebuild the appearance with `build_resonance_vivian.build()` and
+place it with `select_resonance_character.select()` in `I_Resonance`.
+Only missing shared dependencies were copied from the local download;
+existing Common assets and the original downloaded folder were preserved.
+
+Vivian's editor check on 17 November 2026 confirmed speech articulation,
+bilateral blinks, upper-face motion and X/Y switching. The 16-second capture is
+`Saved/Audio2Face-vivian-model.json`. Seven of eight existing input checks
+passed; the replay-coalescing check did not observe a queued send and remains
+unverified. Her imported assets have no missing `/Game` dependencies.
+Headset playback has not been checked for Vivian.
+
+Its LODSync **Forced LOD is 2**,
 saved in both the Blueprint defaults and the level instance so close-up viewing
 does not select the problematic higher-detail material setup. The skeletal
 mesh API reports forced value 3 because that API uses 1-based LOD indices;
 LODSync uses 0-based indices, so both refer to LOD 2.
 The replacement retains the previous eye line and camera/viewer placement.
 The old character asset is preserved, but its level actor was replaced.
-The new character's own face, body, hair, materials and initialization are
-retained; the shared face skeleton supports the existing ACE and blink graph.
-The replacement passed all eight Enhanced Input mode checks and ten blink
+Vivian's own face, body, hair, materials and clothing are used; the inherited
+initialization and shared face skeleton support the existing ACE and blink graph.
+The previous replacement passed all eight Enhanced Input mode checks and ten blink
 checks at Forced LOD 2. A 16-second final-output capture is saved locally as
 `Saved/Audio2Face-new-realistic-character.json`. Verification scripts resolve
 the configured character class rather than matching the previous actor name.

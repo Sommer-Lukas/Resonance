@@ -28,7 +28,7 @@ class OwnedGraph(Graph):
 
 
 def prepare_character():
-    bp = unreal.load_asset(ace.CHARACTER)
+    bp = unreal.load_asset(ace.RUNTIME_CHARACTER)
     names = {v['name'] for v in checked(H.list_blueprint_variables(bp))['variables']}
     for name, kind in STATE.items():
         if name not in names:
@@ -252,7 +252,7 @@ def build_viewer_input():
         continuation = next(p['linked_to'][0]['node_name'] for p in begin['pins'] if p['pin_name'] == 'then')
         unreal.EditorAssetLibrary.set_metadata_tag(bp, 'ResonanceViewerBeginContinuation', continuation)
     cast_names = json.loads(unreal.EditorAssetLibrary.get_metadata_tag(bp, 'ResonanceFaceInputCasts') or '{}')
-    target_name = unreal.load_asset(ace.CHARACTER).generated_class().get_name()
+    target_name = unreal.load_asset(ace.RUNTIME_CHARACTER).generated_class().get_name()
     for key in ('cast_Authored', 'cast_Model'):
         existing = next((n for n in nodes if n['node_name'] == cast_names.get(key)), None)
         if existing and not any(p.get('sub_type') == target_name and p['direction'] == 'Output'
@@ -301,12 +301,12 @@ def build_viewer_input():
     g.flow('cast_input', 'mapping')
     for mode, function in [('Authored', 'ResonanceUseAuthoredFace'), ('Model', 'ResonanceUseModelFace')]:
         g.nodes['event_' + mode] = events[mode]['node_name']
-        g.call('find_' + mode, 'GameplayStatics', 'GetActorOfClass', ActorClass=unreal.load_asset(ace.CHARACTER).generated_class().get_path_name())
-        cast('cast_' + mode, unreal.load_asset(ace.CHARACTER).generated_class().get_path_name())
+        g.call('find_' + mode, 'GameplayStatics', 'GetActorOfClass', ActorClass=unreal.load_asset(ace.RUNTIME_CHARACTER).generated_class().get_path_name())
+        cast('cast_' + mode, unreal.load_asset(ace.RUNTIME_CHARACTER).generated_class().get_path_name())
         g.wire('find_' + mode, 'ReturnValue', 'cast_' + mode, 'Object')
         g.wire('event_' + mode, 'Started', 'find_' + mode, 'execute')
         g.flow('find_' + mode, 'cast_' + mode)
-        g.call('mode_' + mode, unreal.load_asset(ace.CHARACTER).generated_class().get_name(), function)
+        g.call('mode_' + mode, unreal.load_asset(ace.RUNTIME_CHARACTER).generated_class().get_name(), function)
         g.wire('cast_' + mode, cast_result(bp, g.nodes['cast_' + mode]), 'mode_' + mode, 'self')
         g.flow('cast_' + mode, 'mode_' + mode)
     g.node('end', 'Event', event_name='ReceiveEndPlay')

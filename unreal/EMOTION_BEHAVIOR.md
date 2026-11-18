@@ -13,6 +13,23 @@ per axis and acceleration to 18 degrees/second squared (before per-face gains).
 A much slower, tiny drift avoids a completely frozen hold. No periodic sway,
 tremor, or semantic gesture inference is used.
 
+The 18 November revision adds a continuous three-axis direction around each
+accent and a separately sampled curved travel path. Turns therefore combine
+pitch, yaw and roll rather than following the same horizontal/vertical spokes.
+Final calibration approaches an ellipsoidal limit smoothly, avoiding flat
+segments against independent pitch/yaw limits. Existing speech cue timing,
+quiet holds and angular speed/acceleration limits remain in force.
+
+Eyes now choose off-center holds more often, including neutral, with broader
+horizontal and vertical variation and shorter, uneven dwell times. Targets lie
+inside an ellipse and still settle between changes. Vertical eye motion drives
+upper-lid following: looking down partially lowers the lids; looking up adds
+widening and a small brow lift. Lateral looks add lower-lid/cheek support.
+These changes combine with the emotion profiles and all three face variants.
+Partial lid closure is additive to model blinks, so it cannot reopen a blink;
+procedural closure and X showcase retain precedence. This remains an authored
+face experiment, without scene tracking or a social-attention model.
+
 Anger uses firmer, more frequent changes with more returns toward the partner;
 sadness/grief use smaller movements and longer pauses. Neutral has visible
 small orientation changes. Head scheduling uses a separate seeded generator
@@ -225,6 +242,22 @@ Run `unreal/tests/run_emotion_idle_tests.cmd`, the AGENTS.md Python suite/demo,
 and build `ResonanceFace`/`ResonanceFaceEditor` with UE 5.6 (close the editor for
 DLL linking). Tests cover 33 distinct variants, smooth bounded head motion,
 blink events, aliases, deterministic replay, invalid inputs and final fusion.
+
+For the revised head/eye coordination, run
+`import verify_resonance_eye_head as verify; verify.start()` during PIE. It
+captures six authored emotion previews, final eye/lid rotations relative to
+the head between blinks, eye curves, head ranges/limits and speech articulation
+under `Saved/EyeHeadVariation/validation.json`. Eyelid joints rotate around
+eye-centered pivots, so rotation is measured as well as translation; head motion
+and full blinks cannot by themselves pass the lid-following check.
+
+Validation on 18 November 2026: both native modules built, the native scheduler
+regression suite and all 13 Python tests passed, and the Python demo completed.
+Vivian's 72-second PIE capture passed all seven integration checks with 215
+samples across neutral, fear, joy, sadness, anger and amazement. Eye directions,
+upper/lower eyelid rotations between blinks, and all three head axes varied;
+head angles stayed within calibration limits and speech articulation remained
+active. This confirms rig output, not perceived naturalness or headset behavior.
 
 Compare each variant/intensity with the same audio and camera. Check eye
 direction, neck seams, skin deformation and head axes on each replacement face.

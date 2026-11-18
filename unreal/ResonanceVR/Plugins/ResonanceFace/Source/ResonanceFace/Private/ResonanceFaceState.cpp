@@ -160,10 +160,16 @@ void UResonanceFaceState::UpdateForAnimation(UACEAudioCurveSourceComponent* Sour
     const float HeadGain=Calibration && FMath::IsFinite(Calibration->HeadStrength)
         ? FMath::Clamp(Calibration->HeadStrength,0.f,2.f) : 1.f;
     const FVector Limits=Calibration ? Calibration->HeadLimits : FVector(5,5,3);
+    double RadiusSquared=0.;
     for (int i=0;i<3;++i)
-        HeadDegrees[i]=FMath::Clamp(HeadDegrees[i]*HeadGain,
-            -FMath::Clamp(FMath::IsFinite(Limits[i]) ? Limits[i] : 0.,0.,8.),
-            FMath::Clamp(FMath::IsFinite(Limits[i]) ? Limits[i] : 0.,0.,8.));
+    {
+        const double Limit=FMath::Clamp(FMath::IsFinite(Limits[i]) ? Limits[i] : 0.,0.,8.);
+        HeadDegrees[i]=Limit>0. ? HeadDegrees[i]*HeadGain : 0.;
+        if (Limit>0.) RadiusSquared+=FMath::Square(HeadDegrees[i]/Limit);
+    }
+    // Smoothly approach an ellipsoid, rather than flattening separate axes
+    // against a box. Combined turns retain their direction near the limits.
+    HeadDegrees*=1./FMath::Pow(1.+RadiusSquared*RadiusSquared,.25);
     if (!bEnableHeadMovement) HeadDegrees=FVector::ZeroVector;
     const float Target=FMath::Clamp(Speaking ? SpeakingBlend : IdleBlend,0.f,1.f);
     CurrentBlend=FMath::Lerp(CurrentBlend,Target,1.f-FMath::Exp(-FMath::Max(0.f,DeltaTime)/.3f));

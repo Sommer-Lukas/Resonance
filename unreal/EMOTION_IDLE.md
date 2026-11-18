@@ -68,9 +68,10 @@ idle curves and emotion audio time for inspection. Its settings are:
 | VariantTransitionSeconds | 0.18 | Expression/variant smoothing time constant |
 
 These are tunable animation parameters, not perceptually validated values.
-The eye layer owns only eight directional eye curves, with small offsets; it
-does not implement social attention, tracking or head motion. Blinks preserve
-model closure and close the remaining opening; widening and squint relax during
+The eye layer uses eight directional eye curves and coordinates them with
+eyelid, brow and cheek support inside the existing upper-face fusion. It does
+not implement social attention or scene tracking. Blinks preserve model closure
+and add downward lid following to the remaining opening; widening and squint relax during
 closure. X showcase takes precedence smoothly through the existing mode alpha.
 
 For previewing any of the ten authored profiles or neutral, call

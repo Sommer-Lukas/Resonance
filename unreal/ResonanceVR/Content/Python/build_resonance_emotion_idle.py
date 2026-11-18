@@ -8,7 +8,7 @@ from build_pitfall import H, checked
 import build_resonance_audio2face as ace
 
 
-def build(face_path=ace.FACE, character_path=ace.CHARACTER, calibration_path=None,
+def build(face_path=ace.FACE, character_path=ace.RUNTIME_CHARACTER, calibration_path=None,
           source_postprocess='/Game/MetaHumans/Common/Face/ABP_Face_PostProcess',
           postprocess_path='/Game/Resonance/Animation/ABP_ResonanceFacePostProcess'):
     """Install the same fusion on a replacement face/character Blueprint pair."""

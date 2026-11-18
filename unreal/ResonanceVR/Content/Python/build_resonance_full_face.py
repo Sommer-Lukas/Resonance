@@ -49,7 +49,7 @@ def build_animation():
         if n['node_name'] in json.loads(old or '[]') or n['node_class'] in ('K2Node_CallFunction', 'K2Node_VariableGet'):
             checked(H.remove_blueprint_node(bp, 'AnimGraph', n['node_name']))
     event_nodes = ace.info(bp, 'EventGraph')
-    target_name = unreal.load_asset(ace.CHARACTER).generated_class().get_name()
+    target_name = unreal.load_asset(ace.RUNTIME_CHARACTER).generated_class().get_name()
     actor_cast = next((n for n in event_nodes if n['node_class'] == 'K2Node_DynamicCast'
                        and any(p.get('sub_type') == target_name and p['direction'] == 'Output'
                                for p in n['pins'])), None)
@@ -69,7 +69,7 @@ def build_animation():
     checked(H.compile_blueprint(bp))
     g.node('update', 'Event', event_name='BlueprintUpdateAnimation')
     g.call('owner', 'AnimInstance', 'GetOwningActor')
-    actor_class = unreal.load_asset(ace.CHARACTER).generated_class().get_path_name()
+    actor_class = unreal.load_asset(ace.RUNTIME_CHARACTER).generated_class().get_path_name()
     if actor_cast:
         g.nodes['portrait_actor'] = actor_cast['node_name']
     else:

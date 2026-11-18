@@ -73,7 +73,7 @@ void FAnimNode_ResonanceFusion::Evaluate_AnyThread(FPoseContext& Output)
         if (Name.IsNone()) continue;
         const float* Idle=CachedIdle.Find(Canonical);
         // Preserve model blinks; the shared procedural scheduler closes the remaining opening.
-        const float Weight = !Idle ? 0.f : (i<2 ? 0.f : (i>=15 ? 1.f : IdleWeight));
+        const float Weight = !Idle ? 0.f : (i>=15 ? 1.f : IdleWeight);
         const float Value=ResonanceFace::Fuse(Output.Curve.Get(Name),Idle ? *Idle : 0.f,
             Weight,bEmotionBlink ? CachedBlink : NaturalBlink,i,i<15 ? Showcase[i] : 0.f,ShowcaseAlpha);
         Output.Curve.Set(Name,Value);

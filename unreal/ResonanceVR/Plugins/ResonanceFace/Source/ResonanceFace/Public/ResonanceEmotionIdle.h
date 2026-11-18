@@ -44,6 +44,23 @@ inline constexpr Profile Profiles[11] = {
 inline float Unit(float x) { return std::isfinite(x) ? std::clamp(x, 0.f, 1.f) : 0.f; }
 inline float Smooth(float x) { x = Unit(x); return x*x*(3.f-2.f*x); }
 
+// Upper-face accents for the arrival of an emotion or a speech gesture.
+// Signed aperture lets fear open the eyes while anger or pain narrow them.
+struct ExpressionAccent { float Inner, Outer, Down, Aperture, Cheek, Nose; };
+inline constexpr ExpressionAccent Accents[11] = {
+    {.11f,.20f,0,.23f,.02f,0},       // amazement
+    {0,0,.21f,-.16f,.06f,.05f},     // anger
+    {.02f,.19f,0,-.05f,.12f,0},     // cheekiness
+    {0,.03f,.10f,-.14f,.12f,.22f},  // disgust
+    {.17f,.12f,.07f,.23f,0,0},     // fear
+    {.22f,0,.08f,-.12f,.08f,0},    // grief
+    {.02f,.10f,0,-.06f,.23f,0},    // joy
+    {.10f,.07f,.02f,.12f,.03f,0},  // out of breath
+    {.10f,0,.18f,-.21f,.13f,.09f}, // pain
+    {.18f,.02f,.06f,-.09f,.05f,0}, // sadness
+    {.015f,.04f,0,.035f,.02f,0}    // neutral
+};
+
 // Three authored accents per dimension (including neutral). Pitch/yaw/roll are
 // degrees in a rig-independent frame; the adapter maps them onto the head bone.
 struct Variant { float Brow, Lid, Cheek, Nose, EyeX, EyeY, Pitch, Yaw, Roll; };
@@ -193,7 +210,7 @@ private:
             EpisodeStarted=Time; EpisodeChance=Chance;
             LookingAway=Random()<Chance;
             if(LookingAway) AwaySide=Random()<.5f ? -1.f : 1.f;
-            else { EyeTargetX=EyeTargetY=0.f; NextEye=Time+.7+Random(); }
+            else { NextEye=Time; }
             // Fear/sadness favor longer aversion and shorter forward checks.
             const float Avoidant=Weights[4]+Weights[5]+Weights[9];
             const float Hold=LookingAway ? 1.8f+Avoidant*1.8f : 1.2f+(1.f-Avoidant)*1.5f;
@@ -259,25 +276,63 @@ private:
             Range+=W*P.EyeRange; Down+=W*P.EyeDown; Up+=W*P.EyeUp;
             PauseMin+=W*P.PauseMin; PauseMax+=W*P.PauseMax;
         }
+        const float SettleBlend=1.f-std::exp(-Dt/(TransitionSeconds*3.5f));
+        for (int i=0;i<=EmotionCount;++i)
+        {
+            float Arrival=0.f;
+            if (i<EmotionCount)
+            {
+                SettledEmotion[i]+=(Weights[i]-SettledEmotion[i])*SettleBlend;
+                Arrival=Unit((Weights[i]-SettledEmotion[i])*1.6f);
+            }
+            const float Accent=Unit(Arrival+.58f*Weights[i]*HeadMotion.ExpressionAccent);
+            const auto& A=Accents[i];
+            Output[6]+=Accent*A.Inner;
+            Output[7]+=Accent*A.Outer; Output[8]+=Accent*A.Outer*(i==2 ? .45f : 1.f);
+            Output[9]+=Accent*A.Down; Output[10]+=Accent*A.Down;
+            Output[2]+=Accent*std::max(0.f,A.Aperture); Output[3]+=Accent*std::max(0.f,A.Aperture);
+            Output[4]+=Accent*std::max(0.f,-A.Aperture); Output[5]+=Accent*std::max(0.f,-A.Aperture);
+            Output[11]+=Accent*A.Cheek; Output[12]+=Accent*A.Cheek;
+            Output[13]+=Accent*A.Nose; Output[14]+=Accent*A.Nose;
+        }
         // Discrete targets with stationary holds, rather than continuous eye oscillation.
         if (Time >= NextEye)
         {
-            const bool Center = !LookingAway && Random() < .75f;
-            EyeTargetX = Center ? 0.f : (2.f*Random()-1.f)*Range;
-            EyeTargetY = Center ? 0.f : (2.f*Random()-1.f)*Range*.5f;
-            NextEye = Time + PauseMin + Random()*(PauseMax-PauseMin);
+            const bool Center = !LookingAway && Random() < .30f;
+            const float Angle=Random()*6.2831853f;
+            const float Radius=(.4f+.6f*std::sqrt(Random()))*std::max(.09f,Range*2.4f);
+            EyeTargetX = Center ? 0.f : std::cos(Angle)*Radius;
+            EyeTargetY = Center ? 0.f : std::sin(Angle)*Radius*.72f;
+            NextEye = Time + .45f*(PauseMin + Random()*(PauseMax-PauseMin));
         }
         const float EyeBlend=1.f-std::exp(-Dt/.12f);
         const float Avoidant=Weights[4]+Weights[5]+Weights[9];
-        const float AwayX=LookingAway ? AwaySide*(.045f+Avoidant*.045f) : 0.f;
-        const float AwayY=LookingAway ? -.025f-Avoidant*.045f : 0.f;
-        EyeX+=(EyeTargetX+BiasX+AwayX-EyeX)*EyeBlend;
-        EyeY+=(EyeTargetY+Up-Down+BiasY+AwayY-EyeY)*EyeBlend;
+        const float AwayX=LookingAway ? AwaySide*(.075f+Avoidant*.065f) : 0.f;
+        const float AwayY=LookingAway ? -.035f-Avoidant*.055f : 0.f;
+        // Keep the trajectory inside an ellipse instead of clipping each axis
+        // separately into a square. Eye motion leads the slower head response.
+        float GoalX=EyeTargetX+BiasX+AwayX;
+        float GoalY=EyeTargetY+Up-Down+BiasY+AwayY;
+        const float EyeRadius=std::sqrt((GoalX/.18f)*(GoalX/.18f)+(GoalY/.16f)*(GoalY/.16f));
+        if (EyeRadius>1.f) { GoalX/=EyeRadius; GoalY/=EyeRadius; }
+        EyeX+=(GoalX-EyeX)*EyeBlend;
+        EyeY+=(GoalY-EyeY)*EyeBlend;
         Output[15]=Output[16]=std::max(0.f,-EyeY);
         Output[17]=Output[18]=std::max(0.f,EyeY);
         // Conjugate horizontal eye movements: left-in pairs with right-out.
         Output[19]=Output[20]=std::max(0.f,EyeX);
         Output[21]=Output[22]=std::max(0.f,-EyeX);
+        // The eye socket participates: upper lids follow vertical eye rotation,
+        // lower lids/cheeks support lateral looks, and brows lift subtly when
+        // looking up. This augments each emotion, without moving the mouth.
+        const float LookUp=Unit(EyeY/.16f), LookDown=Unit(-EyeY/.16f);
+        const float Side=Unit(std::abs(EyeX)/.18f);
+        Output[0]=Output[1]=LookDown*.24f;
+        Output[2]+=LookUp*.20f; Output[3]+=LookUp*.20f;
+        Output[4]+=Side*.065f+LookDown*.045f;
+        Output[5]+=Side*.065f+LookDown*.045f;
+        Output[7]+=LookUp*.055f; Output[8]+=LookUp*.055f;
+        Output[11]+=Side*.045f; Output[12]+=Side*.045f;
         for (int i=2;i<15;++i)
         {
             const float Change=i<=5 ? Lid : (i<=10 ? Brow : (i<=12 ? Cheek : Nose));
@@ -285,11 +340,16 @@ private:
             // Smooth the variant itself as well as emotion transitions.
             const float VariantTime=std::isfinite(VariantTransitionSeconds) ?
                 std::clamp(VariantTransitionSeconds,.08f,1.f) : .18f;
-            HeldCurves[i]+=(DesiredCurve-HeldCurves[i])*(1.f-std::exp(-Dt/VariantTime));
+            // Lids respond first, while brow and cheek tension release more slowly.
+            const bool Rising=DesiredCurve>HeldCurves[i];
+            const float Timing=i<=5 ? (Rising ? .8f : 1.1f) :
+                (i<=10 ? (Rising ? 1.f : 1.8f) : (Rising ? 1.3f : 2.2f));
+            HeldCurves[i]+=(DesiredCurve-HeldCurves[i])*(1.f-std::exp(-Dt/(VariantTime*Timing)));
             Output[i]=HeldCurves[i];
         }
     }
     Curves HeldCurves{};
+    Scores SettledEmotion{};
 };
 
 // Only owned upper-face curves enter this function. Mouth, jaw and head pass through.
@@ -298,7 +358,13 @@ inline float Fuse(float Model, float Idle, float IdleWeight, float Blink, int Cu
 {
     float Value=Unit(Model)*(1.f-Unit(IdleWeight))+Unit(Idle)*Unit(IdleWeight);
     const float Close=Unit(Blink);
-    if (CurveIndex<2) Value=Value+(1.f-Value)*Close;
+    if (CurveIndex<2)
+    {
+        // Lid following can close the model's remaining opening, never erase
+        // an existing model blink. Procedural closure still reaches one.
+        Value=Unit(Model)+(1.f-Unit(Model))*Unit(Idle)*Unit(IdleWeight);
+        Value=Value+(1.f-Value)*Close;
+    }
     else if (CurveIndex<6) Value*=1.f-Close;
     Value=Value*(1.f-Unit(ShowcaseWeight))+Unit(Showcase)*Unit(ShowcaseWeight);
     return Unit(Value);

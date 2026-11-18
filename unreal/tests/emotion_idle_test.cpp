@@ -61,6 +61,12 @@ int main()
     assert(Fuse(.8f,.4f,.65f,1.f,2,0.f,0.f)==0.f);
     assert(std::abs(Fuse(.8f,.4f,.65f,1.f,2,.37f,1.f)-.37f)<.00001f);
     assert(std::abs(Fuse(.8f,.4f,0.f,0.f,6,0.f,0.f)-.8f)<.00001f);
+    // Downward lid following never attenuates a model blink, even at full
+    // authored weight, and showcase still takes precedence.
+    assert(Fuse(1.f,.2f,1.f,0.f,0,0.f,0.f)==1.f);
+    assert(Fuse(.4f,.2f,.9f,0.f,0,0.f,0.f)>.4f);
+    assert(Fuse(.4f,.2f,.9f,1.f,0,0.f,0.f)==1.f);
+    assert(Fuse(.4f,.2f,.9f,0.f,0,.3f,1.f)==.3f);
     // Six-class input aliases map onto ten controllable dimensions; never
     // invent grief/pain/etc. from a six-class observation.
     assert(EmotionIndex("neutral")==10 && EmotionIndex("angry")==1);
@@ -115,6 +121,31 @@ int main()
         if(D.VariantIndex!=Last) Last=D.VariantIndex;
     }
     assert(Seen[0] && Seen[1] && Seen[2]);
+    // Neutral must explore all four eye directions and animate the surrounding
+    // lids too. Avoid a forward-only neutral or rotating eyeballs in a frozen socket.
+    IdleState EyePerformance;
+    EyePerformance.ResetSeed(5173);
+    std::array<float,4> EyeExtents{};
+    float LidFollow=0.f,WideFollow=0.f;
+    int OffCenterFrames=0;
+    for(int f=0;f<7200;++f)
+    {
+        EyePerformance.Update(1.f/60.f);
+        EyeExtents[0]=std::max(EyeExtents[0],EyePerformance.EyeX);
+        EyeExtents[1]=std::max(EyeExtents[1],-EyePerformance.EyeX);
+        EyeExtents[2]=std::max(EyeExtents[2],EyePerformance.EyeY);
+        EyeExtents[3]=std::max(EyeExtents[3],-EyePerformance.EyeY);
+        if(std::abs(EyePerformance.EyeX)+std::abs(EyePerformance.EyeY)>.04f) ++OffCenterFrames;
+        if(EyePerformance.EyeY<-.04f) LidFollow=std::max(LidFollow,EyePerformance.Output[0]);
+        if(EyePerformance.EyeY>.04f) WideFollow=std::max(WideFollow,EyePerformance.Output[2]);
+        assert(EyePerformance.EyeX*EyePerformance.EyeX/(.18f*.18f)+
+            EyePerformance.EyeY*EyePerformance.EyeY/(.16f*.16f)<1.001f);
+        assert(EyePerformance.Output[19]==EyePerformance.Output[20]);
+        assert(EyePerformance.Output[21]==EyePerformance.Output[22]);
+    }
+    for(float Extent:EyeExtents) assert(Extent>.035f);
+    assert(OffCenterFrames>1800 && OffCenterFrames<7000);
+    assert(LidFollow>.06f && WideFollow>.06f);
     const auto SavedHead=D.Head;
     D.Update(std::numeric_limits<float>::quiet_NaN()); D.Update(-1.f);
     assert(D.Head==SavedHead);
@@ -146,6 +177,19 @@ int main()
     for(int f=0;f<80;++f) { Faster.Update(.01f); Slower.Update(.01f,.8f); }
     assert(Faster.Output[6]>Slower.Output[6]*1.5f);
     assert(Faster.Smoothed[9]>.9f && Faster.Smoothed[9]<1.f);
+    // An emotion's arrival reads stronger than its held expression. It must
+    // relax without losing the emotion when no further samples arrive.
+    IdleState Arrival;
+    Scores Amazement{}; Amazement[0]=1.f;
+    Arrival.ForcedVariant=0;
+    Arrival.SetScores(Amazement);
+    float PeakBrow=0.f;
+    for(int f=0;f<600;++f)
+    {
+        Arrival.Update(1.f/60.f);
+        PeakBrow=std::max(PeakBrow,Arrival.Output[6]);
+    }
+    assert(Arrival.Output[6]>.30f && PeakBrow>Arrival.Output[6]+.04f);
     // Test motion kinematics independently of face/rig gains. Emotion changes
     // may alter the target abruptly, but speed/acceleration must stay bounded.
     std::array<float,11> Weights{}; Weights[10]=1.f;
@@ -170,6 +214,22 @@ int main()
     }
     assert(QuietFrames>120 && QuietFrames<3500);
     assert(std::max({High[0]-Low[0],High[1]-Low[1],High[2]-Low[2]})>.3f);
+    // Visible shifts have simultaneous pitch/yaw/roll and changing direction
+    // inside a single excursion, instead of tracing axis-aligned spokes.
+    HeadIdle Curved;
+    int CoupledFrames=0,CurvingFrames=0;
+    auto OldVelocity=Curved.Velocity;
+    for(int f=0;f<7200;++f)
+    {
+        Curved.Update(1.f/60.f,Weights,{});
+        int MovingAxes=0;
+        for(float V:Curved.Velocity) MovingAxes+=std::abs(V)>.15f;
+        CoupledFrames+=MovingAxes>=2;
+        const float Cross=OldVelocity[0]*Curved.Velocity[1]-OldVelocity[1]*Curved.Velocity[0];
+        CurvingFrames+=std::abs(Cross)>.001f;
+        OldVelocity=Curved.Velocity;
+    }
+    assert(CoupledFrames>120 && CurvingFrames>60);
     // Distinct hold/travel times produce varied cadence; a sad performance has
     // fewer shifts than anger over the same replay duration.
     HeadIdle AngryMotion,SadMotion;
@@ -281,6 +341,7 @@ int main()
     std::cout << "Fear/anger away frames=" << FearAway << "/" << AngerAway << "\n";
     // Every emotion must continue responding to broad energy changes during
     // continuous speech, rather than make one initial turn and hold it.
+    std::array<bool,6> GesturesSeen{};
     for(int Profile=0;Profile<11;++Profile)
     {
         HeadIdle Performance;
@@ -292,6 +353,8 @@ int main()
         {
             Performance.Envelope=(f%240>=150 && f%240<198) ? .13f : .02f;
             Performance.Update(1.f/60.f,EmotionWeights,{});
+            if (Performance.ExpressionAccent>.5f)
+                GesturesSeen[static_cast<int>(Performance.ActiveGesture)]=true;
             for(int a=0;a<3;++a)
             {
                 Min[a]=std::min(Min[a],Performance.Position[a]);
@@ -303,6 +366,7 @@ int main()
         assert(std::max({Max[0]-Min[0],Max[1]-Min[1],Max[2]-Min[2]})>1.8f);
         std::cout << EmotionNames[Profile] << ": speech excursions=" << Performance.SpeechCueCount << "\n";
     }
+    for (std::size_t i=1;i<GesturesSeen.size();++i) assert(GesturesSeen[i]);
     std::cout << "Quiet head adjustments=" << Quiet.QuietAdjustmentCount
         << ", still/moving frames=" << StillFrames << "/" << MovingFrames << "\n";
     // Facial variant changes leave the head trajectory untouched, while the

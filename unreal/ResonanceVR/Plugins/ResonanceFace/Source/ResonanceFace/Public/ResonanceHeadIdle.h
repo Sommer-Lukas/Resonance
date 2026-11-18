@@ -30,7 +30,10 @@ inline constexpr HeadStyle HeadStyles[11] = {
 class HeadIdle
 {
 public:
+    enum class Gesture { Settle, Lift, Dip, Turn, Tilt, Nod };
     std::array<float,3> Position{}, Velocity{};
+    Gesture ActiveGesture=Gesture::Settle;
+    float ExpressionAccent=0.f;
     // Diagnostics for replay tests; a new shift begins only after its hold.
     int ShiftCount=0;
     double TravelSeconds=0., HoldSeconds=0.;
@@ -110,6 +113,7 @@ private:
         if (UseSpeechTiming ? (SpeechRequest || QuietRequest) : Time>=NextShift)
         {
             From=Accent; To.fill(0.f);
+            ActiveGesture=Gesture::Settle;
             const auto Pick=[&]() { return QuietRequest ? QuietRandom() : Random(); };
             const float Sign=Pick()<.5f ? -1.f : 1.f;
             float Size=.8f+Pick()*.2f;
@@ -131,33 +135,57 @@ private:
                 // Speaking cues favor a visible dip/turn rather than a tiny
                 // roll that disappears in a front-facing portrait.
                 const float PitchBias=.45f+Weights[5]*.25f+Weights[9]*.25f+Weights[0]*.2f;
-                const int Axis=SpeechRequest ? (Pick()<PitchBias ? 0 : 1) : std::min(2,int(Pick()*3.f));
-                if (Axis==0) // A single small dip/lift with a long hold, not a nod loop.
+                const float Direction=Pick();
+                const bool Nod=SpeechRequest && Emphasis && !OpeningOnset && Direction<.24f;
+                const int Axis=Nod ? 0 : (SpeechRequest ?
+                    (Direction<PitchBias ? 0 : (Direction>.92f && !OpeningOnset ? 2 : 1)) :
+                    std::min(2,int(Direction*3.f)));
+                if (Axis==0)
                 {
                     const float DownChance=.5f+.25f*Weights[9]+.3f*Weights[5]+.15f*Weights[8]-.25f*Weights[0]-.1f*Weights[4];
-                    To[0]=(Pick()<DownChance ? 1.f : -1.f)*Style.Pitch*Size;
+                    const bool Down=Pick()<DownChance;
+                    ActiveGesture=Nod ? Gesture::Nod : (Down ? Gesture::Dip : Gesture::Lift);
+                    To[0]=(Down || Nod ? 1.f : -1.f)*Style.Pitch*Size*(Nod ? .72f : 1.f);
                     To[1]=(2.f*Pick()-1.f)*Style.Yaw*.18f;
                 }
                 else if (Axis==1) // Turn with a restrained coupled tilt.
                 {
+                    ActiveGesture=Gesture::Turn;
                     To[1]=Sign*Style.Yaw*Size;
                     To[2]=-Sign*Style.Roll*Size*.25f;
                     To[0]=(2.f*Pick()-1.f)*Style.Pitch*.2f;
                 }
                 else
                 {
+                    ActiveGesture=Gesture::Tilt;
                     To[2]=Sign*Style.Roll*Size;
                     To[1]=Sign*Style.Yaw*Size*.25f;
                 }
+                // Sample a continuous direction, rather than the same pitch/
+                // yaw/roll spokes. The original axis remains the main accent,
+                // with independently varied support on the other two axes.
+                const float Azimuth=Pick()*6.2831853f;
+                const float Vertical=2.f*Pick()-1.f;
+                const float Radial=std::sqrt(std::max(0.f,1.f-Vertical*Vertical));
+                To[0]+=.48f*Style.Pitch*Size*Vertical;
+                To[1]+=.48f*Style.Yaw*Size*Radial*std::cos(Azimuth);
+                To[2]+=.65f*Style.Roll*Size*Radial*std::sin(Azimuth);
                 if (SpeechRequest && OpeningOnset)
                 {
                     const float Scale=std::isfinite(SpeechMotionScale) ? std::clamp(SpeechMotionScale,0.f,2.f) : 1.5f;
                     To[Axis]=(To[Axis]>=0.f ? 1.f : -1.f)*std::max(std::abs(To[Axis]),(Axis==1 ? 1.5f : 1.2f)*Scale);
                 }
             }
+            // A different bowed path for each excursion. This vanishes with
+            // zero velocity at both endpoints, including a return to center.
+            const float Distance=std::sqrt(DistanceSquared(From,To));
+            for (int i=0;i<3;++i)
+                Arc[i]=(2.f*Pick()-1.f)*std::min(.65f,Distance*.30f);
             TravelSeconds=Style.TravelMin+Pick()*(Style.TravelMax-Style.TravelMin);
             if (SpeechRequest) TravelSeconds*=.65;
             if (QuietRequest) TravelSeconds*=1.15;
+            if (ActiveGesture==Gesture::Nod) TravelSeconds=std::clamp(TravelSeconds,.5,.75);
+            if (ActiveGesture==Gesture::Tilt) TravelSeconds*=1.2;
             // A deadline is permission to reconsider, not an instruction to
             // move. Exponential pauses avoid a recurring bounded idle cadence.
             HoldSeconds=Style.HoldMin-std::log(std::max(.0001f,1.f-Pick()))*
@@ -171,8 +199,11 @@ private:
                 NextQuietShift=std::max(NextQuietShift,Time+TravelSeconds+3.);
                 // Speech is an excursion with a varied hold and slower recovery,
                 // not a new pose held until another event happens to arrive.
-                RecoveryStart=Time+TravelSeconds+.2+Random()*.55;
+                const double Hold=.2+Random()*.55;
+                RecoveryStart=Time+TravelSeconds+(ActiveGesture==Gesture::Nod ? .06 :
+                    (ActiveGesture==Gesture::Tilt ? Hold+.45 : Hold));
                 RecoverySeconds=.8+Random()*1.1;
+                if (ActiveGesture==Gesture::Nod) RecoverySeconds*=.65;
                 RecoverSpeech=true;
                 if (Visible) ++SpeechCueCount;
             }
@@ -186,6 +217,11 @@ private:
         }
         const float Blend=Ease(float((Time-Started)/std::max(.5,TravelSeconds)));
         const float Recovery=RecoverSpeech ? 1.f-Ease(float((Time-RecoveryStart)/RecoverySeconds)) : 1.f;
+        // A facial accent leads the slower head gesture and eases away once
+        // the gesture settles. Both share the same accepted cue.
+        const float Age=float(Time-Started);
+        ExpressionAccent=RecoverSpeech && ActiveGesture!=Gesture::Settle ?
+            Ease(Age/.18f)*(1.f-Ease((Age-.18f)/float(TravelSeconds+.25))) : 0.f;
         if (Time>=NextDrift)
         {
             DriftFrom=Drift;
@@ -196,7 +232,8 @@ private:
         const float DriftBlend=Ease(float((Time-DriftStarted)/DriftDuration));
         for (int i=0;i<3;++i)
         {
-            Accent[i]=(From[i]+(To[i]-From[i])*Blend)*Recovery;
+            const float Bow=16.f*Blend*Blend*(1.f-Blend)*(1.f-Blend);
+            Accent[i]=(From[i]+(To[i]-From[i])*Blend+Arc[i]*Bow)*Recovery;
             Drift[i]=DriftFrom[i]+(DriftTo[i]-DriftFrom[i])*DriftBlend;
             const float Goal=Pose[i]+Accent[i]*1.15f+Drift[i];
             // Damped acceleration preserves momentum across emotion/variant
@@ -219,7 +256,7 @@ private:
     float FastEnergy=0.f,SlowEnergy=0.f;
     bool WasProminent=false,RecoverSpeech=false;
     double RecoveryStart=0.,RecoverySeconds=1.;
-    std::array<float,3> Accent{}, From{}, To{}, Drift{}, DriftFrom{}, DriftTo{};
+    std::array<float,3> Accent{}, From{}, To{}, Arc{}, Drift{}, DriftFrom{}, DriftTo{};
     float Random()
     {
         Seed^=Seed<<13; Seed^=Seed>>17; Seed^=Seed<<5;
