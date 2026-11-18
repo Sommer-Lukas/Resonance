@@ -10,7 +10,9 @@ import unreal
 from build_pitfall import Graph, H, checked
 
 FACE = '/Game/Resonance/Animation/ABP_ResonanceFace'
-CHARACTER = '/Game/MetaHumans/New_realistic_character/BP_New_realistic_character'
+CHARACTER = '/Game/Resonance/Blueprints/BP_ResonanceVivian'
+# Vivian inherits the existing compiled speech/input behavior from this asset.
+RUNTIME_CHARACTER = '/Game/MetaHumans/New_realistic_character/BP_New_realistic_character'
 FORCED_LOD = 2
 PROVIDER = 'LocalA2F-James'
 EMODB_WAV = 'Resonance/Audio/emodb_2.0/wav/08b03Tc.wav'
@@ -75,7 +77,7 @@ def build_face():
 
 def build():
     face = build_face()
-    bp = unreal.load_asset(CHARACTER)
+    bp = unreal.load_asset(RUNTIME_CHARACTER)
     components = checked(H.list_blueprint_components(bp))['components']
     if not any(c['variable_name'] == 'ResonanceACEAudio' for c in components):
         checked(H.add_component_to_blueprint(bp, '/Script/ACERuntime.ACEAudioCurveSourceComponent',

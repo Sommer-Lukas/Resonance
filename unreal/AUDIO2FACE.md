@@ -1,22 +1,49 @@
 # Selectable face modes (UE 5.6 / Windows)
 
+The Y/default path now blends local ACE emotion output with eleven authored
+upper-face profiles, subtle idle variants, emotion-dependent eye movements and
+procedural blinks in one native fusion node. The last inferred emotion persists
+after speech. See [emotion fusion setup and verification](EMOTION_IDLE.md).
+The earlier model-only and blink-only observations below describe their original
+test conditions; they are not measurements of this new layer.
+
 Open `ResonanceVR/ResonanceVR.uproject`, load
 `/Game/Resonance/Levels/I_Resonance`, and press **Play** or **VR Preview**.
-The default is **James diffusion + procedural blinks**. The portrait submits speech after two seconds;
+The default is **James diffusion + emotion idle + procedural blinks**. The portrait submits speech after two seconds;
 first use also initializes the GPU model, which can take several more seconds.
 Keep the editor in the foreground while inspecting desktop playback.
+The original WAV now plays **once**, then waits. Keys **1–5** each start a
+different set of three longer mixed-emotion EmoDB recordings, played
+consecutively. See [audio review keys and sequence annotations](AUDIO_PLAYLISTS.md).
 
-The portrait now uses `BP_New_realistic_character` from
-`/Game/MetaHumans/New_realistic_character/`. Its LODSync **Forced LOD is 2**,
+The main portrait uses **Vivian**, through
+`/Game/Resonance/Blueprints/BP_ResonanceVivian`. Her imported appearance is
+under `/Game/MetaHumans/Vivian/`. The portrait Blueprint inherits speech,
+X/Y modes, emotion fusion and playlists from `BP_New_realistic_character`;
+the face AnimBlueprint still owns the final facial output. Builders use
+`RUNTIME_CHARACTER` for that behavior parent and `CHARACTER` for the selected
+portrait. Rebuild the appearance with `build_resonance_vivian.build()` and
+place it with `select_resonance_character.select()` in `I_Resonance`.
+Only missing shared dependencies were copied from the local download;
+existing Common assets and the original downloaded folder were preserved.
+
+Vivian's editor check on 17 November 2026 confirmed speech articulation,
+bilateral blinks, upper-face motion and X/Y switching. The 16-second capture is
+`Saved/Audio2Face-vivian-model.json`. Seven of eight existing input checks
+passed; the replay-coalescing check did not observe a queued send and remains
+unverified. Her imported assets have no missing `/Game` dependencies.
+Headset playback has not been checked for Vivian.
+
+Its LODSync **Forced LOD is 2**,
 saved in both the Blueprint defaults and the level instance so close-up viewing
 does not select the problematic higher-detail material setup. The skeletal
 mesh API reports forced value 3 because that API uses 1-based LOD indices;
 LODSync uses 0-based indices, so both refer to LOD 2.
 The replacement retains the previous eye line and camera/viewer placement.
 The old character asset is preserved, but its level actor was replaced.
-The new character's own face, body, hair, materials and initialization are
-retained; the shared face skeleton supports the existing ACE and blink graph.
-The replacement passed all eight Enhanced Input mode checks and ten blink
+Vivian's own face, body, hair, materials and clothing are used; the inherited
+initialization and shared face skeleton support the existing ACE and blink graph.
+The previous replacement passed all eight Enhanced Input mode checks and ten blink
 checks at Forced LOD 2. A 16-second final-output capture is saved locally as
 `Saved/Audio2Face-new-realistic-character.json`. Verification scripts resolve
 the configured character class rather than matching the previous actor name.
@@ -28,20 +55,24 @@ The selected provider is now **`LocalA2F-James`**, James v3.0 diffusion
 | Left Quest/Touch controller | Desktop keyboard | Mode |
 |---|---|---|
 | **X** | **X** | Preserved authored full face showcase |
-| **Y** | **Y** | James diffusion expressions + varied procedural blinks |
+| **Y** | **Y** | James diffusion + automatic emotion idle, eye movement and blinks |
 
 Each selection switches the facial mode and requests a replay of the same WAV.
 If an inference send is already in progress, the mode switches immediately and
 one replay is queued until that send completes. Rapid presses coalesce into
 one pending replay; inference jobs are not started concurrently. The fade
-between facial modes takes a fraction of a second. Periodic speech continues
-every 36 seconds in either mode. Stop and Play again to reset everything.
+between facial modes takes a fraction of a second. The current recording plays
+once unless it belongs to an explicitly selected three-mix set. Stop and Play
+again to reset to the original WAV.
 
 **Y/default** sets the authored showcase fusion weight to zero. James diffusion
-controls articulation and expression, with a separately identified procedural
-blink input. This mode is no longer a pure model-only baseline. Mouth, jaw,
-brows, cheeks and nose retain model output; eyelids blend toward closure and
-eye widening/squinting blend toward zero during a procedural blink.
+supplies articulation and expression; the native final fusion blends its upper
+face with the emotion-conditioned idle layer. Mouth and jaw pass through from
+James. Small directional eye movements are emotion-dependent, while eyelids
+blend toward closure and eye widening/squinting relax during procedural blinks.
+The last inferred emotion persists through silence. This is an expressive
+demo mode; comparisons requiring a model-only baseline must explicitly disable
+the additional layers.
 
 ### Varied blinking in Y/default
 
@@ -55,15 +86,15 @@ The scheduler samples random values only on initialization or a new blink;
 they remain fixed through that blink. It uses game time, continues through
 speech and silence, and is independent of audio replay and the 36-second
 showcase clock. Each run gets different timings. No periodic baked sequence,
-Python runtime callback, gaze behavior or body animation is involved.
+Python runtime callback or body animation is involved in blink scheduling.
 
 The blink input uses `lerp(modelBlink, 1, proceduralClosure)`, preserving
 existing model closure and staying bounded for model values in [0,1]. It
-attenuates eye widening/squinting during closure, then returns control to the
-model. The final `ResonanceAnimationFusion` still owns the output before
-retargeting: X replaces these regions with its original authored values,
-while Y passes the composed model/blink input through. Transitions retain
-the existing fade. `verify_resonance_blink.py` checks the actual final curves,
+attenuates eye widening/squinting during closure. The final native
+`ResonanceAnimationFusionNative` owns the output before retargeting: X blends
+to its original authored values, while Y combines model output, emotion idle,
+eye movements and blinks. Transitions retain the existing mode fade.
+`verify_resonance_blink.py` checks the actual final curves,
 random timing bounds, reopening, replay independence and preservation of X.
 The 42-second editor verification passed all ten checks and captured ten
 blink events with varied pauses (roughly 3.05–6.46 seconds in that run).

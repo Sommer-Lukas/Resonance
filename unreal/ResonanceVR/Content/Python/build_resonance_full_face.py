@@ -49,7 +49,7 @@ def build_animation():
         if n['node_name'] in json.loads(old or '[]') or n['node_class'] in ('K2Node_CallFunction', 'K2Node_VariableGet'):
             checked(H.remove_blueprint_node(bp, 'AnimGraph', n['node_name']))
     event_nodes = ace.info(bp, 'EventGraph')
-    target_name = unreal.load_asset(ace.CHARACTER).generated_class().get_name()
+    target_name = unreal.load_asset(ace.RUNTIME_CHARACTER).generated_class().get_name()
     actor_cast = next((n for n in event_nodes if n['node_class'] == 'K2Node_DynamicCast'
                        and any(p.get('sub_type') == target_name and p['direction'] == 'Output'
                                for p in n['pins'])), None)
@@ -69,7 +69,7 @@ def build_animation():
     checked(H.compile_blueprint(bp))
     g.node('update', 'Event', event_name='BlueprintUpdateAnimation')
     g.call('owner', 'AnimInstance', 'GetOwningActor')
-    actor_class = unreal.load_asset(ace.CHARACTER).generated_class().get_path_name()
+    actor_class = unreal.load_asset(ace.RUNTIME_CHARACTER).generated_class().get_path_name()
     if actor_cast:
         g.nodes['portrait_actor'] = actor_cast['node_name']
     else:
@@ -104,7 +104,8 @@ def build_animation():
     g = Graph(bp, clear=False, graph_name='AnimGraph')
     g.nodes['fusion'] = fusion['node_name']
     g.node('enabled', 'VariableGet', variable_name='DemoAlpha')
-    g.wire('enabled', 'DemoAlpha', 'fusion', 'Alpha')
+    native = fusion['node_class'] == 'AnimGraphNode_ResonanceFusion'
+    g.wire('enabled', 'DemoAlpha', 'fusion', 'ShowcaseAlpha' if native else 'Alpha')
     blink.connect_pose(g)
     g.node('clock', 'VariableGet', variable_name='DemoTime')
     g.call('cycle', 'KismetMathLibrary', 'Percent_FloatFloat', B=DURATION)
@@ -116,7 +117,7 @@ def build_animation():
         g.node(key, target='CurveFloat', function_name='GetFloatValue', pin_defaults={
             'self': CURVES + '/CF_' + channel + '.CF_' + channel})
         g.wire('cycle', 'ReturnValue', key, 'InTime')
-        pin = next(p['pin_name'] for p in fusion['pins'] if p.get('friendly_name') == channel)
+        pin = channel if native else next(p['pin_name'] for p in fusion['pins'] if p.get('friendly_name') == channel)
         g.wire(key, 'ReturnValue', 'fusion', pin)
     unreal.EditorAssetLibrary.set_metadata_tag(bp, 'ResonanceFaceCurveNodes', json.dumps(
         [name for key, name in g.nodes.items() if key not in ('fusion', 'blink_input')]))

@@ -1,0 +1,1988 @@
+{
+  "description": "Concatenated EmoDB acted speech; labels describe source utterances, not A2E predictions.",
+  "sample_rate": 16000,
+  "pause_seconds": 0.35,
+  "keys": {
+    "1": [
+      {
+        "file": "key_1_mix_01.wav",
+        "seconds": 40.6186875,
+        "pcm_sha256": "fe637b198d72e7886a68002a2fa690c96e1d0559d877f87ca4d07199b664c799",
+        "segments": [
+          {
+            "file": "wav/03a07Nc.wav",
+            "emotion": "neutral",
+            "speaker": "3",
+            "frames": 28610,
+            "confidence": 1.0,
+            "start_seconds": 0.0,
+            "end_seconds": 1.788125
+          },
+          {
+            "file": "wav/03b03Nb.wav",
+            "emotion": "neutral",
+            "speaker": "3",
+            "frames": 58312,
+            "confidence": 0.9523999999999999,
+            "start_seconds": 2.138125,
+            "end_seconds": 5.782625
+          },
+          {
+            "file": "wav/03b02Ed.wav",
+            "emotion": "disgust",
+            "speaker": "3",
+            "frames": 55439,
+            "confidence": 0.75,
+            "start_seconds": 6.132625,
+            "end_seconds": 9.5975625
+          },
+          {
+            "file": "wav/03a01Eb.wav",
+            "emotion": "disgust",
+            "speaker": "3",
+            "frames": 35023,
+            "confidence": 0.6,
+            "start_seconds": 9.9475625,
+            "end_seconds": 12.1365
+          },
+          {
+            "file": "wav/03b01Wc.wav",
+            "emotion": "anger",
+            "speaker": "3",
+            "frames": 46868,
+            "confidence": 0.95,
+            "start_seconds": 12.4865,
+            "end_seconds": 15.41575
+          },
+          {
+            "file": "wav/03a04Wc.wav",
+            "emotion": "anger",
+            "speaker": "3",
+            "frames": 32706,
+            "confidence": 1.0,
+            "start_seconds": 15.76575,
+            "end_seconds": 17.809875
+          },
+          {
+            "file": "wav/03a05Aa.wav",
+            "emotion": "fear",
+            "speaker": "3",
+            "frames": 49402,
+            "confidence": 0.85,
+            "start_seconds": 18.159875,
+            "end_seconds": 21.2475
+          },
+          {
+            "file": "wav/03b09Aa.wav",
+            "emotion": "fear",
+            "speaker": "3",
+            "frames": 41039,
+            "confidence": 0.55,
+            "start_seconds": 21.5975,
+            "end_seconds": 24.1624375
+          },
+          {
+            "file": "wav/03a02Fc.wav",
+            "emotion": "happiness",
+            "speaker": "3",
+            "frames": 32100,
+            "confidence": 0.85,
+            "start_seconds": 24.5124375,
+            "end_seconds": 26.5186875
+          },
+          {
+            "file": "wav/03b02Fc.wav",
+            "emotion": "happiness",
+            "speaker": "3",
+            "frames": 52940,
+            "confidence": 0.7,
+            "start_seconds": 26.8686875,
+            "end_seconds": 30.1774375
+          },
+          {
+            "file": "wav/03a07La.wav",
+            "emotion": "boredom",
+            "speaker": "3",
+            "frames": 38425,
+            "confidence": 0.95,
+            "start_seconds": 30.5274375,
+            "end_seconds": 32.929
+          },
+          {
+            "file": "wav/03a04Lc.wav",
+            "emotion": "boredom",
+            "speaker": "3",
+            "frames": 30896,
+            "confidence": 0.9,
+            "start_seconds": 33.279,
+            "end_seconds": 35.21
+          },
+          {
+            "file": "wav/03b02Tc.wav",
+            "emotion": "sadness",
+            "speaker": "3",
+            "frames": 80939,
+            "confidence": 0.9,
+            "start_seconds": 35.56,
+            "end_seconds": 40.6186875
+          }
+        ],
+        "speaker": "3",
+        "seed": 10007
+      },
+      {
+        "file": "key_1_mix_02.wav",
+        "seconds": 42.6450625,
+        "pcm_sha256": "ca4df8740eae2c1c0a53e4203e05a201fbf50583211c8a56b047d62a62d01b89",
+        "segments": [
+          {
+            "file": "wav/08a02Tb.wav",
+            "emotion": "sadness",
+            "speaker": "8",
+            "frames": 48745,
+            "confidence": 0.9,
+            "start_seconds": 0.0,
+            "end_seconds": 3.0465625
+          },
+          {
+            "file": "wav/08b02Nb.wav",
+            "emotion": "neutral",
+            "speaker": "8",
+            "frames": 48888,
+            "confidence": 0.95,
+            "start_seconds": 3.3965625,
+            "end_seconds": 6.4520625
+          },
+          {
+            "file": "wav/08b03Nb.wav",
+            "emotion": "neutral",
+            "speaker": "8",
+            "frames": 59547,
+            "confidence": 1.0,
+            "start_seconds": 6.8020625,
+            "end_seconds": 10.52375
+          },
+          {
+            "file": "wav/08b10La.wav",
+            "emotion": "boredom",
+            "speaker": "8",
+            "frames": 44748,
+            "confidence": 0.95,
+            "start_seconds": 10.87375,
+            "end_seconds": 13.6705
+          },
+          {
+            "file": "wav/08b02La.wav",
+            "emotion": "boredom",
+            "speaker": "8",
+            "frames": 55324,
+            "confidence": 0.95,
+            "start_seconds": 14.0205,
+            "end_seconds": 17.47825
+          },
+          {
+            "file": "wav/08b02Ed.wav",
+            "emotion": "disgust",
+            "speaker": "8",
+            "frames": 69996,
+            "confidence": 0.55,
+            "start_seconds": 17.82825,
+            "end_seconds": 22.203
+          },
+          {
+            "file": "wav/08a02Ec.wav",
+            "emotion": "disgust",
+            "speaker": "8",
+            "frames": 53901,
+            "confidence": 0.7,
+            "start_seconds": 22.553,
+            "end_seconds": 25.9218125
+          },
+          {
+            "file": "wav/08a02Fe.wav",
+            "emotion": "happiness",
+            "speaker": "8",
+            "frames": 25912,
+            "confidence": 1.0,
+            "start_seconds": 26.2718125,
+            "end_seconds": 27.8913125
+          },
+          {
+            "file": "wav/08b03Fe.wav",
+            "emotion": "happiness",
+            "speaker": "8",
+            "frames": 57857,
+            "confidence": 0.9523999999999999,
+            "start_seconds": 28.2413125,
+            "end_seconds": 31.857375
+          },
+          {
+            "file": "wav/08a05Wa.wav",
+            "emotion": "anger",
+            "speaker": "8",
+            "frames": 46867,
+            "confidence": 1.0,
+            "start_seconds": 32.207375,
+            "end_seconds": 35.1365625
+          },
+          {
+            "file": "wav/08a07Wc.wav",
+            "emotion": "anger",
+            "speaker": "8",
+            "frames": 35509,
+            "confidence": 0.95,
+            "start_seconds": 35.4865625,
+            "end_seconds": 37.705875
+          },
+          {
+            "file": "wav/08b10Aa.wav",
+            "emotion": "fear",
+            "speaker": "8",
+            "frames": 42483,
+            "confidence": 0.95,
+            "start_seconds": 38.055875,
+            "end_seconds": 40.7110625
+          },
+          {
+            "file": "wav/08a02Ab.wav",
+            "emotion": "fear",
+            "speaker": "8",
+            "frames": 25344,
+            "confidence": 0.85,
+            "start_seconds": 41.0610625,
+            "end_seconds": 42.6450625
+          }
+        ],
+        "speaker": "8",
+        "seed": 10108
+      },
+      {
+        "file": "key_1_mix_03.wav",
+        "seconds": 39.6846875,
+        "pcm_sha256": "34c40f463d034a08c13d53029784b7f785782b189495b5abe375c3db67ca7363",
+        "segments": [
+          {
+            "file": "wav/09b09Lb.wav",
+            "emotion": "boredom",
+            "speaker": "9",
+            "frames": 40350,
+            "confidence": 0.4,
+            "start_seconds": 0.0,
+            "end_seconds": 2.521875
+          },
+          {
+            "file": "wav/09a02La.wav",
+            "emotion": "boredom",
+            "speaker": "9",
+            "frames": 24321,
+            "confidence": 1.0,
+            "start_seconds": 2.871875,
+            "end_seconds": 4.3919375
+          },
+          {
+            "file": "wav/09b01Na.wav",
+            "emotion": "neutral",
+            "speaker": "9",
+            "frames": 39449,
+            "confidence": 0.9,
+            "start_seconds": 4.7419375,
+            "end_seconds": 7.2075
+          },
+          {
+            "file": "wav/09b02Na.wav",
+            "emotion": "neutral",
+            "speaker": "9",
+            "frames": 43204,
+            "confidence": 1.0,
+            "start_seconds": 7.5575,
+            "end_seconds": 10.25775
+          },
+          {
+            "file": "wav/09b01Ea.wav",
+            "emotion": "disgust",
+            "speaker": "9",
+            "frames": 59706,
+            "confidence": 1.0,
+            "start_seconds": 10.60775,
+            "end_seconds": 14.339375
+          },
+          {
+            "file": "wav/09b10Ea.wav",
+            "emotion": "disgust",
+            "speaker": "9",
+            "frames": 43872,
+            "confidence": 0.9,
+            "start_seconds": 14.689375,
+            "end_seconds": 17.431375
+          },
+          {
+            "file": "wav/09b02Tb.wav",
+            "emotion": "sadness",
+            "speaker": "9",
+            "frames": 58475,
+            "confidence": 0.8,
+            "start_seconds": 17.781375,
+            "end_seconds": 21.4360625
+          },
+          {
+            "file": "wav/09a07Ta.wav",
+            "emotion": "sadness",
+            "speaker": "9",
+            "frames": 31908,
+            "confidence": 0.85,
+            "start_seconds": 21.7860625,
+            "end_seconds": 23.7803125
+          },
+          {
+            "file": "wav/09b02Ad.wav",
+            "emotion": "fear",
+            "speaker": "9",
+            "frames": 35796,
+            "confidence": 0.75,
+            "start_seconds": 24.1303125,
+            "end_seconds": 26.3675625
+          },
+          {
+            "file": "wav/09a05Aa.wav",
+            "emotion": "fear",
+            "speaker": "9",
+            "frames": 42551,
+            "confidence": 0.95,
+            "start_seconds": 26.7175625,
+            "end_seconds": 29.377
+          },
+          {
+            "file": "wav/09a05Wc.wav",
+            "emotion": "anger",
+            "speaker": "9",
+            "frames": 50954,
+            "confidence": 0.95,
+            "start_seconds": 29.727,
+            "end_seconds": 32.911625
+          },
+          {
+            "file": "wav/09a07Wb.wav",
+            "emotion": "anger",
+            "speaker": "9",
+            "frames": 31802,
+            "confidence": 1.0,
+            "start_seconds": 33.261625,
+            "end_seconds": 35.24925
+          },
+          {
+            "file": "wav/09b10Fb.wav",
+            "emotion": "happiness",
+            "speaker": "9",
+            "frames": 36065,
+            "confidence": 0.55,
+            "start_seconds": 35.59925,
+            "end_seconds": 37.8533125
+          },
+          {
+            "file": "wav/09a04Fd.wav",
+            "emotion": "happiness",
+            "speaker": "9",
+            "frames": 23702,
+            "confidence": 1.0,
+            "start_seconds": 38.2033125,
+            "end_seconds": 39.6846875
+          }
+        ],
+        "speaker": "9",
+        "seed": 10209
+      }
+    ],
+    "2": [
+      {
+        "file": "key_2_mix_01.wav",
+        "seconds": 41.5520625,
+        "pcm_sha256": "d22528e419fa0afa3e9d1d5d0d1672fbfb30b6d7f99d2c36dfce0eb989829578",
+        "segments": [
+          {
+            "file": "wav/10b03La.wav",
+            "emotion": "boredom",
+            "speaker": "10",
+            "frames": 61266,
+            "confidence": 1.0,
+            "start_seconds": 0.0,
+            "end_seconds": 3.829125
+          },
+          {
+            "file": "wav/10a02Lb.wav",
+            "emotion": "boredom",
+            "speaker": "10",
+            "frames": 25480,
+            "confidence": 0.9,
+            "start_seconds": 4.179125,
+            "end_seconds": 5.771625
+          },
+          {
+            "file": "wav/10a07Ta.wav",
+            "emotion": "sadness",
+            "speaker": "10",
+            "frames": 31293,
+            "confidence": 0.85,
+            "start_seconds": 6.121625,
+            "end_seconds": 8.0774375
+          },
+          {
+            "file": "wav/10a05Tb.wav",
+            "emotion": "sadness",
+            "speaker": "10",
+            "frames": 53343,
+            "confidence": 0.8,
+            "start_seconds": 8.4274375,
+            "end_seconds": 11.761375
+          },
+          {
+            "file": "wav/10a04Ab.wav",
+            "emotion": "fear",
+            "speaker": "10",
+            "frames": 24412,
+            "confidence": 0.4,
+            "start_seconds": 12.111375,
+            "end_seconds": 13.637125
+          },
+          {
+            "file": "wav/10a01Ac.wav",
+            "emotion": "fear",
+            "speaker": "10",
+            "frames": 26872,
+            "confidence": 0.9,
+            "start_seconds": 13.987125,
+            "end_seconds": 15.666625
+          },
+          {
+            "file": "wav/10b09Fe.wav",
+            "emotion": "happiness",
+            "speaker": "10",
+            "frames": 44483,
+            "confidence": 0.4,
+            "start_seconds": 16.016625,
+            "end_seconds": 18.7968125
+          },
+          {
+            "file": "wav/10a04Fd.wav",
+            "emotion": "happiness",
+            "speaker": "10",
+            "frames": 24595,
+            "confidence": 0.8,
+            "start_seconds": 19.1468125,
+            "end_seconds": 20.684
+          },
+          {
+            "file": "wav/10a04Wa.wav",
+            "emotion": "anger",
+            "speaker": "10",
+            "frames": 45654,
+            "confidence": 1.0,
+            "start_seconds": 21.034,
+            "end_seconds": 23.887375
+          },
+          {
+            "file": "wav/10a05Wb.wav",
+            "emotion": "anger",
+            "speaker": "10",
+            "frames": 60033,
+            "confidence": 1.0,
+            "start_seconds": 24.237375,
+            "end_seconds": 27.9894375
+          },
+          {
+            "file": "wav/10b09Nb.wav",
+            "emotion": "neutral",
+            "speaker": "10",
+            "frames": 46491,
+            "confidence": 0.4,
+            "start_seconds": 28.3394375,
+            "end_seconds": 31.245125
+          },
+          {
+            "file": "wav/10b03Na.wav",
+            "emotion": "neutral",
+            "speaker": "10",
+            "frames": 57612,
+            "confidence": 0.619,
+            "start_seconds": 31.595125,
+            "end_seconds": 35.195875
+          },
+          {
+            "file": "wav/10a05Eb.wav",
+            "emotion": "disgust",
+            "speaker": "10",
+            "frames": 58041,
+            "confidence": 0.85,
+            "start_seconds": 35.545875,
+            "end_seconds": 39.1734375
+          },
+          {
+            "file": "wav/10a01Eb.wav",
+            "emotion": "disgust",
+            "speaker": "10",
+            "frames": 32458,
+            "confidence": 0.65,
+            "start_seconds": 39.5234375,
+            "end_seconds": 41.5520625
+          }
+        ],
+        "speaker": "10",
+        "seed": 20014
+      },
+      {
+        "file": "key_2_mix_02.wav",
+        "seconds": 43.465625,
+        "pcm_sha256": "36464eb02b06be1bb24adb07e8e43fd19707753b6e4467ec34da95875e6cbd1d",
+        "segments": [
+          {
+            "file": "wav/11b02Fd.wav",
+            "emotion": "happiness",
+            "speaker": "11",
+            "frames": 49839,
+            "confidence": 1.0,
+            "start_seconds": 0.0,
+            "end_seconds": 3.1149375
+          },
+          {
+            "file": "wav/11a05Fb.wav",
+            "emotion": "happiness",
+            "speaker": "11",
+            "frames": 56696,
+            "confidence": 0.95,
+            "start_seconds": 3.4649375,
+            "end_seconds": 7.0084375
+          },
+          {
+            "file": "wav/11b03Ab.wav",
+            "emotion": "fear",
+            "speaker": "11",
+            "frames": 55615,
+            "confidence": 0.7619,
+            "start_seconds": 7.3584375,
+            "end_seconds": 10.834375
+          },
+          {
+            "file": "wav/11b10Ad.wav",
+            "emotion": "fear",
+            "speaker": "11",
+            "frames": 39129,
+            "confidence": 0.95,
+            "start_seconds": 11.184375,
+            "end_seconds": 13.6299375
+          },
+          {
+            "file": "wav/11a04Ec.wav",
+            "emotion": "disgust",
+            "speaker": "11",
+            "frames": 33302,
+            "confidence": 0.8,
+            "start_seconds": 13.9799375,
+            "end_seconds": 16.0613125
+          },
+          {
+            "file": "wav/11b01Eb.wav",
+            "emotion": "disgust",
+            "speaker": "11",
+            "frames": 48870,
+            "confidence": 0.85,
+            "start_seconds": 16.4113125,
+            "end_seconds": 19.4656875
+          },
+          {
+            "file": "wav/11b09Na.wav",
+            "emotion": "neutral",
+            "speaker": "11",
+            "frames": 38708,
+            "confidence": 0.95,
+            "start_seconds": 19.8156875,
+            "end_seconds": 22.2349375
+          },
+          {
+            "file": "wav/11a05Na.wav",
+            "emotion": "neutral",
+            "speaker": "11",
+            "frames": 53128,
+            "confidence": 0.85,
+            "start_seconds": 22.5849375,
+            "end_seconds": 25.9054375
+          },
+          {
+            "file": "wav/11a07Ta.wav",
+            "emotion": "sadness",
+            "speaker": "11",
+            "frames": 34678,
+            "confidence": 0.8,
+            "start_seconds": 26.2554375,
+            "end_seconds": 28.4228125
+          },
+          {
+            "file": "wav/11a05Lc.wav",
+            "emotion": "boredom",
+            "speaker": "11",
+            "frames": 65052,
+            "confidence": 0.85,
+            "start_seconds": 28.7728125,
+            "end_seconds": 32.8385625
+          },
+          {
+            "file": "wav/11b03Lc.wav",
+            "emotion": "boredom",
+            "speaker": "11",
+            "frames": 71246,
+            "confidence": 0.8571,
+            "start_seconds": 33.1885625,
+            "end_seconds": 37.6414375
+          },
+          {
+            "file": "wav/11a07Wc.wav",
+            "emotion": "anger",
+            "speaker": "11",
+            "frames": 35814,
+            "confidence": 0.9,
+            "start_seconds": 37.9914375,
+            "end_seconds": 40.2298125
+          },
+          {
+            "file": "wav/11b10Wa.wav",
+            "emotion": "anger",
+            "speaker": "11",
+            "frames": 46173,
+            "confidence": 0.95,
+            "start_seconds": 40.5798125,
+            "end_seconds": 43.465625
+          }
+        ],
+        "speaker": "11",
+        "seed": 20115
+      },
+      {
+        "file": "key_2_mix_03.wav",
+        "seconds": 44.221625,
+        "pcm_sha256": "30050cb50c970d0140a438b01a9da3a4d83c1d51659f6afb7157666ec737f9da",
+        "segments": [
+          {
+            "file": "wav/12b03Fd.wav",
+            "emotion": "happiness",
+            "speaker": "12",
+            "frames": 70093,
+            "confidence": 0.381,
+            "start_seconds": 0.0,
+            "end_seconds": 4.3808125
+          },
+          {
+            "file": "wav/12a04Fa.wav",
+            "emotion": "happiness",
+            "speaker": "12",
+            "frames": 27300,
+            "confidence": 0.45,
+            "start_seconds": 4.7308125,
+            "end_seconds": 6.4370625
+          },
+          {
+            "file": "wav/12a01Ab.wav",
+            "emotion": "fear",
+            "speaker": "12",
+            "frames": 20508,
+            "confidence": 0.9,
+            "start_seconds": 6.7870625,
+            "end_seconds": 8.0688125
+          },
+          {
+            "file": "wav/12a07Ac.wav",
+            "emotion": "fear",
+            "speaker": "12",
+            "frames": 23680,
+            "confidence": 1.0,
+            "start_seconds": 8.4188125,
+            "end_seconds": 9.8988125
+          },
+          {
+            "file": "wav/12a05Wb.wav",
+            "emotion": "anger",
+            "speaker": "12",
+            "frames": 55764,
+            "confidence": 0.95,
+            "start_seconds": 10.2488125,
+            "end_seconds": 13.7340625
+          },
+          {
+            "file": "wav/12b02Wd.wav",
+            "emotion": "anger",
+            "speaker": "12",
+            "frames": 42398,
+            "confidence": 1.0,
+            "start_seconds": 14.0840625,
+            "end_seconds": 16.7339375
+          },
+          {
+            "file": "wav/12a07Nb.wav",
+            "emotion": "neutral",
+            "speaker": "12",
+            "frames": 32427,
+            "confidence": 0.8,
+            "start_seconds": 17.0839375,
+            "end_seconds": 19.110625
+          },
+          {
+            "file": "wav/12a05Nd.wav",
+            "emotion": "neutral",
+            "speaker": "12",
+            "frames": 50974,
+            "confidence": 0.9,
+            "start_seconds": 19.460625,
+            "end_seconds": 22.6465
+          },
+          {
+            "file": "wav/12a04Eb.wav",
+            "emotion": "disgust",
+            "speaker": "12",
+            "frames": 55608,
+            "confidence": 0.75,
+            "start_seconds": 22.9965,
+            "end_seconds": 26.472
+          },
+          {
+            "file": "wav/12b10Td.wav",
+            "emotion": "sadness",
+            "speaker": "12",
+            "frames": 72352,
+            "confidence": 0.6,
+            "start_seconds": 26.822,
+            "end_seconds": 31.344
+          },
+          {
+            "file": "wav/12b03Ta.wav",
+            "emotion": "sadness",
+            "speaker": "12",
+            "frames": 95941,
+            "confidence": 0.9048,
+            "start_seconds": 31.694,
+            "end_seconds": 37.6903125
+          },
+          {
+            "file": "wav/12a01Lb.wav",
+            "emotion": "boredom",
+            "speaker": "12",
+            "frames": 30185,
+            "confidence": 0.9,
+            "start_seconds": 38.0403125,
+            "end_seconds": 39.926875
+          },
+          {
+            "file": "wav/12b03La.wav",
+            "emotion": "boredom",
+            "speaker": "12",
+            "frames": 63116,
+            "confidence": 1.0,
+            "start_seconds": 40.276875,
+            "end_seconds": 44.221625
+          }
+        ],
+        "speaker": "12",
+        "seed": 20216
+      }
+    ],
+    "3": [
+      {
+        "file": "key_3_mix_01.wav",
+        "seconds": 35.971875,
+        "pcm_sha256": "c65e72583e12eeb42c3d22be0b0b5a327055fe5244fb8a0886ee843afe3d07c3",
+        "segments": [
+          {
+            "file": "wav/13a04Wc.wav",
+            "emotion": "anger",
+            "speaker": "13",
+            "frames": 31927,
+            "confidence": 1.0,
+            "start_seconds": 0.0,
+            "end_seconds": 1.9954375
+          },
+          {
+            "file": "wav/13b10Wc.wav",
+            "emotion": "anger",
+            "speaker": "13",
+            "frames": 42933,
+            "confidence": 0.95,
+            "start_seconds": 2.3454375,
+            "end_seconds": 5.02875
+          },
+          {
+            "file": "wav/13b01Fc.wav",
+            "emotion": "happiness",
+            "speaker": "13",
+            "frames": 42128,
+            "confidence": 1.0,
+            "start_seconds": 5.37875,
+            "end_seconds": 8.01175
+          },
+          {
+            "file": "wav/13a04Fc.wav",
+            "emotion": "happiness",
+            "speaker": "13",
+            "frames": 28533,
+            "confidence": 0.9,
+            "start_seconds": 8.36175,
+            "end_seconds": 10.1450625
+          },
+          {
+            "file": "wav/13a07Aa.wav",
+            "emotion": "fear",
+            "speaker": "13",
+            "frames": 24613,
+            "confidence": 0.75,
+            "start_seconds": 10.4950625,
+            "end_seconds": 12.033375
+          },
+          {
+            "file": "wav/13a04Ac.wav",
+            "emotion": "fear",
+            "speaker": "13",
+            "frames": 24502,
+            "confidence": 0.85,
+            "start_seconds": 12.383375,
+            "end_seconds": 13.91475
+          },
+          {
+            "file": "wav/13b10La.wav",
+            "emotion": "boredom",
+            "speaker": "13",
+            "frames": 37575,
+            "confidence": 0.9,
+            "start_seconds": 14.26475,
+            "end_seconds": 16.6131875
+          },
+          {
+            "file": "wav/13b02Lc.wav",
+            "emotion": "boredom",
+            "speaker": "13",
+            "frames": 60864,
+            "confidence": 1.0,
+            "start_seconds": 16.9631875,
+            "end_seconds": 20.7671875
+          },
+          {
+            "file": "wav/13a07Ea.wav",
+            "emotion": "disgust",
+            "speaker": "13",
+            "frames": 30193,
+            "confidence": 0.55,
+            "start_seconds": 21.1171875,
+            "end_seconds": 23.00425
+          },
+          {
+            "file": "wav/13a04Ea.wav",
+            "emotion": "disgust",
+            "speaker": "13",
+            "frames": 30190,
+            "confidence": 0.65,
+            "start_seconds": 23.35425,
+            "end_seconds": 25.241125
+          },
+          {
+            "file": "wav/13a07Tc.wav",
+            "emotion": "sadness",
+            "speaker": "13",
+            "frames": 37467,
+            "confidence": 0.8,
+            "start_seconds": 25.591125,
+            "end_seconds": 27.9328125
+          },
+          {
+            "file": "wav/13a02Ta.wav",
+            "emotion": "sadness",
+            "speaker": "13",
+            "frames": 29820,
+            "confidence": 0.95,
+            "start_seconds": 28.2828125,
+            "end_seconds": 30.1465625
+          },
+          {
+            "file": "wav/13b03Na.wav",
+            "emotion": "neutral",
+            "speaker": "13",
+            "frames": 57072,
+            "confidence": 0.9048,
+            "start_seconds": 30.4965625,
+            "end_seconds": 34.0635625
+          },
+          {
+            "file": "wav/13a02Nc.wav",
+            "emotion": "neutral",
+            "speaker": "13",
+            "frames": 24933,
+            "confidence": 0.9,
+            "start_seconds": 34.4135625,
+            "end_seconds": 35.971875
+          }
+        ],
+        "speaker": "13",
+        "seed": 30021
+      },
+      {
+        "file": "key_3_mix_02.wav",
+        "seconds": 39.8045,
+        "pcm_sha256": "2a1f9df76c3a7ee92271af46abbed12c95f4e271b884797edca5e626de567694",
+        "segments": [
+          {
+            "file": "wav/14a05Ac.wav",
+            "emotion": "fear",
+            "speaker": "14",
+            "frames": 65622,
+            "confidence": 0.95,
+            "start_seconds": 0.0,
+            "end_seconds": 4.101375
+          },
+          {
+            "file": "wav/14a07Aa.wav",
+            "emotion": "fear",
+            "speaker": "14",
+            "frames": 32955,
+            "confidence": 1.0,
+            "start_seconds": 4.451375,
+            "end_seconds": 6.5110625
+          },
+          {
+            "file": "wav/14b02Fb.wav",
+            "emotion": "happiness",
+            "speaker": "14",
+            "frames": 45395,
+            "confidence": 0.95,
+            "start_seconds": 6.8610625,
+            "end_seconds": 9.69825
+          },
+          {
+            "file": "wav/14b09Fc.wav",
+            "emotion": "happiness",
+            "speaker": "14",
+            "frames": 40472,
+            "confidence": 0.9,
+            "start_seconds": 10.04825,
+            "end_seconds": 12.57775
+          },
+          {
+            "file": "wav/14a07Tc.wav",
+            "emotion": "sadness",
+            "speaker": "14",
+            "frames": 52216,
+            "confidence": 0.9,
+            "start_seconds": 12.92775,
+            "end_seconds": 16.19125
+          },
+          {
+            "file": "wav/14a01Td.wav",
+            "emotion": "sadness",
+            "speaker": "14",
+            "frames": 47422,
+            "confidence": 0.45,
+            "start_seconds": 16.54125,
+            "end_seconds": 19.505125
+          },
+          {
+            "file": "wav/14a01Wc.wav",
+            "emotion": "anger",
+            "speaker": "14",
+            "frames": 31559,
+            "confidence": 0.95,
+            "start_seconds": 19.855125,
+            "end_seconds": 21.8275625
+          },
+          {
+            "file": "wav/14a05Wb.wav",
+            "emotion": "anger",
+            "speaker": "14",
+            "frames": 48865,
+            "confidence": 1.0,
+            "start_seconds": 22.1775625,
+            "end_seconds": 25.231625
+          },
+          {
+            "file": "wav/14a02Ea.wav",
+            "emotion": "disgust",
+            "speaker": "14",
+            "frames": 40878,
+            "confidence": 0.95,
+            "start_seconds": 25.581625,
+            "end_seconds": 28.1365
+          },
+          {
+            "file": "wav/14b09Nb.wav",
+            "emotion": "neutral",
+            "speaker": "14",
+            "frames": 40109,
+            "confidence": 0.75,
+            "start_seconds": 28.4865,
+            "end_seconds": 30.9933125
+          },
+          {
+            "file": "wav/14b03Na.wav",
+            "emotion": "neutral",
+            "speaker": "14",
+            "frames": 62647,
+            "confidence": 0.7619,
+            "start_seconds": 31.3433125,
+            "end_seconds": 35.25875
+          },
+          {
+            "file": "wav/14a07Ld.wav",
+            "emotion": "boredom",
+            "speaker": "14",
+            "frames": 36674,
+            "confidence": 0.85,
+            "start_seconds": 35.60875,
+            "end_seconds": 37.900875
+          },
+          {
+            "file": "wav/14a01Ld.wav",
+            "emotion": "boredom",
+            "speaker": "14",
+            "frames": 24858,
+            "confidence": 0.65,
+            "start_seconds": 38.250875,
+            "end_seconds": 39.8045
+          }
+        ],
+        "speaker": "14",
+        "seed": 30122
+      },
+      {
+        "file": "key_3_mix_03.wav",
+        "seconds": 37.915,
+        "pcm_sha256": "00c9ae16c2d2a3a8610140e7c7594e3dc3eba459e0b7e92808465a9e4cf137cb",
+        "segments": [
+          {
+            "file": "wav/15b10Eb.wav",
+            "emotion": "disgust",
+            "speaker": "15",
+            "frames": 46963,
+            "confidence": 0.7,
+            "start_seconds": 0.0,
+            "end_seconds": 2.9351875
+          },
+          {
+            "file": "wav/15b03Eb.wav",
+            "emotion": "disgust",
+            "speaker": "15",
+            "frames": 65180,
+            "confidence": 0.9048,
+            "start_seconds": 3.2851875,
+            "end_seconds": 7.3589375
+          },
+          {
+            "file": "wav/15b10Nc.wav",
+            "emotion": "neutral",
+            "speaker": "15",
+            "frames": 35244,
+            "confidence": 1.0,
+            "start_seconds": 7.7089375,
+            "end_seconds": 9.9116875
+          },
+          {
+            "file": "wav/15b09Nb.wav",
+            "emotion": "neutral",
+            "speaker": "15",
+            "frames": 39238,
+            "confidence": 0.95,
+            "start_seconds": 10.2616875,
+            "end_seconds": 12.7140625
+          },
+          {
+            "file": "wav/15b10Fb.wav",
+            "emotion": "happiness",
+            "speaker": "15",
+            "frames": 35209,
+            "confidence": 0.5,
+            "start_seconds": 13.0640625,
+            "end_seconds": 15.264625
+          },
+          {
+            "file": "wav/15a02Fa.wav",
+            "emotion": "happiness",
+            "speaker": "15",
+            "frames": 32219,
+            "confidence": 0.45,
+            "start_seconds": 15.614625,
+            "end_seconds": 17.6283125
+          },
+          {
+            "file": "wav/15a07Ld.wav",
+            "emotion": "boredom",
+            "speaker": "15",
+            "frames": 28829,
+            "confidence": 0.95,
+            "start_seconds": 17.9783125,
+            "end_seconds": 19.780125
+          },
+          {
+            "file": "wav/15a02La.wav",
+            "emotion": "boredom",
+            "speaker": "15",
+            "frames": 27150,
+            "confidence": 0.95,
+            "start_seconds": 20.130125,
+            "end_seconds": 21.827
+          },
+          {
+            "file": "wav/15a04Ab.wav",
+            "emotion": "fear",
+            "speaker": "15",
+            "frames": 29275,
+            "confidence": 1.0,
+            "start_seconds": 22.177,
+            "end_seconds": 24.0066875
+          },
+          {
+            "file": "wav/15a02Ac.wav",
+            "emotion": "fear",
+            "speaker": "15",
+            "frames": 30284,
+            "confidence": 0.8,
+            "start_seconds": 24.3566875,
+            "end_seconds": 26.2494375
+          },
+          {
+            "file": "wav/15a07Tc.wav",
+            "emotion": "sadness",
+            "speaker": "15",
+            "frames": 38911,
+            "confidence": 0.7,
+            "start_seconds": 26.5994375,
+            "end_seconds": 29.031375
+          },
+          {
+            "file": "wav/15b01Ta.wav",
+            "emotion": "sadness",
+            "speaker": "15",
+            "frames": 54219,
+            "confidence": 0.85,
+            "start_seconds": 29.381375,
+            "end_seconds": 32.7700625
+          },
+          {
+            "file": "wav/15a04Wb.wav",
+            "emotion": "anger",
+            "speaker": "15",
+            "frames": 28979,
+            "confidence": 1.0,
+            "start_seconds": 33.1200625,
+            "end_seconds": 34.93125
+          },
+          {
+            "file": "wav/15b10Wa.wav",
+            "emotion": "anger",
+            "speaker": "15",
+            "frames": 42140,
+            "confidence": 0.95,
+            "start_seconds": 35.28125,
+            "end_seconds": 37.915
+          }
+        ],
+        "speaker": "15",
+        "seed": 30223
+      }
+    ],
+    "4": [
+      {
+        "file": "key_4_mix_01.wav",
+        "seconds": 40.45675,
+        "pcm_sha256": "e66097dd5410b0c5cde8d43a60fc95fb98da78d398a42aa0d58a076574671a21",
+        "segments": [
+          {
+            "file": "wav/16a02Ec.wav",
+            "emotion": "disgust",
+            "speaker": "16",
+            "frames": 39800,
+            "confidence": 1.0,
+            "start_seconds": 0.0,
+            "end_seconds": 2.4875
+          },
+          {
+            "file": "wav/16a01Ec.wav",
+            "emotion": "disgust",
+            "speaker": "16",
+            "frames": 38887,
+            "confidence": 0.9,
+            "start_seconds": 2.8375,
+            "end_seconds": 5.2679375
+          },
+          {
+            "file": "wav/16a07Ac.wav",
+            "emotion": "fear",
+            "speaker": "16",
+            "frames": 25728,
+            "confidence": 0.75,
+            "start_seconds": 5.6179375,
+            "end_seconds": 7.2259375
+          },
+          {
+            "file": "wav/16b03Ad.wav",
+            "emotion": "fear",
+            "speaker": "16",
+            "frames": 51459,
+            "confidence": 0.9048,
+            "start_seconds": 7.5759375,
+            "end_seconds": 10.792125
+          },
+          {
+            "file": "wav/16b03Fd.wav",
+            "emotion": "happiness",
+            "speaker": "16",
+            "frames": 58519,
+            "confidence": 1.0,
+            "start_seconds": 11.142125,
+            "end_seconds": 14.7995625
+          },
+          {
+            "file": "wav/16a04Fa.wav",
+            "emotion": "happiness",
+            "speaker": "16",
+            "frames": 32702,
+            "confidence": 1.0,
+            "start_seconds": 15.1495625,
+            "end_seconds": 17.1934375
+          },
+          {
+            "file": "wav/16a02Nb.wav",
+            "emotion": "neutral",
+            "speaker": "16",
+            "frames": 26567,
+            "confidence": 0.8,
+            "start_seconds": 17.5434375,
+            "end_seconds": 19.203875
+          },
+          {
+            "file": "wav/16b03Nb.wav",
+            "emotion": "neutral",
+            "speaker": "16",
+            "frames": 62387,
+            "confidence": 0.9523999999999999,
+            "start_seconds": 19.553875,
+            "end_seconds": 23.4530625
+          },
+          {
+            "file": "wav/16b10Wb.wav",
+            "emotion": "anger",
+            "speaker": "16",
+            "frames": 40360,
+            "confidence": 1.0,
+            "start_seconds": 23.8030625,
+            "end_seconds": 26.3255625
+          },
+          {
+            "file": "wav/16a05Wb.wav",
+            "emotion": "anger",
+            "speaker": "16",
+            "frames": 59857,
+            "confidence": 1.0,
+            "start_seconds": 26.6755625,
+            "end_seconds": 30.416625
+          },
+          {
+            "file": "wav/16a07Td.wav",
+            "emotion": "sadness",
+            "speaker": "16",
+            "frames": 59672,
+            "confidence": 0.95,
+            "start_seconds": 30.766625,
+            "end_seconds": 34.496125
+          },
+          {
+            "file": "wav/16a07La.wav",
+            "emotion": "boredom",
+            "speaker": "16",
+            "frames": 33195,
+            "confidence": 0.85,
+            "start_seconds": 34.846125,
+            "end_seconds": 36.9208125
+          },
+          {
+            "file": "wav/16b09Lb.wav",
+            "emotion": "boredom",
+            "speaker": "16",
+            "frames": 50975,
+            "confidence": 1.0,
+            "start_seconds": 37.2708125,
+            "end_seconds": 40.45675
+          }
+        ],
+        "speaker": "16",
+        "seed": 40028
+      },
+      {
+        "file": "key_4_mix_02.wav",
+        "seconds": 44.0426875,
+        "pcm_sha256": "d1f155c9763bd5d496c8d723bce20bd4fce0e3dca55ec8eb20a0d19355bcf1cd",
+        "segments": [
+          {
+            "file": "wav/03a07Wc.wav",
+            "emotion": "anger",
+            "speaker": "3",
+            "frames": 33401,
+            "confidence": 0.85,
+            "start_seconds": 0.0,
+            "end_seconds": 2.0875625
+          },
+          {
+            "file": "wav/03b09Wa.wav",
+            "emotion": "anger",
+            "speaker": "3",
+            "frames": 46300,
+            "confidence": 0.95,
+            "start_seconds": 2.4375625,
+            "end_seconds": 5.3313125
+          },
+          {
+            "file": "wav/03a02Ea.wav",
+            "emotion": "disgust",
+            "speaker": "3",
+            "frames": 42769,
+            "confidence": 0.55,
+            "start_seconds": 5.6813125,
+            "end_seconds": 8.354375
+          },
+          {
+            "file": "wav/03b10Ea.wav",
+            "emotion": "disgust",
+            "speaker": "3",
+            "frames": 39176,
+            "confidence": 0.6,
+            "start_seconds": 8.704375,
+            "end_seconds": 11.152875
+          },
+          {
+            "file": "wav/03b03Ta.wav",
+            "emotion": "sadness",
+            "speaker": "3",
+            "frames": 59778,
+            "confidence": 0.7619,
+            "start_seconds": 11.502875,
+            "end_seconds": 15.239
+          },
+          {
+            "file": "wav/03b09Tc.wav",
+            "emotion": "sadness",
+            "speaker": "3",
+            "frames": 63154,
+            "confidence": 0.9,
+            "start_seconds": 15.589,
+            "end_seconds": 19.536125
+          },
+          {
+            "file": "wav/03b09Nc.wav",
+            "emotion": "neutral",
+            "speaker": "3",
+            "frames": 41417,
+            "confidence": 0.95,
+            "start_seconds": 19.886125,
+            "end_seconds": 22.4746875
+          },
+          {
+            "file": "wav/03a01Nc.wav",
+            "emotion": "neutral",
+            "speaker": "3",
+            "frames": 25780,
+            "confidence": 1.0,
+            "start_seconds": 22.8246875,
+            "end_seconds": 24.4359375
+          },
+          {
+            "file": "wav/03b01Ad.wav",
+            "emotion": "fear",
+            "speaker": "3",
+            "frames": 41581,
+            "confidence": 0.75,
+            "start_seconds": 24.7859375,
+            "end_seconds": 27.38475
+          },
+          {
+            "file": "wav/03a04Ac.wav",
+            "emotion": "fear",
+            "speaker": "3",
+            "frames": 29222,
+            "confidence": 0.8,
+            "start_seconds": 27.73475,
+            "end_seconds": 29.561125
+          },
+          {
+            "file": "wav/03b09La.wav",
+            "emotion": "boredom",
+            "speaker": "3",
+            "frames": 49803,
+            "confidence": 0.85,
+            "start_seconds": 29.911125,
+            "end_seconds": 33.0238125
+          },
+          {
+            "file": "wav/03b02La.wav",
+            "emotion": "boredom",
+            "speaker": "3",
+            "frames": 55437,
+            "confidence": 0.95,
+            "start_seconds": 33.3738125,
+            "end_seconds": 36.838625
+          },
+          {
+            "file": "wav/03b01Fa.wav",
+            "emotion": "happiness",
+            "speaker": "3",
+            "frames": 37795,
+            "confidence": 0.8,
+            "start_seconds": 37.188625,
+            "end_seconds": 39.5508125
+          },
+          {
+            "file": "wav/03b03Fc.wav",
+            "emotion": "happiness",
+            "speaker": "3",
+            "frames": 66270,
+            "confidence": 0.8571,
+            "start_seconds": 39.9008125,
+            "end_seconds": 44.0426875
+          }
+        ],
+        "speaker": "3",
+        "seed": 40129
+      },
+      {
+        "file": "key_4_mix_03.wav",
+        "seconds": 44.9115,
+        "pcm_sha256": "e8fbfa2a71c251084e63015d97bdb8f35117e51254b2003ebbe06ed525a4d948",
+        "segments": [
+          {
+            "file": "wav/08b09Lc.wav",
+            "emotion": "boredom",
+            "speaker": "8",
+            "frames": 62251,
+            "confidence": 1.0,
+            "start_seconds": 0.0,
+            "end_seconds": 3.8906875
+          },
+          {
+            "file": "wav/08a07La.wav",
+            "emotion": "boredom",
+            "speaker": "8",
+            "frames": 40381,
+            "confidence": 0.9,
+            "start_seconds": 4.2406875,
+            "end_seconds": 6.7645
+          },
+          {
+            "file": "wav/08a02Tb.wav",
+            "emotion": "sadness",
+            "speaker": "8",
+            "frames": 48745,
+            "confidence": 0.9,
+            "start_seconds": 7.1145,
+            "end_seconds": 10.1610625
+          },
+          {
+            "file": "wav/08b10Tc.wav",
+            "emotion": "sadness",
+            "speaker": "8",
+            "frames": 74605,
+            "confidence": 1.0,
+            "start_seconds": 10.5110625,
+            "end_seconds": 15.173875
+          },
+          {
+            "file": "wav/08b02Ff.wav",
+            "emotion": "happiness",
+            "speaker": "8",
+            "frames": 44338,
+            "confidence": 1.0,
+            "start_seconds": 15.523875,
+            "end_seconds": 18.295
+          },
+          {
+            "file": "wav/08a07Fd.wav",
+            "emotion": "happiness",
+            "speaker": "8",
+            "frames": 31409,
+            "confidence": 0.8,
+            "start_seconds": 18.645,
+            "end_seconds": 20.6080625
+          },
+          {
+            "file": "wav/08b03Eb.wav",
+            "emotion": "disgust",
+            "speaker": "8",
+            "frames": 73211,
+            "confidence": 0.7143,
+            "start_seconds": 20.9580625,
+            "end_seconds": 25.53375
+          },
+          {
+            "file": "wav/08b10Eb.wav",
+            "emotion": "disgust",
+            "speaker": "8",
+            "frames": 48517,
+            "confidence": 0.65,
+            "start_seconds": 25.88375,
+            "end_seconds": 28.9160625
+          },
+          {
+            "file": "wav/08b10Aa.wav",
+            "emotion": "fear",
+            "speaker": "8",
+            "frames": 42483,
+            "confidence": 0.95,
+            "start_seconds": 29.2660625,
+            "end_seconds": 31.92125
+          },
+          {
+            "file": "wav/08a01Aa.wav",
+            "emotion": "fear",
+            "speaker": "8",
+            "frames": 30109,
+            "confidence": 0.75,
+            "start_seconds": 32.27125,
+            "end_seconds": 34.1530625
+          },
+          {
+            "file": "wav/08a02Na.wav",
+            "emotion": "neutral",
+            "speaker": "8",
+            "frames": 28650,
+            "confidence": 1.0,
+            "start_seconds": 34.5030625,
+            "end_seconds": 36.2936875
+          },
+          {
+            "file": "wav/08a01Na.wav",
+            "emotion": "neutral",
+            "speaker": "8",
+            "frames": 28232,
+            "confidence": 0.95,
+            "start_seconds": 36.6436875,
+            "end_seconds": 38.4081875
+          },
+          {
+            "file": "wav/08a07Wc.wav",
+            "emotion": "anger",
+            "speaker": "8",
+            "frames": 35509,
+            "confidence": 0.95,
+            "start_seconds": 38.7581875,
+            "end_seconds": 40.9775
+          },
+          {
+            "file": "wav/08b02Wd.wav",
+            "emotion": "anger",
+            "speaker": "8",
+            "frames": 57344,
+            "confidence": 1.0,
+            "start_seconds": 41.3275,
+            "end_seconds": 44.9115
+          }
+        ],
+        "speaker": "8",
+        "seed": 40230
+      }
+    ],
+    "5": [
+      {
+        "file": "key_5_mix_01.wav",
+        "seconds": 38.024125,
+        "pcm_sha256": "21cf62d8b7c9304c3b7d08b92bd5b910c24c90d17491c940c626f6946160e451",
+        "segments": [
+          {
+            "file": "wav/09b10Wa.wav",
+            "emotion": "anger",
+            "speaker": "9",
+            "frames": 35306,
+            "confidence": 1.0,
+            "start_seconds": 0.0,
+            "end_seconds": 2.206625
+          },
+          {
+            "file": "wav/09a01Wb.wav",
+            "emotion": "anger",
+            "speaker": "9",
+            "frames": 27224,
+            "confidence": 1.0,
+            "start_seconds": 2.556625,
+            "end_seconds": 4.258125
+          },
+          {
+            "file": "wav/09a02Nc.wav",
+            "emotion": "neutral",
+            "speaker": "9",
+            "frames": 22261,
+            "confidence": 0.7,
+            "start_seconds": 4.608125,
+            "end_seconds": 5.9994375
+          },
+          {
+            "file": "wav/09b10Nd.wav",
+            "emotion": "neutral",
+            "speaker": "9",
+            "frames": 35768,
+            "confidence": 0.95,
+            "start_seconds": 6.3494375,
+            "end_seconds": 8.5849375
+          },
+          {
+            "file": "wav/09a04Ta.wav",
+            "emotion": "sadness",
+            "speaker": "9",
+            "frames": 32588,
+            "confidence": 0.45,
+            "start_seconds": 8.9349375,
+            "end_seconds": 10.9716875
+          },
+          {
+            "file": "wav/09b02Tb.wav",
+            "emotion": "sadness",
+            "speaker": "9",
+            "frames": 58475,
+            "confidence": 0.8,
+            "start_seconds": 11.3216875,
+            "end_seconds": 14.976375
+          },
+          {
+            "file": "wav/09a07Eb.wav",
+            "emotion": "disgust",
+            "speaker": "9",
+            "frames": 53533,
+            "confidence": 0.95,
+            "start_seconds": 15.326375,
+            "end_seconds": 18.6721875
+          },
+          {
+            "file": "wav/09a04Ea.wav",
+            "emotion": "disgust",
+            "speaker": "9",
+            "frames": 58035,
+            "confidence": 0.9,
+            "start_seconds": 19.0221875,
+            "end_seconds": 22.649375
+          },
+          {
+            "file": "wav/09b09Fd.wav",
+            "emotion": "happiness",
+            "speaker": "9",
+            "frames": 36205,
+            "confidence": 0.55,
+            "start_seconds": 22.999375,
+            "end_seconds": 25.2621875
+          },
+          {
+            "file": "wav/09b03Fd.wav",
+            "emotion": "happiness",
+            "speaker": "9",
+            "frames": 53000,
+            "confidence": 0.9048,
+            "start_seconds": 25.6121875,
+            "end_seconds": 28.9246875
+          },
+          {
+            "file": "wav/09b10La.wav",
+            "emotion": "boredom",
+            "speaker": "9",
+            "frames": 34173,
+            "confidence": 0.2,
+            "start_seconds": 29.2746875,
+            "end_seconds": 31.4105
+          },
+          {
+            "file": "wav/09b09Lb.wav",
+            "emotion": "boredom",
+            "speaker": "9",
+            "frames": 40350,
+            "confidence": 0.4,
+            "start_seconds": 31.7605,
+            "end_seconds": 34.282375
+          },
+          {
+            "file": "wav/09b10Aa.wav",
+            "emotion": "fear",
+            "speaker": "9",
+            "frames": 26497,
+            "confidence": 0.85,
+            "start_seconds": 34.632375,
+            "end_seconds": 36.2884375
+          },
+          {
+            "file": "wav/09a02Ac.wav",
+            "emotion": "fear",
+            "speaker": "9",
+            "frames": 22171,
+            "confidence": 0.7,
+            "start_seconds": 36.6384375,
+            "end_seconds": 38.024125
+          }
+        ],
+        "speaker": "9",
+        "seed": 50035
+      },
+      {
+        "file": "key_5_mix_02.wav",
+        "seconds": 40.669125,
+        "pcm_sha256": "876f3e6b81bbd7b7551276a5f3ab5d87680a0bb545001b5157ddfa6353ab0ff9",
+        "segments": [
+          {
+            "file": "wav/10b02Na.wav",
+            "emotion": "neutral",
+            "speaker": "10",
+            "frames": 43552,
+            "confidence": 0.8,
+            "start_seconds": 0.0,
+            "end_seconds": 2.722
+          },
+          {
+            "file": "wav/10b01Nb.wav",
+            "emotion": "neutral",
+            "speaker": "10",
+            "frames": 41683,
+            "confidence": 0.35,
+            "start_seconds": 3.072,
+            "end_seconds": 5.6771875
+          },
+          {
+            "file": "wav/10a01Ac.wav",
+            "emotion": "fear",
+            "speaker": "10",
+            "frames": 26872,
+            "confidence": 0.9,
+            "start_seconds": 6.0271875,
+            "end_seconds": 7.7066875
+          },
+          {
+            "file": "wav/10a04Ab.wav",
+            "emotion": "fear",
+            "speaker": "10",
+            "frames": 24412,
+            "confidence": 0.4,
+            "start_seconds": 8.0566875,
+            "end_seconds": 9.5824375
+          },
+          {
+            "file": "wav/10a07Ta.wav",
+            "emotion": "sadness",
+            "speaker": "10",
+            "frames": 31293,
+            "confidence": 0.85,
+            "start_seconds": 9.9324375,
+            "end_seconds": 11.88825
+          },
+          {
+            "file": "wav/10b02Ta.wav",
+            "emotion": "sadness",
+            "speaker": "10",
+            "frames": 52128,
+            "confidence": 0.65,
+            "start_seconds": 12.23825,
+            "end_seconds": 15.49625
+          },
+          {
+            "file": "wav/10b09Fe.wav",
+            "emotion": "happiness",
+            "speaker": "10",
+            "frames": 44483,
+            "confidence": 0.4,
+            "start_seconds": 15.84625,
+            "end_seconds": 18.6264375
+          },
+          {
+            "file": "wav/10a05Fa.wav",
+            "emotion": "happiness",
+            "speaker": "10",
+            "frames": 45244,
+            "confidence": 0.7,
+            "start_seconds": 18.9764375,
+            "end_seconds": 21.8041875
+          },
+          {
+            "file": "wav/10b03La.wav",
+            "emotion": "boredom",
+            "speaker": "10",
+            "frames": 61266,
+            "confidence": 1.0,
+            "start_seconds": 22.1541875,
+            "end_seconds": 25.9833125
+          },
+          {
+            "file": "wav/10b09Lb.wav",
+            "emotion": "boredom",
+            "speaker": "10",
+            "frames": 47185,
+            "confidence": 1.0,
+            "start_seconds": 26.3333125,
+            "end_seconds": 29.282375
+          },
+          {
+            "file": "wav/10a07Wb.wav",
+            "emotion": "anger",
+            "speaker": "10",
+            "frames": 31575,
+            "confidence": 0.95,
+            "start_seconds": 29.632375,
+            "end_seconds": 31.6058125
+          },
+          {
+            "file": "wav/10a01Wa.wav",
+            "emotion": "anger",
+            "speaker": "10",
+            "frames": 34725,
+            "confidence": 0.95,
+            "start_seconds": 31.9558125,
+            "end_seconds": 34.126125
+          },
+          {
+            "file": "wav/10b01Ea.wav",
+            "emotion": "disgust",
+            "speaker": "10",
+            "frames": 38242,
+            "confidence": 0.9,
+            "start_seconds": 34.476125,
+            "end_seconds": 36.86625
+          },
+          {
+            "file": "wav/10b09Ea.wav",
+            "emotion": "disgust",
+            "speaker": "10",
+            "frames": 55246,
+            "confidence": 0.85,
+            "start_seconds": 37.21625,
+            "end_seconds": 40.669125
+          }
+        ],
+        "speaker": "10",
+        "seed": 50136
+      },
+      {
+        "file": "key_5_mix_03.wav",
+        "seconds": 44.2298125,
+        "pcm_sha256": "5f96d076df56fdc66ddba235a71ac05928652570f6abcf8114cc0569f1593b41",
+        "segments": [
+          {
+            "file": "wav/11a01Ld.wav",
+            "emotion": "boredom",
+            "speaker": "11",
+            "frames": 33315,
+            "confidence": 0.95,
+            "start_seconds": 0.0,
+            "end_seconds": 2.0821875
+          },
+          {
+            "file": "wav/11b02Ld.wav",
+            "emotion": "boredom",
+            "speaker": "11",
+            "frames": 43480,
+            "confidence": 0.45,
+            "start_seconds": 2.4321875,
+            "end_seconds": 5.1496875
+          },
+          {
+            "file": "wav/11a05Na.wav",
+            "emotion": "neutral",
+            "speaker": "11",
+            "frames": 53128,
+            "confidence": 0.85,
+            "start_seconds": 5.4996875,
+            "end_seconds": 8.8201875
+          },
+          {
+            "file": "wav/11b02Na.wav",
+            "emotion": "neutral",
+            "speaker": "11",
+            "frames": 43181,
+            "confidence": 0.9,
+            "start_seconds": 9.1701875,
+            "end_seconds": 11.869
+          },
+          {
+            "file": "wav/11b01Wd.wav",
+            "emotion": "anger",
+            "speaker": "11",
+            "frames": 45035,
+            "confidence": 0.95,
+            "start_seconds": 12.219,
+            "end_seconds": 15.0336875
+          },
+          {
+            "file": "wav/11a04Wc.wav",
+            "emotion": "anger",
+            "speaker": "11",
+            "frames": 42863,
+            "confidence": 0.9,
+            "start_seconds": 15.3836875,
+            "end_seconds": 18.062625
+          },
+          {
+            "file": "wav/11a04Tc.wav",
+            "emotion": "sadness",
+            "speaker": "11",
+            "frames": 60759,
+            "confidence": 0.75,
+            "start_seconds": 18.412625,
+            "end_seconds": 22.2100625
+          },
+          {
+            "file": "wav/11b02Td.wav",
+            "emotion": "sadness",
+            "speaker": "11",
+            "frames": 57668,
+            "confidence": 0.85,
+            "start_seconds": 22.5600625,
+            "end_seconds": 26.1643125
+          },
+          {
+            "file": "wav/11b09Ea.wav",
+            "emotion": "disgust",
+            "speaker": "11",
+            "frames": 51828,
+            "confidence": 0.5,
+            "start_seconds": 26.5143125,
+            "end_seconds": 29.7535625
+          },
+          {
+            "file": "wav/11b10Eb.wav",
+            "emotion": "disgust",
+            "speaker": "11",
+            "frames": 48239,
+            "confidence": 0.75,
+            "start_seconds": 30.1035625,
+            "end_seconds": 33.1185
+          },
+          {
+            "file": "wav/11b09Fd.wav",
+            "emotion": "happiness",
+            "speaker": "11",
+            "frames": 48585,
+            "confidence": 0.95,
+            "start_seconds": 33.4685,
+            "end_seconds": 36.5050625
+          },
+          {
+            "file": "wav/11b02Fd.wav",
+            "emotion": "happiness",
+            "speaker": "11",
+            "frames": 49839,
+            "confidence": 1.0,
+            "start_seconds": 36.8550625,
+            "end_seconds": 39.97
+          },
+          {
+            "file": "wav/11a04Ac.wav",
+            "emotion": "fear",
+            "speaker": "11",
+            "frames": 24569,
+            "confidence": 0.95,
+            "start_seconds": 40.32,
+            "end_seconds": 41.8555625
+          },
+          {
+            "file": "wav/11b01Ab.wav",
+            "emotion": "fear",
+            "speaker": "11",
+            "frames": 32388,
+            "confidence": 0.95,
+            "start_seconds": 42.2055625,
+            "end_seconds": 44.2298125
+          }
+        ],
+        "speaker": "11",
+        "seed": 50237
+      }
+    ]
+  }
+}

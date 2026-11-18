@@ -17,6 +17,7 @@ def build_input():
         'IA_Move': [('OculusTouch_Left_Thumbstick_Y', False), ('W', False), ('S', True)],
         'IA_Turn': [('OculusTouch_Right_Thumbstick_X', False), ('E', False), ('Q', True)],
         'IA_Menu_Toggle_Left': [('OculusTouch_Left_X_Click', False), ('R', False)],
+        'Hands/IA_Hand_IndexCurl_Right': [('OculusTouch_Right_Trigger_Axis', False), ('T', False)],
     }
     for name, keys in bindings.items():
         action = unreal.load_asset('/Game/VRTemplate/Input/Actions/' + name)
@@ -34,7 +35,7 @@ def build_input():
             mappings = list(context.get_editor_property('mappings'))
             mappings[-1].set_editor_property('modifiers', modifiers)
             context.set_editor_property('mappings', mappings)
-    context.set_editor_property('context_description', 'PitFall walking, snap turning and reset')
+    context.set_editor_property('context_description', 'PitFall walking, snap turning, reset and trigger teleport')
     unreal.EditorAssetLibrary.save_loaded_asset(context)
     # Register this context for OpenXR at startup; activate it only in this pawn.
     settings = unreal.get_default_object(unreal.load_class(None, '/Script/EnhancedInput.EnhancedInputDeveloperSettings'))
@@ -168,6 +169,9 @@ def build_player():
     checked(H.set_component_property(bp, 'Camera', 'bLockToHmd', 'true'))
     checked(H.set_component_property(bp, 'HeadMountedDisplayMesh', 'bHiddenInGame', 'true'))
     checked(H.compile_blueprint(bp))
+    from build_pitfall_teleport import build_pad, build_player as build_teleport_player
+    build_pad()
+    build_teleport_player(bp)
     cdo = unreal.get_default_object(bp.generated_class())
     checked(H.set_blueprint_cdo_property(bp, 'SnapTurnDegrees', '-30'))
     cdo.set_editor_property('use_controller_rotation_yaw', False)

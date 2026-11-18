@@ -1,4 +1,4 @@
-"""Two explicit face modes, safe audio replay and scoped Enhanced Input."""
+"""Face modes, one-shot base speech and native mixed-audio playlists."""
 import json
 import unreal
 from build_pitfall import Graph, H, checked
@@ -28,7 +28,7 @@ class OwnedGraph(Graph):
 
 
 def prepare_character():
-    bp = unreal.load_asset(ace.CHARACTER)
+    bp = unreal.load_asset(ace.RUNTIME_CHARACTER)
     names = {v['name'] for v in checked(H.list_blueprint_variables(bp))['variables']}
     for name, kind in STATE.items():
         if name not in names:
@@ -39,6 +39,9 @@ def prepare_character():
     if not any(c['variable_name'] == 'ResonanceACEAudio' for c in components):
         checked(H.add_component_to_blueprint(bp, '/Script/ACERuntime.ACEAudioCurveSourceComponent',
                                            'ResonanceACEAudio', 0, 0, 0, 0, 0, 0, 'Face'))
+    if not any(c['variable_name'] == 'ResonanceAudioPlaylist' for c in components):
+        checked(H.add_component_to_blueprint(bp, '/Script/ResonanceFace.ResonanceAudioPlaylist',
+                                           'ResonanceAudioPlaylist', 0, 0, 0, 0, 0, 0, ''))
     face = unreal.load_asset(ace.FACE)
     checked(H.set_component_property(bp, 'Face', 'AnimClass', face.generated_class().get_path_name()))
     checked(H.set_component_property(bp, 'Face', 'VisibilityBasedAnimTickOption', 'AlwaysTickPoseAndRefreshBones'))
@@ -79,6 +82,7 @@ def build_character():
         g.node(key, 'CustomEvent', event_name=event)
     checked(H.compile_blueprint(bp))
     g.node('audio', 'VariableGet', variable_name='ResonanceACEAudio')
+    g.node('playlist', 'VariableGet', variable_name='ResonanceAudioPlaylist')
     g.call('owner', 'ActorComponent', 'GetOwner')
     g.wire('audio', 'ResonanceACEAudio', 'owner', 'self')
     g.call('time', 'GameplayStatics', 'GetTimeSeconds')
@@ -102,7 +106,8 @@ def build_character():
         g.call(key + '_log', 'KismetSystemLibrary', 'PrintString',
                InString='Face mode: ' + ('authored showcase' if enabled else 'James diffusion + procedural blinks'),
                bPrintToScreen='false', bPrintToLog='true')
-        g.call(key + '_replay', '', 'ResonanceRequestAudio')
+        g.call(key + '_replay', 'ResonanceAudioPlaylist', 'ReplayCurrent')
+        g.wire('playlist', 'ResonanceAudioPlaylist', key + '_replay', 'self')
         g.flow(key, key + '_set', key + '_clock', key + '_log', key + '_replay')
     g.node('sending', 'VariableGet', variable_name='FaceAudioSending')
     g.node('busy', 'Branch')
@@ -128,7 +133,10 @@ def build_character():
     g.flow(previous_parameter, 'speech')
     g.wire('face_parameters', 'ReturnValue', 'speech', 'Audio2FaceParameters')
     g.call('content', 'KismetSystemLibrary', 'GetProjectContentDirectory')
-    g.call('path', 'KismetStringLibrary', 'Concat_StrStr', B=ace.WAV)
+    g.call('requested_path', 'ResonanceAudioPlaylist', 'GetRequestedAudioPath')
+    g.wire('playlist', 'ResonanceAudioPlaylist', 'requested_path', 'self')
+    g.call('path', 'KismetStringLibrary', 'Concat_StrStr')
+    g.wire('requested_path', 'ReturnValue', 'path', 'B')
     g.wire('content', 'ReturnValue', 'path', 'A')
     g.wire('path', 'ReturnValue', 'speech', 'PathToWav')
     g.wire('owner', 'ReturnValue', 'speech', 'Character')
@@ -151,10 +159,11 @@ def build_character():
     g.node('clear_queue', 'VariableSet', variable_name='FaceAudioReplayQueued', pin_defaults={'FaceAudioReplayQueued': 'false'})
     g.call('replay', '', 'ResonanceRequestAudio')
     g.flow('pending', 'clear_queue', 'replay')
-    g.call('periodic_request', '', 'ResonanceRequestAudio')
-    g.call('interval', 'KismetSystemLibrary', 'Delay', Duration=DURATION)
-    g.call('repeat', '', 'ResonanceAudioCycle')
-    g.flow('cycle', 'periodic_request', 'interval', 'repeat')
+    # Keep the existing event name for callers, but base playback is one-shot.
+    # Longer mixes advance from actual playback-ended events in the component.
+    g.call('base_once', 'ResonanceAudioPlaylist', 'PlayBaseOnce')
+    g.wire('playlist', 'ResonanceAudioPlaylist', 'base_once', 'self')
+    g.flow('cycle', 'base_once')
     # One status line replaces itself; no delayed authored labels can leak into
     # model mode. Its clock is reset by X, independently of speech warm-up.
     g.node('mode', 'VariableGet', variable_name='FaceDemoAuthored')
@@ -174,7 +183,7 @@ def build_character():
             g.wire(previous, 'ReturnValue', 'phase_' + str(i), 'B')
         g.wire('before_' + str(i), 'ReturnValue', 'phase_' + str(i), 'bPickA')
         previous = 'phase_' + str(i)
-    g.call('status', 'KismetMathLibrary', 'SelectString', B=ace.PROVIDER + ' + procedural blinks')
+    g.call('status', 'KismetMathLibrary', 'SelectString', B=ace.PROVIDER + ' + emotion idle + blinks')
     g.wire(previous, 'ReturnValue', 'status', 'A')
     g.wire('mode', 'FaceDemoAuthored', 'status', 'bPickA')
     g.call('instructions', 'KismetStringLibrary', 'Concat_StrStr', A='X: authored showcase | Y: model-driven\n')
@@ -243,7 +252,7 @@ def build_viewer_input():
         continuation = next(p['linked_to'][0]['node_name'] for p in begin['pins'] if p['pin_name'] == 'then')
         unreal.EditorAssetLibrary.set_metadata_tag(bp, 'ResonanceViewerBeginContinuation', continuation)
     cast_names = json.loads(unreal.EditorAssetLibrary.get_metadata_tag(bp, 'ResonanceFaceInputCasts') or '{}')
-    target_name = unreal.load_asset(ace.CHARACTER).generated_class().get_name()
+    target_name = unreal.load_asset(ace.RUNTIME_CHARACTER).generated_class().get_name()
     for key in ('cast_Authored', 'cast_Model'):
         existing = next((n for n in nodes if n['node_name'] == cast_names.get(key)), None)
         if existing and not any(p.get('sub_type') == target_name and p['direction'] == 'Output'
@@ -292,12 +301,12 @@ def build_viewer_input():
     g.flow('cast_input', 'mapping')
     for mode, function in [('Authored', 'ResonanceUseAuthoredFace'), ('Model', 'ResonanceUseModelFace')]:
         g.nodes['event_' + mode] = events[mode]['node_name']
-        g.call('find_' + mode, 'GameplayStatics', 'GetActorOfClass', ActorClass=unreal.load_asset(ace.CHARACTER).generated_class().get_path_name())
-        cast('cast_' + mode, unreal.load_asset(ace.CHARACTER).generated_class().get_path_name())
+        g.call('find_' + mode, 'GameplayStatics', 'GetActorOfClass', ActorClass=unreal.load_asset(ace.RUNTIME_CHARACTER).generated_class().get_path_name())
+        cast('cast_' + mode, unreal.load_asset(ace.RUNTIME_CHARACTER).generated_class().get_path_name())
         g.wire('find_' + mode, 'ReturnValue', 'cast_' + mode, 'Object')
         g.wire('event_' + mode, 'Started', 'find_' + mode, 'execute')
         g.flow('find_' + mode, 'cast_' + mode)
-        g.call('mode_' + mode, unreal.load_asset(ace.CHARACTER).generated_class().get_name(), function)
+        g.call('mode_' + mode, unreal.load_asset(ace.RUNTIME_CHARACTER).generated_class().get_name(), function)
         g.wire('cast_' + mode, cast_result(bp, g.nodes['cast_' + mode]), 'mode_' + mode, 'self')
         g.flow('cast_' + mode, 'mode_' + mode)
     g.node('end', 'Event', event_name='ReceiveEndPlay')

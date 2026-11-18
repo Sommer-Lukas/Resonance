@@ -187,7 +187,7 @@ def build_level(game_mode):
             box('Shaft_Edge_'+str(x)+'_'+str(y), (x,y,-DEPTH/2),
                 (20,20,DEPTH), 'rib', collision=False)
     sign('Sign_Title', 'PITFALL / VR EXERCISE', (-160,-590,210), 30)
-    sign('Sign_Controls', 'LEFT STICK: WALK   |   RIGHT STICK: SNAP TURN\nX: RESET   |   60 m DROP', (-160,-589,155), 14)
+    sign('Sign_Controls', 'LEFT STICK: WALK   |   RIGHT STICK: SNAP TURN\nHOLD RIGHT TRIGGER: AIM   |   RELEASE: TELEPORT TO PAD\nX: RESET   |   60 m DROP', (-160,-589,155), 14)
     sign('Sign_Finish', 'X TO RETURN TO START', (0,580,-DEPTH+150), 28)
     start = spawn(unreal.PlayerStart, 'Player_Start', START, (0,90,0))
     for x in [-750,750]:
@@ -223,6 +223,8 @@ def build_level(game_mode):
     world = unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem).get_editor_world()
     world.get_world_settings().set_editor_property('default_game_mode', game_mode)
     world.get_world_settings().set_editor_property('kill_z', -DEPTH-1500)
+    from build_pitfall_teleport import place_pads
+    place_pads(unreal.load_asset(ROOT + '/Blueprints/BP_PitFallTeleportPad'))
     levels.save_current_level()
     unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem).set_level_viewport_camera_info(unreal.Vector(-250,-800,200), unreal.Rotator(pitch=-20,yaw=75,roll=0))
     print(json.dumps({'success':True, 'level':LEVEL, 'mesh_count':count, 'actors':len(actors.get_all_level_actors())}))

@@ -97,6 +97,12 @@ def add_scheduler(g, after):
 
 def connect_pose(g):
     nodes = checked(H.get_blueprint_graph_info(g.bp, 'AnimGraph'))['nodes']
+    fusion = next((n for n in nodes if n['node_class'] == 'AnimGraphNode_ResonanceFusion'), None)
+    if fusion:
+        g.nodes['fusion'] = fusion['node_name']
+        g.node('blink_value', 'VariableGet', variable_name='NaturalBlink')
+        g.wire('blink_value', 'NaturalBlink', 'fusion', 'NaturalBlink')
+        return
     blink = next((n for n in nodes if n['node_name'].startswith('ResonanceBlinkInput')), None)
     if blink is None:
         raise RuntimeError('Paste the updated ace_face_nodes.txt pose nodes before rebuilding')
