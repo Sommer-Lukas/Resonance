@@ -7,12 +7,13 @@ showcase (blinks, brows, eyelids, cheeks, nose and animated skin detail).
 Select left-controller **X** for that showcase or **Y** for model-driven facial
 output with varied procedural blinks; keyboard X/Y also work. James v3.0 diffusion is the default
 model, using the supplied `voice_test.wav`. The portrait character is
-`New_realistic_character`, with LODSync Forced LOD 2. See
+**Vivian** (`BP_ResonanceVivian`), with LODSync Forced LOD 2. See
 [setup, playback, and verification](AUDIO2FACE.md). Headset performance and
 perceptual facial behavior have not been validated.
 
 The Y/default face also uses automatic local ACE emotion output to drive
-eleven upper-face profiles, restrained idle variations and small eye movements.
+eleven upper-face profiles, three variants per emotion, emotion-dependent head
+movement, eye offsets and blink timing. See [behaviour and face calibration](EMOTION_BEHAVIOR.md).
 The last emotion persists after speech. See [emotion fusion, native build and
 capture](EMOTION_IDLE.md); source builds require the small local ACE adapter patch.
 The original speech plays once on startup. Keyboard **1–5** starts five different
@@ -45,11 +46,20 @@ Opening the project requires actual LFS assets, not a ZIP containing pointer fil
 ## Head portrait scene
 
 `/Game/Resonance/Levels/I_Resonance` is the editor and game startup map.
-It presents `BP_4k_MetaHuman_Asian_Old` against a black void, with a frontal
+It presents `BP_ResonanceVivian` against a black void, with a frontal
 `Resonance_FaceCamera`, a focused overhead key light and a weaker fill light.
 Both shoulders and the upper chest are visible, fading into darkness below.
 Exposure is fixed in `Resonance_FixedExposure` so the dark scene does not brighten itself.
 Adjust these actors in the `Resonance/Portrait` Outliner folder.
+
+Vivian's imported assets live in `/Game/MetaHumans/Vivian`. The portrait
+Blueprint `/Game/Resonance/Blueprints/BP_ResonanceVivian` inherits the existing
+`BP_New_realistic_character` speech, emotion, blink and playlist behavior,
+with Vivian's own meshes, materials, groom bindings and clothing. Rebuild
+those appearance overrides with `Content/Python/build_resonance_vivian.py`,
+then place her using `Content/Python/select_resonance_character.py`.
+The previous character asset remains the behavior parent; it is no longer
+the actor placed in the main portrait scene.
 
 The original sky, sunlight, fog and floor are retained with visibility disabled
 in `Resonance/DisabledEnvironment`.

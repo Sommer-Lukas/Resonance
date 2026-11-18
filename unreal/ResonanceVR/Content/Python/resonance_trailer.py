@@ -114,7 +114,9 @@ def setup():
 def character(world=None):
     actors = (unreal.GameplayStatics.get_all_actors_of_class(world, unreal.Actor) if world else
               unreal.get_editor_subsystem(unreal.EditorActorSubsystem).get_all_level_actors())
-    return next(a for a in actors if a.get_class() == unreal.load_asset(ace.CHARACTER).generated_class())
+    classes = {unreal.load_asset(path).generated_class()
+               for path in (ace.CHARACTER, ace.RUNTIME_CHARACTER)}
+    return next(a for a in actors if a.get_class() in classes)
 
 
 def face(a):

@@ -4,7 +4,7 @@ from pathlib import Path
 import unreal
 import build_resonance_audio2face as ace
 
-PREVIOUS = '/Game/MetaHumans/4k_MetaHuman_Asian_Old/BP_4k_MetaHuman_Asian_Old'
+PREVIOUS = ace.RUNTIME_CHARACTER
 
 
 def face_of(actor):
@@ -33,17 +33,18 @@ def select():
     new = next((a for a in existing if a.get_class() == target_class), None)
     if new is None and old is None:
         raise RuntimeError('No portrait character found to replace')
-    with unreal.ScopedEditorTransaction('Select New_realistic_character for Resonance portrait'):
+    with unreal.ScopedEditorTransaction('Select Vivian for Resonance portrait'):
         if new is None:
             target_eye = eye_center(old)
             new = actors.spawn_actor_from_class(target_class, old.get_actor_location(), old.get_actor_rotation())
             new.set_actor_scale3d(old.get_actor_scale3d())
+            new.set_folder_path(old.get_folder_path())
             new.set_actor_location(new.get_actor_location() + target_eye - eye_center(new), False, True)
         lod = new.get_component_by_class(unreal.LODSyncComponent)
         if lod is None:
             raise RuntimeError('The selected character must have LODSync')
         lod.set_editor_property('ForcedLOD', ace.FORCED_LOD)
-        new.set_actor_label('Resonance_New_realistic_character')
+        new.set_actor_label('Resonance_Vivian')
         # The Blueprint owns the ACE component, face AnimClass and X/Y events.
         if face_of(new).get_editor_property('anim_class') != unreal.load_asset(ace.FACE).generated_class():
             raise RuntimeError('New character does not have the Resonance face animation')
